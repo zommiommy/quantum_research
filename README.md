@@ -5,7 +5,7 @@ https://en.wikipedia.org/wiki/Minimum_spanning_tree#cite_note-11
 # MST Finding algorithm:
 https://en.wikipedia.org/wiki/Bor%C5%AFvka%27s_algorithm
 
-##Other equivalents algorithms:
+## Other equivalents algorithms:
 
 https://en.wikipedia.org/wiki/Prim%27s_algorithm
 
@@ -17,7 +17,9 @@ O(|V|log(|V|))
 O(|E|log(|V|))
 O(|E| + |V|log(|V|))
 
-### Faster Algorithms but not usable for our goals:
+### Faster Algorithms
+I don't think those are usable for our problem.
+
 Theoretically doable in O(|E|) which is a derivate of the Boruvka algorithm
 https://dl.acm.org/citation.cfm?doid=201019.201022
 
