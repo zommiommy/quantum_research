@@ -73,6 +73,7 @@ class QuantumSystem():
 
 
     def _print_graph(self, amplitudes, title : str):
+        amplitudes = np.square(amplitudes)
         x = np.arange(self.n_of_states)
         plt.figure(figsize=(15,5))
         plt.bar(x,np.array(amplitudes.T)[0])
