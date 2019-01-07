@@ -51,6 +51,6 @@ Or using a number of threads proportional to the number of vertices(TO CHECK) it
 ![](https://latex.codecogs.com/gif.latex?O%28log%28%7CV%7C%29)
 [as described in this paper](http://web.eecs.umich.edu/~pettie/papers/sicomp-randmst.pdf)
 
-# Groover's search algorithm
+# Grover's search algorithm
 
 [Wikipedia descriptions](https://it.wikipedia.org/wiki/Algoritmo_di_ricerca_di_Grover)
