@@ -30,3 +30,5 @@ Shor's algorithm consists of two parts:
 - [Paper on QFT](https://courses.edx.org/c4x/BerkeleyX/CS191x/asset/chap5.pdf)
 - [Original Shor's paper](https://arxiv.org/pdf/quant-ph/9508027.pdf)
 - [Paper on Modular Exponentiation](https://arxiv.org/pdf/quant-ph/0408006.pdf)
+- [ProjectQ](https://projectq.readthedocs.io/en/latest/index.html)
+- [Beauregard's Circuit](https://arxiv.org/pdf/quant-ph/0205095.pdf)
