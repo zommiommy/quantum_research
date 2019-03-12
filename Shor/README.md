@@ -27,8 +27,10 @@ Shor's algorithm consists of two parts:
 ## References and resources
 
 - [Wikipedia](https://en.wikipedia.org/wiki/Shor%27s_algorithm)
-- [Paper on QFT](https://courses.edx.org/c4x/BerkeleyX/CS191x/asset/chap5.pdf)
 - [Original Shor's paper](https://arxiv.org/pdf/quant-ph/9508027.pdf)
+- [Paper on QFT](https://courses.edx.org/c4x/BerkeleyX/CS191x/asset/chap5.pdf)
 - [Paper on Modular Exponentiation](https://arxiv.org/pdf/quant-ph/0408006.pdf)
-- [ProjectQ](https://projectq.readthedocs.io/en/latest/index.html)
 - [Beauregard's Circuit](https://arxiv.org/pdf/quant-ph/0205095.pdf)
+- [Realization of a scalable Shor algorithm](http://science.sciencemag.org/content/351/6277/1068)
+- [ProjectQ](https://projectq.readthedocs.io/en/latest/index.html)
+- [Qiskit](https://qiskit.org/)
