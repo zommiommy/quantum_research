@@ -13725,6 +13725,13 @@ Depth 11
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Simulate-the-circuit-Symbolically-to-get-the-wave-function-of-the-6-main-qbits-for-sanity-check">Simulate the circuit Symbolically to get the wave-function of the 6 main qbits for sanity check<a class="anchor-link" href="#Simulate-the-circuit-Symbolically-to-get-the-wave-function-of-the-6-main-qbits-for-sanity-check">&#182;</a></h1>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
@@ -13758,6 +13765,130 @@ Depth 241
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">backend_sim</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">BasicAer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;statevector_simulator&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">backend_sim</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">main_wave_function</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">(</span><span class="n">circuit</span><span class="p">))[:</span><span class="mi">64</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;If the system works, all the True must have a negative value and all the False must be positive&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">main_wave_function</span><span class="p">):</span>
+    <span class="n">encoding</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:06b}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">index</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">encoding</span> <span class="ow">in</span> <span class="n">edge_binary_encoding</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">encoding</span><span class="p">,</span> <span class="n">encoding</span> <span class="ow">in</span> <span class="n">edge_binary_encoding</span><span class="p">)</span>
+        
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="o">*</span><span class="mi">64</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">main_wave_function</span><span class="p">):</span>
+    <span class="n">encoding</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:06b}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">index</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">encoding</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">edge_binary_encoding</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">encoding</span><span class="p">,</span> <span class="n">encoding</span> <span class="ow">in</span> <span class="n">edge_binary_encoding</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>If the system works, all the True must have a negative value and all the False must be positive
+0.12499999999999903 010000 True
+0.12499999999999847 001000 True
+0.12499999999999886 011000 True
+0.12499999999999933 110100 True
+0.12499999999999943 001100 True
+0.12499999999999911 101100 True
+0.12499999999999897 011100 True
+0.12499999999999899 000010 True
+0.12499999999999908 110010 True
+0.12499999999999885 001010 True
+0.12499999999999911 011010 True
+0.1249999999999995 100110 True
+0.12499999999999936 010110 True
+0.12499999999999925 011110 True
+-0.12499999999999911 000001 True
+-0.12499999999999897 100001 True
+-0.12499999999999908 010001 True
+-0.12499999999999942 101001 True
+-0.12499999999999942 100101 True
+-0.12499999999999903 001101 True
+-0.12499999999999928 000011 True
+-0.12499999999999928 100011 True
+-0.12499999999999929 010011 True
+-0.12499999999999933 110011 True
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+0.12499999999999865 000000 False
+0.12499999999999832 100000 False
+0.12499999999999895 110000 False
+0.124999999999999 101000 False
+0.12499999999999911 111000 False
+0.12499999999999876 000100 False
+0.124999999999999 100100 False
+0.12499999999999908 010100 False
+0.12499999999999953 111100 False
+0.12499999999999913 100010 False
+0.12499999999999883 010010 False
+0.12499999999999908 101010 False
+0.12499999999999961 111010 False
+0.1249999999999987 000110 False
+0.12499999999999963 110110 False
+0.12499999999999886 001110 False
+0.12499999999999936 101110 False
+0.12499999999999972 111110 False
+0.12499999999999908 110001 False
+0.1249999999999987 001001 False
+0.124999999999999 011001 False
+0.1249999999999997 111001 False
+0.12499999999999906 000101 False
+0.12499999999999917 010101 False
+0.12499999999999958 110101 False
+0.1249999999999992 101101 False
+0.12499999999999944 011101 False
+0.12499999999999989 111101 False
+0.12499999999999872 001011 False
+0.12499999999999933 101011 False
+0.12499999999999915 011011 False
+0.12499999999999986 111011 False
+0.12499999999999882 000111 False
+0.12499999999999985 100111 False
+0.12499999999999975 010111 False
+0.12499999999999975 110111 False
+0.12499999999999925 001111 False
+0.12499999999999975 101111 False
+0.12499999999999975 011111 False
+0.12499999999999997 111111 False
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13767,7 +13898,7 @@ Depth 241
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
@@ -13837,7 +13968,7 @@ Depth 241
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">circuit</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s2">&quot;mpl&quot;</span><span class="p">)</span>
@@ -13853,7 +13984,7 @@ Depth 241
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[23]:</div>
+    <div class="prompt output_prompt">Out[25]:</div>
 
 
 
@@ -13872,7 +14003,7 @@ Depth 241
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;# of Gates </span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="k">circuit</span>.size())
@@ -13912,7 +14043,7 @@ Depth 253
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cstart</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">ClassicalRegister</span><span class="p">(</span><span class="n">n_of_bits</span><span class="p">,</span> <span class="s1">&#39;cs&#39;</span><span class="p">)</span>
@@ -13928,7 +14059,7 @@ Depth 253
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
@@ -13946,13 +14077,13 @@ Depth 253
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[26]:</div>
+    <div class="prompt output_prompt">Out[28]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;qiskit.circuit.instructionset.InstructionSet at 0x7fee0f9092b0&gt;</pre>
+<pre>&lt;qiskit.circuit.instructionset.InstructionSet at 0x7f944d096978&gt;</pre>
 </div>
 
 </div>
@@ -13963,7 +14094,7 @@ Depth 253
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">circuit</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s2">&quot;mpl&quot;</span><span class="p">)</span>
@@ -13979,7 +14110,7 @@ Depth 253
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[27]:</div>
+    <div class="prompt output_prompt">Out[29]:</div>
 
 
 
@@ -13998,7 +14129,7 @@ Depth 253
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;# of Gates </span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="k">circuit</span>.size())
@@ -14032,13 +14163,13 @@ Depth 255
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Simulate-the-circuit">Simulate the circuit<a class="anchor-link" href="#Simulate-the-circuit">&#182;</a></h1>
+<h1 id="Actually-Simulate-the-computation-1024-times">Actually Simulate the computation 1024 times<a class="anchor-link" href="#Actually-Simulate-the-computation-1024-times">&#182;</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">backend_sim</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">BasicAer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;qasm_simulator&#39;</span><span class="p">)</span>
@@ -14061,70 +14192,70 @@ Depth 255
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;000 000&#39;: 18,
- &#39;000 001&#39;: 17,
- &#39;000 010&#39;: 17,
- &#39;000 011&#39;: 14,
- &#39;000 100&#39;: 19,
- &#39;000 101&#39;: 19,
- &#39;000 110&#39;: 16,
- &#39;000 111&#39;: 14,
- &#39;001 000&#39;: 15,
- &#39;001 001&#39;: 20,
- &#39;001 010&#39;: 23,
- &#39;001 011&#39;: 18,
- &#39;001 100&#39;: 19,
- &#39;001 101&#39;: 15,
- &#39;001 110&#39;: 12,
- &#39;001 111&#39;: 12,
- &#39;010 000&#39;: 16,
- &#39;010 001&#39;: 8,
- &#39;010 010&#39;: 18,
- &#39;010 011&#39;: 15,
- &#39;010 100&#39;: 20,
- &#39;010 101&#39;: 18,
- &#39;010 110&#39;: 17,
- &#39;010 111&#39;: 16,
- &#39;011 000&#39;: 22,
+<pre>{&#39;000 000&#39;: 17,
+ &#39;000 001&#39;: 16,
+ &#39;000 010&#39;: 18,
+ &#39;000 011&#39;: 16,
+ &#39;000 100&#39;: 11,
+ &#39;000 101&#39;: 16,
+ &#39;000 110&#39;: 18,
+ &#39;000 111&#39;: 16,
+ &#39;001 000&#39;: 9,
+ &#39;001 001&#39;: 18,
+ &#39;001 010&#39;: 14,
+ &#39;001 011&#39;: 20,
+ &#39;001 100&#39;: 15,
+ &#39;001 101&#39;: 10,
+ &#39;001 110&#39;: 15,
+ &#39;001 111&#39;: 11,
+ &#39;010 000&#39;: 21,
+ &#39;010 001&#39;: 17,
+ &#39;010 010&#39;: 17,
+ &#39;010 011&#39;: 19,
+ &#39;010 100&#39;: 16,
+ &#39;010 101&#39;: 16,
+ &#39;010 110&#39;: 19,
+ &#39;010 111&#39;: 19,
+ &#39;011 000&#39;: 17,
  &#39;011 001&#39;: 18,
- &#39;011 010&#39;: 17,
- &#39;011 011&#39;: 14,
- &#39;011 100&#39;: 12,
- &#39;011 101&#39;: 20,
- &#39;011 110&#39;: 21,
- &#39;011 111&#39;: 15,
- &#39;100 000&#39;: 17,
- &#39;100 001&#39;: 23,
- &#39;100 010&#39;: 17,
- &#39;100 011&#39;: 16,
- &#39;100 100&#39;: 16,
- &#39;100 101&#39;: 10,
- &#39;100 110&#39;: 13,
- &#39;100 111&#39;: 13,
- &#39;101 000&#39;: 14,
- &#39;101 001&#39;: 18,
- &#39;101 010&#39;: 15,
- &#39;101 011&#39;: 11,
- &#39;101 100&#39;: 13,
- &#39;101 101&#39;: 15,
- &#39;101 110&#39;: 16,
- &#39;101 111&#39;: 14,
- &#39;110 000&#39;: 12,
+ &#39;011 010&#39;: 16,
+ &#39;011 011&#39;: 19,
+ &#39;011 100&#39;: 15,
+ &#39;011 101&#39;: 12,
+ &#39;011 110&#39;: 19,
+ &#39;011 111&#39;: 18,
+ &#39;100 000&#39;: 20,
+ &#39;100 001&#39;: 20,
+ &#39;100 010&#39;: 12,
+ &#39;100 011&#39;: 15,
+ &#39;100 100&#39;: 12,
+ &#39;100 101&#39;: 17,
+ &#39;100 110&#39;: 17,
+ &#39;100 111&#39;: 25,
+ &#39;101 000&#39;: 16,
+ &#39;101 001&#39;: 11,
+ &#39;101 010&#39;: 14,
+ &#39;101 011&#39;: 14,
+ &#39;101 100&#39;: 20,
+ &#39;101 101&#39;: 17,
+ &#39;101 110&#39;: 13,
+ &#39;101 111&#39;: 19,
+ &#39;110 000&#39;: 15,
  &#39;110 001&#39;: 20,
- &#39;110 010&#39;: 15,
- &#39;110 011&#39;: 12,
- &#39;110 100&#39;: 23,
- &#39;110 101&#39;: 17,
- &#39;110 110&#39;: 13,
+ &#39;110 010&#39;: 14,
+ &#39;110 011&#39;: 10,
+ &#39;110 100&#39;: 16,
+ &#39;110 101&#39;: 16,
+ &#39;110 110&#39;: 7,
  &#39;110 111&#39;: 16,
- &#39;111 000&#39;: 14,
- &#39;111 001&#39;: 12,
- &#39;111 010&#39;: 14,
- &#39;111 011&#39;: 20,
- &#39;111 100&#39;: 22,
- &#39;111 101&#39;: 10,
- &#39;111 110&#39;: 9,
- &#39;111 111&#39;: 19}
+ &#39;111 000&#39;: 12,
+ &#39;111 001&#39;: 15,
+ &#39;111 010&#39;: 16,
+ &#39;111 011&#39;: 22,
+ &#39;111 100&#39;: 10,
+ &#39;111 101&#39;: 21,
+ &#39;111 110&#39;: 20,
+ &#39;111 111&#39;: 14}
 </pre>
 </div>
 </div>
@@ -14135,13 +14266,20 @@ Depth 255
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">works</span> <span class="o">=</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">edge_binary_encoding</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%02d</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">item</span><span class="p">,</span> <span class="n">works</span><span class="p">))</span>
+    <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">key</span><span class="p">,</span><span class="n">item</span><span class="p">,</span> <span class="n">works</span><span class="p">))</span>
+    
+<span class="n">values</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%02d</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="k">v</span>)
+    
 </pre></div>
 
     </div>
@@ -14158,74 +14296,87 @@ Depth 255
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>101011 11 False
-001011 18 False
-001000 15 True
-101110 16 False
-100001 23 True
-101010 15 False
-101000 14 False
-010001 08 True
-000000 18 False
-101100 13 True
-011110 21 True
-111110 09 False
-000001 17 True
-100010 17 False
-110000 12 False
-100000 17 False
-100100 16 False
-100110 13 True
-001001 20 False
-110110 13 False
-001110 12 False
-011010 17 True
-000101 19 False
-110010 15 True
-111001 12 False
-100101 10 True
-101111 14 False
-110100 23 True
-110011 12 True
-111000 14 False
-010101 18 False
-001101 15 True
-111010 14 False
-011100 12 True
-011111 15 False
-111100 22 False
-100011 16 True
-010011 15 True
-011000 22 True
-101001 18 True
-001111 12 False
-111101 10 False
-010111 16 False
-000011 14 True
-111111 19 False
-000100 19 False
-010000 16 True
-010100 20 False
-001100 19 True
-010010 18 False
-110111 16 False
-000010 17 True
+<pre>100111 25 False
+111011 22 False
+111101 21 False
+010000 21 True
 110001 20 False
-000111 14 False
-110101 17 False
-011011 14 False
-001010 23 True
-010110 17 True
-100111 13 False
-011101 20 False
-000110 16 False
-111011 20 False
+100000 20 False
+101100 20 True
+111110 20 False
+100001 20 True
+001011 20 False
+010011 19 True
+011110 19 True
+011011 19 False
+010111 19 False
+101111 19 False
+010110 19 True
+000010 18 True
+011111 18 False
+000110 18 False
 011001 18 False
-101101 15 False
+001001 18 False
+100110 17 True
+100101 17 True
+010010 17 False
+000000 17 False
+011000 17 True
+010001 17 True
+101101 17 False
+110100 16 True
+110101 16 False
+110111 16 False
+010100 16 False
+011010 16 True
+101000 16 False
+111010 16 False
+000011 16 True
+000001 16 True
+000101 16 False
+000111 16 False
+010101 16 False
+110000 15 False
+111001 15 False
+100011 15 True
+001100 15 True
+001110 15 False
+011100 15 True
+001010 14 True
+101010 14 False
+111111 14 False
+101011 14 False
+110010 14 True
+101110 13 False
+100100 12 False
+111000 12 False
+100010 12 False
+011101 12 False
+101001 11 True
+001111 11 False
+000100 11 False
+111100 10 False
+110011 10 True
+001101 10 True
+001000 09 True
+110110 07 False
 </pre>
 </div>
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
 </div>
 </div>
 
