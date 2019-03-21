@@ -34,3 +34,4 @@ Shor's algorithm consists of two parts:
 - [Realization of a scalable Shor algorithm](http://science.sciencemag.org/content/351/6277/1068)
 - [ProjectQ](https://projectq.readthedocs.io/en/latest/index.html)
 - [Qiskit](https://qiskit.org/)
+- [YouTube channel with explanation](https://www.youtube.com/channel/UCq9B8tT3oXl8BSyaoBPQXQw/videos?&ab_channel=PedroHenrique)
