@@ -2,6 +2,13 @@
 
 Shor's algorithm, named after mathematician Peter Shor, is a quantum algorithm (an algorithm that runs on a quantum computer) for integer factorization, formulated in 1994. Informally, it solves the following problem: Given an integer **N**, find its prime factors.
 
+## Disclaimer
+
+Since GitHub has some issues in rendering LaTeX notation, use the following links to visualize the notebooks:
+- [Shor's algorithm](https://nbviewer.jupyter.org/github/zommiommy/quantum_research/blob/master/Shor/Shor.ipynb)
+- [Platforms' comparison](https://nbviewer.jupyter.org/github/zommiommy/quantum_research/blob/master/Shor/Quantum-Software-Platforms.ipynb)
+- [Noise](https://nbviewer.jupyter.org/github/zommiommy/quantum_research/blob/master/Shor/Noise.ipynb)
+
 ## Overview
 
 *Lemma*: Factoring is equivalent to finding a nontrivial squareroot of 1 mod N.
