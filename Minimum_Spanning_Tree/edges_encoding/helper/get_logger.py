@@ -6,7 +6,7 @@ def get_logger(name : str) -> logging.Logger:
     logger = logging.getLogger(name) 
 
     if not logger.hasHandlers():
-        logger.setLevel(logging.INFO)
+        logger.setLevel(logging.CRITICAL)
 
         fh = logging.FileHandler('main.log')
         ch = logging.StreamHandler()

@@ -4,13 +4,13 @@ import qiskit as q
 from typing import List, Tuple
 from qiskit.circuit.quantumcircuit import QuantumCircuit
 
-from grover import grover
-from get_logger import get_logger
-from measure_all import measure_all
-from encode_graph import encode_graph
-from simulate_circuit import simulate_circuit
-from initialize_circuit import initialize_circuit
-from symbolic_simulation import symbolic_simulation
+from helper import grover
+from helper import get_logger
+from helper import measure_all
+from helper import encode_graph
+from helper import simulate_circuit
+from helper import initialize_circuit
+from helper import symbolic_simulation
 
 logging = get_logger(__name__) 
 
@@ -28,14 +28,16 @@ def find_edge(graph : List[Tuple[int, int, float]], current_mst : List[Tuple[int
         start, end, ancillas, membership = circuit.qregs
 
         circuit = encode_graph(circuit, graph)
-
         circuit.z(membership)
 
         return circuit
 
     logging.info("Applying grover")
 
-    circuit = grover(circuit, oracle, number_of_expected_results=len(graph))
+    start, end, ancillas, membership = circuit.qregs
+    registers = [q for register in [start,end, membership] for q in register]
+
+    circuit = grover(circuit, oracle, registers, ancillas, number_of_expected_results=len(graph))
 
     # symbolic_simulation(circuit)
 

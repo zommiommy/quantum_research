@@ -4,7 +4,7 @@ import json                       # Read and write files in json
 import numpy as np                # Matrix operations
 from math import log2, ceil, floor
 
-from get_logger import get_logger
+from helper.get_logger import get_logger
 from find_edge import find_edge
 
 logging = get_logger(__name__) 

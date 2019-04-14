@@ -10,8 +10,8 @@ from typing import List, Tuple, Dict
 import cpuinfo # To install use pip install py-cpuinfo
 from qiskit.circuit.quantumcircuit import QuantumCircuit
 
-from get_logger import get_logger
-from time_function import time_function
+from .get_logger import get_logger
+from .time_function import time_function
 
 logging = get_logger(__name__) 
 
@@ -109,7 +109,7 @@ def analyze_results(graph : List[Tuple[int,int,float]], count : Dict[str,int]) -
 
 
 
-def simulate_circuit(graph : List[Tuple[int,int,float]], circuit : QuantumCircuit, n_of_shots : int = 2400, parallel : bool = True) -> Tuple[int, int]:
+def simulate_circuit(graph : List[Tuple[int,int,float]], circuit : QuantumCircuit, n_of_shots : int = (100*2**7), parallel : bool = True) -> Tuple[int, int]:
     """Simulate the circuit and take the most frequent feasible result."""
         
     logging.info("Starting to simulate on %s"%(cpuinfo.get_cpu_info()["brand"]))
@@ -127,7 +127,7 @@ def simulate_circuit(graph : List[Tuple[int,int,float]], circuit : QuantumCircui
 
     save_the_results(count)
 
-    analyze_results(graph, count)
+    #analyze_results(graph, count)
 
     MLE = get_MLE(count)
 

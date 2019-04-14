@@ -2,7 +2,7 @@
 
 from time import time
 
-from get_logger import get_logger
+from .get_logger import get_logger
 
 def time_function(func):
 

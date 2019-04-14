@@ -3,8 +3,8 @@
 from typing import List, Tuple
 from qiskit.circuit.quantumcircuit import QuantumCircuit
 
-from encode_value import encode_value, encode_value_inverse
-from n_qbits_and import n_qbits_and, n_qbits_and_inverse
+from .encode_value import encode_value, encode_value_inverse
+from .n_qbits_and import n_qbits_and, n_qbits_and_inverse
 
 def encode_edge(circuit : QuantumCircuit, start_value : int, end_value : int, weight_value : float, mode : str = "cnx") -> QuantumCircuit:
     """Encode all the edges of the graph."""
