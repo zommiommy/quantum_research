@@ -1,65 +1,78 @@
 
 
-import logging
+import json
 import qiskit as q
 from time import time
 from pprint import pprint
-from typing import List, Tuple
+from collections import Counter
+from math import log2, ceil, floor
+from typing import List, Tuple, Dict
 import cpuinfo # To install use pip install py-cpuinfo
 from qiskit.circuit.quantumcircuit import QuantumCircuit
 
-logging = logging.getLogger(__name__) 
+from get_logger import get_logger
+from time_function import time_function
 
+logging = get_logger(__name__) 
+
+@time_function
 def save_circuit_image(circuit :QuantumCircuit,  circuit_image_path : str = "circuit.png") -> None:
-    logging.info("Saving the circuit as an Image")
-    
-    start_time = time()
-
     circuit.draw(output="mpl",filename=circuit_image_path,scale=(1/2**4))
 
-    end_time = time()
-    logging.info("The Circuit Image %s took %f seconds"%(circuit_image_path,(end_time-start_time)))
 
-
-
+@time_function
 def save_circuit_qasm(circuit : QuantumCircuit, circuit_QASM_path : str = "circuit.qasm") -> None:
     logging.info("Saving the circuit as QASM")
-
-    start_time = time()
 
     with open(circuit_QASM_path,"w") as f:
         f.write(circuit.qasm())
 
-    end_time = time()
-    logging.info("The Circuit QASM %s took %f seconds"%(circuit_QASM_path,(end_time-start_time)))
+@time_function
+def parallel_simulation(circuit : QuantumCircuit, n_of_shots : int , n_of_threads : int = 4) -> Dict[str,int]:
+    backend = q.Aer.get_backend("qasm_simulator")
 
-def simulate_circuit(circuit : QuantumCircuit, n_of_shots : int = 10) -> Tuple[int, int]:
-    """Simulate the circuit and take the most frequent feasible result."""
-        
-    logging.info("Starting to simulate on %s"%(cpuinfo.get_cpu_info()["brand"]))
+    job_shots = int(n_of_shots / n_of_threads)
 
-    save_circuit_qasm(circuit)
+    qobj_list = [q.compile(circuit, backend, shots=job_shots) for _ in range(n_of_threads)]
 
-    logging.info("Starting Simulation")
+    logging.info("Starting %d simulation threads."%n_of_threads)
 
+    job_list = [backend.run(qobj) for qobj in qobj_list]
+
+    count = {}
+
+    while job_list:
+        for job in job_list:
+            if job.status() == q.providers.JobStatus.DONE:
+                logging.info("A thread finished.")
+                job_list.remove(job)
+                for key, item in job.result().get_counts().items():
+                    count[key] = count.get(key, 0) + item
+
+    return count
+
+@time_function
+def normal_simulation(circuit : QuantumCircuit, n_of_shots : int) -> Dict[str,int]:
     # Initialize the BackEnd
     backend_sim = q.BasicAer.get_backend('qasm_simulator')
 
-    logging.info("Starting a batch of %d Executions"%(n_of_shots))
-    # Simulate all
+    qobj = q.compile(circuit, backend_sim, shots=n_of_shots)
 
-    start_time = time()
+    result = backend_sim.run(qobj).result()
 
-    result = q.execute(circuit, backend_sim, shots=n_of_shots).result()
-
-    end_time = time()
-
-    logging.info("Execution endend. It took %f seconds"%(end_time - start_time))
-
-    # Get the frequencies of outcome of the "experimentals" results
-    logging.info("Clearing the Results")
     counts = result.get_counts(circuit)
 
+    return counts
+
+
+def save_the_results(count : Dict[str,int], filepath : str = "results.json") -> None:
+    logging.info("Saving the results to %s"%filepath)
+    with open(filepath,"w") as f:
+        json.dump(count, f,indent=4)
+
+def get_MLE(counts :  Dict[str,int]) -> Tuple[int,int,int,int]:
+    """Find the most frequent result with the membership setted to 1 (MLE)"""
+    logging.info("Finding the Most Likley result")
     # Convert it to a list
     result_list = [list(reversed(encoding.split(" "))) + [times] for encoding, times in counts.items()]
     
@@ -69,11 +82,54 @@ def simulate_circuit(circuit : QuantumCircuit, n_of_shots : int = 10) -> Tuple[i
         values = [int(values[0],base=2),int(values[1],base=2),int(values[2],base=2),int(values[3])]
         logging.debug("\t{:d} -> {:d} membership: {:d} times: {:d}".format(*values))
 
-    # Find the most frequent result with the membership setted to 1 (MLE)
-    MLE = max(result_list,key=lambda x: x[-1]) #  if x[-2] == 1 else 0
-    # Separate the results in the registers
-    start, end, membership, times = MLE
+    MLE =  max(result_list,key=lambda x: x[-1]) #  if x[-2] == 1 else 0
 
     logging.info("The Most Likley result is {} -> {} membership: {} times: {}".format(*MLE))
+    return MLE
 
-    return int(start, base=2), int(end, base=2)
+def analyze_results(graph : List[Tuple[int,int,float]], count : Dict[str,int]) -> None:
+    """Analyze the likleyhood of the results"""
+    successes = sum(map(lambda x: x[1],filter(lambda x: x[0][0] == "1", count.items())))
+    total_extractions = sum(count.values())
+
+    p_success = successes/total_extractions
+
+    logging.info("Success rate: %f"%p_success)
+
+    n_graph_edges = len(graph)
+    n_of_qbits = ceil(log2(max((e[0] for e in graph))))
+
+    p_graph = n_graph_edges / ((2*n_of_qbits)**2)
+
+    logging.info("Edges distribution: %f"%p_graph)
+
+    accuracy =  p_success / p_graph
+
+    logging.info("Accuracy: %f"%accuracy)
+
+
+
+def simulate_circuit(graph : List[Tuple[int,int,float]], circuit : QuantumCircuit, n_of_shots : int = 2400, parallel : bool = True) -> Tuple[int, int]:
+    """Simulate the circuit and take the most frequent feasible result."""
+        
+    logging.info("Starting to simulate on %s"%(cpuinfo.get_cpu_info()["brand"]))
+
+    save_circuit_qasm(circuit)
+
+    logging.info("Starting Simulation")
+
+    logging.info("Starting a batch of %d Executions"%(n_of_shots))
+
+    if parallel:
+        count = parallel_simulation(circuit,n_of_shots)
+    else:
+        count = normal_simulation(circuit,n_of_shots)
+
+    save_the_results(count)
+
+    analyze_results(graph, count)
+
+    MLE = get_MLE(count)
+
+
+    return int(MLE[0], base=2), int(MLE[1], base=2)

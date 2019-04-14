@@ -13,37 +13,38 @@ def diffusion(circuit : QuantumCircuit) -> QuantumCircuit:
     circuit.barrier()
 
     # H columns
-    circuit.h(start)
-    circuit.h(end)
-    circuit.h(membership)    
+    circuit = superposition(circuit,[start,end,membership])
 
     circuit = phase_shift(circuit)      
 
     # H columns
-    circuit.h(membership)
-    circuit.h(end)    
-    circuit.h(start)   
+    circuit = superposition(circuit,[start,end,membership])
 
     return circuit
 
 
-def phase_shift(circuit : QuantumCircuit) -> QuantumCircuit:
+def phase_shift(circuit : QuantumCircuit, mode : str = "cnx") -> QuantumCircuit:
     """Change the phase of all the state except the 0 one. (I matrix with all -1 except the first)."""
     start, end, ancillas, membership = circuit.qregs
     # X columns
-    circuit.x(start)
-    circuit.x(end)
-    circuit.x(membership)           
+    circuit = notall(circuit,[start,end,membership])
 
-    circuit = n_qbits_and(circuit, [start,end], ancillas)     
-    
-    circuit.cz(ancillas[len(ancillas) - 1], membership)
+    circuit.h(membership)
 
-    circuit = n_qbits_and_inverse(circuit, [start,end], ancillas)
+
+    if mode == "ccnot_tree":
+        circuit = n_qbits_and(circuit, [start,end], ancillas)
+        circuit.cx(ancillas[len(ancillas) - 1], membership)
+        circuit = n_qbits_and_inverse(circuit, [start,end], ancillas)
+    elif mode == "cnx" or mode == "mct":
+        controlled = [q for register in [start,end] for q in register]
+        circuit.cnx(controlled,membership[0],ancillas)
+    else:
+        raise ValueError("%s it not a recognized mode"%mode)
+
+    circuit.h(membership)
     # X columns
-    circuit.x(membership)
-    circuit.x(end)    
-    circuit.x(start)   
+    circuit = notall(circuit,[start,end,membership])
     # End Phase Shift
 
     return circuit

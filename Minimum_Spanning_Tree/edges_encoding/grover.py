@@ -1,14 +1,14 @@
 
 
-import logging
-from typing import Callable
 from math import pi, sqrt
+from typing import Callable
+from get_logger import get_logger
 from qiskit.circuit.quantumcircuit import QuantumCircuit
 
 from diffusion import diffusion
 from superposition import superposition
 
-logging = logging.getLogger(__name__) 
+logging = get_logger(__name__) 
 
 def grover(circuit : QuantumCircuit, oracle : Callable[[QuantumCircuit],QuantumCircuit], number_of_expected_results : int = 1) -> QuantumCircuit:
     """Execute the grover algorithm using the oracle passed to the function."""

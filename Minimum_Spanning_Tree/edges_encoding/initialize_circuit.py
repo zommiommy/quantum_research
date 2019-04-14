@@ -1,6 +1,8 @@
 
 
 import qiskit as q
+import qiskit_aqua   # import so it modifies the QuantumCircuit object and adds the cnx (mct) gate
+
 from typing import List, Tuple
 from qiskit.circuit.quantumcircuit import QuantumCircuit
 

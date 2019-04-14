@@ -1,15 +1,15 @@
 
 
-import logging
 import qiskit as q
 from time import time
 from pprint import pprint
 from typing import List, Tuple
+from get_logger import get_logger
 from measure_all import measure_all
 import cpuinfo # To install use pip install py-cpuinfo
 from qiskit.circuit.quantumcircuit import QuantumCircuit
 
-logging = logging.getLogger(__name__) 
+logging = get_logger(__name__) 
 
 def rotate_encoding(value):
     return "".join(list(reversed("{:012b}".format(value))))

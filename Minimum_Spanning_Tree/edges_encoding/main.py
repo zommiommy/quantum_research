@@ -1,15 +1,13 @@
 
 
 import json                       # Read and write files in json
-import logging
 import numpy as np                # Matrix operations
-from pprint import pprint
 from math import log2, ceil, floor
 
+from get_logger import get_logger
 from find_edge import find_edge
 
-logging.basicConfig(level=logging.DEBUG)
-logging = logging.getLogger(__name__) 
+logging = get_logger(__name__) 
 
 file_path = "../test_graph.json"
 
@@ -22,7 +20,8 @@ n_of_vertices = len(graph)
 graph = [(start, v[0], v[1]) for start, value in enumerate(graph) for v in value]
 
 logging.info("The Graph is: ")
-pprint(graph)
+for values in graph:
+    logging.info("\t{} -> {}\t{}".format(*values))
 
 n_of_qbits = ceil(log2(max((e[0] for e in graph))))
 
