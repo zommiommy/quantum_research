@@ -50,9 +50,6 @@ registers = [q for register in [start,end, membership] for q in register]
 
 circuit = grover(circuit, oracle, registers, ancillas, number_of_expected_results=1)
 
-
-# symbolic_simulation(circuit)
-
 logging.info("Adding Measure gates")
 
 circuit = measure_all(circuit)
@@ -63,8 +60,6 @@ res = simulate_circuit(None, circuit)
 
 results_analisis = []
 
-
-edge = grover_test()
 with open("results.json", "r") as f:
     results = json.load(f)
 
@@ -76,7 +71,6 @@ std = var**0.5
 normalized_value = (searched - mean) / std
 
 temp = {
-    "n_of_iterations":k,
     "searched":searched,
     "total":total,
     "mean":mean,

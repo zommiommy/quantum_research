@@ -16,12 +16,8 @@ def grover(circuit : QuantumCircuit, oracle : Callable[[QuantumCircuit],QuantumC
     assert number_of_expected_results >= 0, "The number of expected results must be non-negative."
 
     number_of_qbits = len(registers)
-    N = 2**number_of_qbits
-    t = number_of_expected_results
 
-    #logging.critical("Gover coefficent k = %d but it's supposed to be 4!"%k)
-
-    number_of_iterations = (pi / 4)*sqrt(N / t)
+    number_of_iterations = (pi / 4)*sqrt((2**number_of_qbits) / number_of_expected_results)
 
     logging.info("Grover approx value %f"%(number_of_iterations))
 
