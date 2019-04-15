@@ -65,7 +65,7 @@ results_analisis = []
 with open("results.json", "r") as f:
     results = json.load(f)
 
-searched = results["1 111 111"]
+searched = results["11 111 111"]
 total = sum(results.values())
 mean = total / (2**7)
 var = np.var([int(x) for x in results.values()])

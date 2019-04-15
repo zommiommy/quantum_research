@@ -75,7 +75,9 @@ def get_MLE(counts :  Dict[str,int]) -> Tuple[int,int,int,int]:
     logging.info("Finding the Most Likley result")
     # Convert it to a list
     result_list = [list(reversed(encoding.split(" "))) + [times] for encoding, times in counts.items()]
-    
+
+    result_list.sort(key=lambda x: x[-1], reverse=True)
+
     logging.debug("The results are: ")
 
     for values in result_list:

@@ -11,10 +11,11 @@ def get_logger(name : str) -> logging.Logger:
         fh = logging.FileHandler('main.log')
         ch = logging.StreamHandler()
 
-        formatter = logging.Formatter('[%(levelname)s - %(asctime)s - %(name)s]\t%(message)s')
+        file_formatter   = logging.Formatter('[%(levelname)s - %(asctime)s - %(name)s]\t%(message)s')
+        stream_formatter = logging.Formatter('[%(levelname)s-%(name)s] %(message)s')
 
-        fh.setFormatter(formatter)
-        ch.setFormatter(formatter)
+        fh.setFormatter(file_formatter)
+        ch.setFormatter(stream_formatter)
 
 
         logger.addHandler(fh)

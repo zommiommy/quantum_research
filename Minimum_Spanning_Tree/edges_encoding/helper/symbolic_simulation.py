@@ -13,7 +13,7 @@ from .measure_all import measure_all
 logging = get_logger(__name__) 
 
 def rotate_encoding(value):
-    return "".join(list(reversed("{:012b}".format(value))))
+    return "".join(list(reversed("{:013b}".format(value))))
 
 def symbolic_simulation(circuit : QuantumCircuit) -> None:
     """Calculate the final wave-function."""
