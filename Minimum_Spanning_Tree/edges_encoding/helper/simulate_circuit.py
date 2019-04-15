@@ -71,7 +71,7 @@ def save_the_results(count : Dict[str,int], filepath : str = "results.json") -> 
         json.dump(count, f,indent=4)
 
 def get_MLE(counts :  Dict[str,int]) -> Tuple[int,int,int,int]:
-    """Find the most frequent result with the membership setted to 1 (MLE)"""
+    """Find the most frequent result with the flags setted to 1 (MLE)"""
     logging.info("Finding the Most Likley result")
     # Convert it to a list
     result_list = [list(reversed(encoding.split(" "))) + [times] for encoding, times in counts.items()]
@@ -80,33 +80,12 @@ def get_MLE(counts :  Dict[str,int]) -> Tuple[int,int,int,int]:
 
     for values in result_list:
         values = [int(values[0],base=2),int(values[1],base=2),int(values[2],base=2),int(values[3])]
-        logging.debug("\t{:d} -> {:d} membership: {:d} times: {:d}".format(*values))
+        logging.debug("\t{:d} -> {:d} flags: {:b} times: {:d}".format(*values))
 
     MLE =  max(result_list,key=lambda x: x[-1]) #  if x[-2] == 1 else 0
 
-    logging.info("The Most Likley result is {} -> {} membership: {} times: {}".format(*MLE))
+    logging.info("The Most Likley result is {} -> {} flags: {:d} times: {}".format(*MLE))
     return MLE
-
-def analyze_results(graph : List[Tuple[int,int,float]], count : Dict[str,int]) -> None:
-    """Analyze the likleyhood of the results"""
-    successes = sum(map(lambda x: x[1],filter(lambda x: x[0][0] == "1", count.items())))
-    total_extractions = sum(count.values())
-
-    p_success = successes/total_extractions
-
-    logging.info("Success rate: %f"%p_success)
-
-    n_graph_edges = len(graph)
-    n_of_qbits = ceil(log2(max((e[0] for e in graph))))
-
-    p_graph = n_graph_edges / ((2*n_of_qbits)**2)
-
-    logging.info("Edges distribution: %f"%p_graph)
-
-    accuracy =  p_success / p_graph
-
-    logging.info("Accuracy: %f"%accuracy)
-
 
 
 def simulate_circuit(graph : List[Tuple[int,int,float]], circuit : QuantumCircuit, n_of_shots : int = (100*2**7), parallel : bool = True) -> Tuple[int, int]:
@@ -126,8 +105,6 @@ def simulate_circuit(graph : List[Tuple[int,int,float]], circuit : QuantumCircui
         count = normal_simulation(circuit,n_of_shots)
 
     save_the_results(count)
-
-    #analyze_results(graph, count)
 
     MLE = get_MLE(count)
 

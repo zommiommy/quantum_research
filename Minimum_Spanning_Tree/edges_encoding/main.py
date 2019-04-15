@@ -6,6 +6,7 @@ from math import log2, ceil, floor
 
 from helper.get_logger import get_logger
 from find_edge import find_edge
+from analyze_results import analyze_results
 
 logging = get_logger(__name__) 
 
@@ -31,3 +32,8 @@ logging.info("In total we will need %d qbits"%(4*n_of_qbits))
 edge = find_edge(graph, [], n_of_qbits)
 
 logging.info("Result: %s"%str(edge))
+
+with open("results.json","r") as f:
+    results = json.load(f)
+
+analyze_results(graph, results)

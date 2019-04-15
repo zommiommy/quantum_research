@@ -9,7 +9,7 @@ from .n_qbits_and import n_qbits_and, n_qbits_and_inverse
 def encode_edge(circuit : QuantumCircuit, start_value : int, end_value : int, weight_value : float, mode : str = "cnx") -> QuantumCircuit:
     """Encode all the edges of the graph."""
 
-    start, end, ancillas, membership = circuit.qregs
+    start, end, ancillas, flags = circuit.qregs
 
     circuit.barrier()
 
@@ -20,11 +20,11 @@ def encode_edge(circuit : QuantumCircuit, start_value : int, end_value : int, we
 
     if mode == "ccnot_tree":
         circuit = n_qbits_and(circuit, [start,end], ancillas)
-        circuit.cx(ancillas[len(ancillas) - 1], membership)
+        circuit.cx(ancillas[len(ancillas) - 1], flags)
         circuit = n_qbits_and_inverse(circuit, [start,end], ancillas)
     elif mode == "cnx" or mode == "mct":
         controlled = [q for register in [start,end] for q in register]
-        circuit.cnx(controlled,membership[0],ancillas)
+        circuit.cnx(controlled,flags[0],ancillas)
     else:
         raise ValueError("%s it not a recognized mode"%mode)
 

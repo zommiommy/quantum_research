@@ -15,8 +15,8 @@ def initialize_circuit(n_of_qbits_for_vertex : int) -> QuantumCircuit:
     # Register for the end vertex of the edge
     end   = q.QuantumRegister(n_of_qbits_for_vertex, name ="end")
 
-    # Qbit for the membership
-    membership = q.QuantumRegister(1, name ="membership")
+    # Qbit for the flags
+    flags = q.QuantumRegister(2, name ="flags")
 
     # Ancillas Qbits
     ancillas_dim = (2 * n_of_qbits_for_vertex) - 1
@@ -25,10 +25,10 @@ def initialize_circuit(n_of_qbits_for_vertex : int) -> QuantumCircuit:
     # Setup the classical registers to save the result of the measurements
     classical_start = q.ClassicalRegister(n_of_qbits_for_vertex, 'classical_start')
     classical_end   = q.ClassicalRegister(n_of_qbits_for_vertex, 'classical_end')
-    classical_membership   = q.ClassicalRegister(1, 'classical_membership')
+    classical_flags   = q.ClassicalRegister(2, 'classical_flags')
         
     # Initialize the Citcuit
-    circuit = q.QuantumCircuit(start, end, ancillas, membership, classical_start, classical_end, classical_membership)
+    circuit = q.QuantumCircuit(start, end, ancillas, flags, classical_start, classical_end, classical_flags)
 
     return circuit
 

@@ -25,21 +25,21 @@ def find_edge(graph : List[Tuple[int, int, float]], current_mst : List[Tuple[int
 
     def oracle(circuit : QuantumCircuit) -> QuantumCircuit:
         """The oracle to find the edge."""
-        start, end, ancillas, membership = circuit.qregs
+        start, end, ancillas, flags = circuit.qregs
 
         circuit = encode_graph(circuit, graph)
-        circuit.z(membership)
+        circuit.z(flags)
 
         return circuit
 
     logging.info("Applying grover")
 
-    start, end, ancillas, membership = circuit.qregs
-    registers = [q for register in [start,end, membership] for q in register]
+    start, end, ancillas, flags = circuit.qregs
+    registers = [q for register in [start,end, flags] for q in register]
 
     circuit = grover(circuit, oracle, registers, ancillas, number_of_expected_results=len(graph))
 
-    # symbolic_simulation(circuit)
+    symbolic_simulation(circuit)
 
     logging.info("Adding Measure gates")
 

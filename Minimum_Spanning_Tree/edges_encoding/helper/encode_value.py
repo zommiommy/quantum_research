@@ -6,7 +6,7 @@ from qiskit.circuit.quantumregister import QuantumRegister
 def encode_value(circuit : QuantumCircuit, register : QuantumRegister, value : int) -> QuantumCircuit:
     """Encode an integer value in the register."""
 
-    start, end, ancillas, membership = circuit.qregs
+    start, end, ancillas, flags = circuit.qregs
 
     encoder = "{:0" + str(register.size) + "b}"
 

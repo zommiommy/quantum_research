@@ -35,22 +35,24 @@ logging.info("Creating the oracle")
 
 def oracle(circuit : QuantumCircuit) -> QuantumCircuit:
     """The oracle to find the edge."""
-    start, end, ancillas, membership = circuit.qregs
+    start, end, ancillas, flags = circuit.qregs
 
-    circuit.h(membership)
+    circuit.h(flags[1])
     controlled = [q for register in [start,end] for q in register]
-    circuit.cnx(controlled,membership[0],ancillas)
-    circuit.h(membership)
+    circuit.cnx(controlled + [flags[0]],flags[1],ancillas)
+    circuit.h(flags[1])
 
     return circuit
 
 logging.info("Applying grover")
-start, end, ancillas, membership = circuit.qregs
-registers = [q for register in [start,end, membership] for q in register]
+start, end, ancillas, flags = circuit.qregs
+registers = [q for register in [start,end, flags] for q in register]
 
 circuit = grover(circuit, oracle, registers, ancillas, number_of_expected_results=1)
 
 logging.info("Adding Measure gates")
+
+symbolic_simulation(circuit)
 
 circuit = measure_all(circuit)
 
