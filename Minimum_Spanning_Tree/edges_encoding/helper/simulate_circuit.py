@@ -84,7 +84,7 @@ def get_MLE(counts :  Dict[str,int]) -> Tuple[int,int,int,int]:
 
     MLE =  max(result_list,key=lambda x: x[-1]) #  if x[-2] == 1 else 0
 
-    logging.info("The Most Likley result is {} -> {} flags: {:d} times: {}".format(*MLE))
+    logging.info("The Most Likley result is {} -> {} flags: {} times: {}".format(*MLE))
     return MLE
 
 
