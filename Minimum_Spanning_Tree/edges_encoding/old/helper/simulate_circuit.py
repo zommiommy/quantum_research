@@ -80,13 +80,14 @@ def get_MLE(counts :  Dict[str,int]) -> Tuple[int,int,int,int]:
 
     logging.debug("The results are: ")
 
+    result_list = [(int(values[0],base=2),int(values[1],base=2),int(values[2],base=2),int(values[3])) for values in result_list]
+
     for values in result_list:
-        values = [int(values[0],base=2),int(values[1],base=2),int(values[2],base=2),int(values[3])]
-        logging.debug("\t{:d} -> {:d} flags: {:b} times: {:d}".format(*values))
+        logging.debug("\t{:d} -> {:d} flags: {:02b} times: {:d}".format(*values))
 
     MLE =  max(result_list,key=lambda x: x[-1]) #  if x[-2] == 1 else 0
 
-    logging.info("The Most Likley result is {} -> {} flags: {} times: {}".format(*MLE))
+    logging.info("The Most Likley result is {} -> {} flags: {:02b} times: {}".format(*MLE))
     return MLE
 
 
@@ -111,4 +112,4 @@ def simulate_circuit(graph : List[Tuple[int,int,float]], circuit : QuantumCircui
     MLE = get_MLE(count)
 
 
-    return int(MLE[0], base=2), int(MLE[1], base=2)
+    return MLE[0], MLE[1]

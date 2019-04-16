@@ -8,30 +8,22 @@ from helper import grover
 from helper import get_logger
 from helper import measure_all
 from helper import encode_graph
+from helper import encode_value
 from helper import simulate_circuit
 from helper import initialize_circuit
 from helper import symbolic_simulation
 
 logging = get_logger(__name__) 
 
-def select_vertex(circuit : QuantumCircuit, register : QuantumRegister, value : int, flags : QuantumRegister, ancillas : QuantumRegister) -> QuantumCircuit:
+def select_vertex(circuit : QuantumCircuit, registers : QuantumRegister, value : int, target : QuantumRegister, ancillas : QuantumRegister) -> QuantumCircuit:
 
-    encoder = "{:0" + str(register.size) + "b}"
+    circuit.barrier()
+    circuit = encode_value(circuit, registers[0], value, reverse=True)
 
-    encoding = encoder.format(value)
+    controlled = [q for register in registers for q in register]
+    circuit.cnx(controlled, target, ancillas)
 
-    for qbit, binary_value in zip(register, encoding):
-        if binary_value == '0':
-            circuit.x(qbit)
-
-    circuit.h(flags[len(flags)-1])
-    controlled = [q for register in [register,flags] for q in register][:-1]
-    circuit.cnx(controlled, flags[len(flags)-1], ancillas)
-    circuit.h(flags[len(flags)-1])
-
-    for qbit, binary_value in zip(register, encoding):
-        if binary_value == '0':
-            circuit.x(qbit)
+    circuit = encode_value(circuit, registers[0], value, reverse=True)
 
     return circuit
 
@@ -48,11 +40,16 @@ def find_edge(graph : List[Tuple[int, int, float]], current_mst : List[Tuple[int
         """The oracle to find the edge."""
         start, end, ancillas, flags = circuit.qregs
 
-        circuit = encode_graph(circuit, graph)
+        circuit = encode_graph(circuit, graph, flags[0])
 
         # Select all the edges that start from 7
 
-        circuit = select_vertex(circuit, start, 7, flags, ancillas)
+        circuit = select_vertex(circuit, [start] + [[flags[0]]], 1, flags[1], ancillas)
+        circuit = select_vertex(circuit, [end]   + [[flags[0]]], 5, flags[1], ancillas)
+
+        circuit.barrier()
+
+        circuit.z(flags[1])
 
         return circuit
 

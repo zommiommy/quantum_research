@@ -34,5 +34,5 @@ def symbolic_simulation(circuit : QuantumCircuit) -> None:
     state_list.sort(key=lambda x: x[-1], reverse=True)
 
     for index, value, probability in state_list:
-        if probability > 0:
+        if probability > 1e-6:
             logging.debug("({:+4f} + {:+4f}) |{}> P = {:4f}".format(value.real, value.imag, rotate_encoding(index), probability))

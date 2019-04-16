@@ -15,10 +15,17 @@ class Test(EdgeFinder):
 
     def setup_oracle(self):
         self.oracle  = q.QuantumCircuit(*self.qregisters,*self.cregisters)
-        self.oracle.h(self.flags[1])
-        controlled = [q for register in [self.start, self.end, [self.flags[0]]] for q in register]
-        self.oracle.cnx(controlled ,self.flags[1],self.ancillas)
-        self.oracle.h(self.flags[1])
+
+        self.oracle.barrier()
+
+        self.oracle = encode_graph(self.oracle, self.graph, self.start, self.end, self.flags[0], self.ancillas)
+
+        self.oracle = select_value(self.oracle, self.start, 1, self.flags[1], self.ancillas)
+
+        self.oracle.barrier()
+
+        self.oracle.z(self.flags[1])
+
 
 if __name__ == "__main__":
     t = Test()

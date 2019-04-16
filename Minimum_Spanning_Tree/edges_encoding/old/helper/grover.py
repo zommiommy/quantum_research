@@ -25,7 +25,7 @@ def grover(circuit : QuantumCircuit, oracle : Callable[[QuantumCircuit],QuantumC
 
     logging.info("Grover will iterate %d times"%(number_of_iterations))
 
-    circuit = superposition(circuit, registers)
+    circuit = superposition(circuit, registers[:-1])
 
     for _ in range(number_of_iterations):
         circuit = oracle(circuit)
