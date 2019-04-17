@@ -76,7 +76,7 @@ class EdgeFinder():
         logger.info("The Most Likley result is {} -> {} flags: {:02b} times: {}".format(*MLE))
         return MLE
 
-    def run(self, n_of_shots : int = 100*(2**7)):
+    def run(self, n_of_shots : int = 100*(2**7), local : bool = False):
 
         for register in [self.start, self.end]:
             self.circuit.h(register)
@@ -93,8 +93,11 @@ class EdgeFinder():
 
         logger.info("Starting a batch of %d simulations."%n_of_shots)
 
-        results = simulator.distribuited_simulation(self.circuit, n_of_shots, [("localhost",9999,4)])
-        #results = simulator.parallel_simulation(self.circuit, n_of_shots)
+        if local:
+            results = simulator.parallel_simulation(self.circuit, n_of_shots)
+        else:
+            results = simulator.distribuited_simulation(self.circuit, n_of_shots, [("::1",10000,4,False)]) #, ("fe80::3dee1:d886:6352:8e99",9998,8,False)
+
         simulator.save_results()
 
         return self.get_MLE(results)

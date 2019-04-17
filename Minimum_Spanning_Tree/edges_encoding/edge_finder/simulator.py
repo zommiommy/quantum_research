@@ -15,12 +15,16 @@ logger = get_logger(__name__)
 def rotate_string(value : int) -> int:
     return int("".join(list(reversed("{:013b}".format(value)))), base=2)
 
-def simulation_client(host : str, port : int, circuit : QuantumCircuit, n_of_shots : int, n_of_threads : int, result_queue : Queue):
+def simulation_client(host : str, port : int, circuit : QuantumCircuit, n_of_shots : int, n_of_threads : int, result_queue : Queue, ipv4 : bool = False):
     command = {"n_of_shots":n_of_shots, "n_of_threads":n_of_threads, "qasm":circuit.qasm()}
 
     logger.info("Going to connect to {} : {}".format(host, port))
 
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    if ipv4:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    else:
+        s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+
     s.connect((host, port))
 
     logger.info("Dispatching simulation of {} shots for {} threads to {} : {}".format(n_of_shots, n_of_threads, host, port))
@@ -39,13 +43,17 @@ def simulation_client(host : str, port : int, circuit : QuantumCircuit, n_of_sho
 
     result_queue.put(results["results"])
 
-def simulation_worker(host : str = "localhost", port : int = 9999) -> None:
+def simulation_worker(host : str , port : int , ipv4 : bool = False) -> None:
 
     logger.info("Starting the Simulation Worker on {} : {}".format(host,port))
     simulator = Simulator()
+    
+    if ipv4:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    else:
+        s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
 
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind((host, port))
+    s.bind((host, port,))
     s.listen(1)
     logger.info("Listening for connections")
     
@@ -117,9 +125,11 @@ class Simulator():
         return self.results
 
     @time_function
-    def distribuited_simulation(self, circuit : QuantumCircuit, n_of_shots : int , workers : List[Tuple[str,str,int]]) -> Dict[str,int]:
+    def distribuited_simulation(self, circuit : QuantumCircuit, n_of_shots : int , workers : List[Tuple[str,str,int,bool]]) -> Dict[str,int]:
 
-        total_threads = sum((x[-1] for x in workers))
+        total_threads = sum((x[2] for x in workers))
+
+        logger.info("Total threads: %d"%total_threads)
 
         shots_per_thread = ceil(n_of_shots / total_threads)
 
@@ -127,7 +137,7 @@ class Simulator():
 
         self.results = {}
 
-        processes = [Process(target=simulation_client, args=(host, port, circuit, shots_per_thread * threads, threads, queue)) for host, port, threads in workers]
+        processes = [Process(target=simulation_client, args=(host, port, circuit, shots_per_thread * threads, threads, queue,ip_type)) for host, port, threads, ip_type in workers]
 
         for process in processes:
             process.start()
