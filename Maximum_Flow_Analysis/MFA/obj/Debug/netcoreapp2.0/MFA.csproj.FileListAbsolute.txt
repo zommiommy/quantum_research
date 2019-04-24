@@ -1,0 +1,11 @@
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA\bin\Debug\netcoreapp2.0\MFA.deps.json
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA\bin\Debug\netcoreapp2.0\MFA.runtimeconfig.json
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA\bin\Debug\netcoreapp2.0\MFA.runtimeconfig.dev.json
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA\bin\Debug\netcoreapp2.0\MFA.dll
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA\bin\Debug\netcoreapp2.0\MFA.pdb
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA\obj\Debug\netcoreapp2.0\MFA.csprojAssemblyReference.cache
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA\obj\Debug\netcoreapp2.0\MFA.csproj.CoreCompileInputs.cache
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA\obj\Debug\netcoreapp2.0\MFA.AssemblyInfoInputs.cache
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA\obj\Debug\netcoreapp2.0\MFA.AssemblyInfo.cs
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA\obj\Debug\netcoreapp2.0\MFA.dll
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA\obj\Debug\netcoreapp2.0\MFA.pdb

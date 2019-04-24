@@ -1,0 +1,110 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.0",
+    "signature": "374dcf2a04b099f250adfccd5b6ad14e594b6d69"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.0": {
+      "MaxFlowV1/1.0.0": {
+        "dependencies": {
+          "Microsoft.Quantum.Canon": "0.5.1903.2703",
+          "Microsoft.Quantum.Development.Kit": "0.5.1903.2703"
+        },
+        "runtime": {
+          "MaxFlowV1.dll": {}
+        }
+      },
+      "Microsoft.Quantum.Canon/0.5.1903.2703": {
+        "dependencies": {
+          "Microsoft.Quantum.Development.Kit": "0.5.1903.2703"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Quantum.Canon.dll": {
+            "assemblyVersion": "0.5.1903.2703",
+            "fileVersion": "0.5.1903.2703"
+          }
+        }
+      },
+      "Microsoft.Quantum.Development.Kit/0.5.1903.2703": {
+        "dependencies": {
+          "Microsoft.Quantum.Simulators": "0.5.1903.2703"
+        }
+      },
+      "Microsoft.Quantum.Simulators/0.5.1903.2703": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Quantum.Primitives.dll": {
+            "assemblyVersion": "0.5.1903.2703",
+            "fileVersion": "0.5.1903.2703"
+          },
+          "lib/netstandard2.0/Microsoft.Quantum.Simulation.Common.dll": {
+            "assemblyVersion": "0.5.1903.2703",
+            "fileVersion": "0.5.1903.2703"
+          },
+          "lib/netstandard2.0/Microsoft.Quantum.Simulation.Core.dll": {
+            "assemblyVersion": "0.5.1903.2703",
+            "fileVersion": "0.5.1903.2703"
+          },
+          "lib/netstandard2.0/Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime.dll": {
+            "assemblyVersion": "0.5.1903.2703",
+            "fileVersion": "0.5.1903.2703"
+          },
+          "lib/netstandard2.0/Microsoft.Quantum.Simulators.dll": {
+            "assemblyVersion": "0.5.1903.2703",
+            "fileVersion": "0.5.1903.2703"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/linux-x64/native/Microsoft.Quantum.Simulator.Runtime.dll": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-x64/native/Microsoft.Quantum.Simulator.Runtime.dll": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x64/native/Microsoft.Quantum.Simulator.Runtime.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x64/native/vcomp140.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "14.11.25325.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MaxFlowV1/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.Quantum.Canon/0.5.1903.2703": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-p2fvLav8oNM+QovmNpM7EKSa/eQo0fExbXk66qwmlHKTjW8Q0dpejcE2VHpU6nAouAWk5CfieB9SmTlqJkamAA==",
+      "path": "microsoft.quantum.canon/0.5.1903.2703",
+      "hashPath": "microsoft.quantum.canon.0.5.1903.2703.nupkg.sha512"
+    },
+    "Microsoft.Quantum.Development.Kit/0.5.1903.2703": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RkS9t+d2uGf1cNLwirnbErE+DAYaEKsuO86VbskWHnX7cDfhvX58757g45bai8B99jUnWANkctaQLPUI2h/Qrw==",
+      "path": "microsoft.quantum.development.kit/0.5.1903.2703",
+      "hashPath": "microsoft.quantum.development.kit.0.5.1903.2703.nupkg.sha512"
+    },
+    "Microsoft.Quantum.Simulators/0.5.1903.2703": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7Utyy8uZtX/NVhQ/hUE5hAQQ13SN00brMg3AASUY2eqsMnB2scGOUpa+8GeT09pN0g3J1RSzvydKMo+bDeai2w==",
+      "path": "microsoft.quantum.simulators/0.5.1903.2703",
+      "hashPath": "microsoft.quantum.simulators.0.5.1903.2703.nupkg.sha512"
+    }
+  }
+}
