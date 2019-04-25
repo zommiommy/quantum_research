@@ -1,0 +1,11 @@
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA_Samuele\DatabaseSearchV2\bin\Debug\netcoreapp2.0\DatabaseSearchV2.deps.json
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA_Samuele\DatabaseSearchV2\bin\Debug\netcoreapp2.0\DatabaseSearchV2.runtimeconfig.json
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA_Samuele\DatabaseSearchV2\bin\Debug\netcoreapp2.0\DatabaseSearchV2.runtimeconfig.dev.json
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA_Samuele\DatabaseSearchV2\bin\Debug\netcoreapp2.0\DatabaseSearchV2.dll
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA_Samuele\DatabaseSearchV2\bin\Debug\netcoreapp2.0\DatabaseSearchV2.pdb
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA_Samuele\DatabaseSearchV2\obj\Debug\netcoreapp2.0\DatabaseSearchV2.csprojAssemblyReference.cache
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA_Samuele\DatabaseSearchV2\obj\Debug\netcoreapp2.0\DatabaseSearchV2.csproj.CoreCompileInputs.cache
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA_Samuele\DatabaseSearchV2\obj\Debug\netcoreapp2.0\DatabaseSearchV2.AssemblyInfoInputs.cache
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA_Samuele\DatabaseSearchV2\obj\Debug\netcoreapp2.0\DatabaseSearchV2.AssemblyInfo.cs
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA_Samuele\DatabaseSearchV2\obj\Debug\netcoreapp2.0\DatabaseSearchV2.dll
+C:\Users\Samuele\Documents\GitHub\quantum_research\Maximum_Flow_Analysis\MFA_Samuele\DatabaseSearchV2\obj\Debug\netcoreapp2.0\DatabaseSearchV2.pdb

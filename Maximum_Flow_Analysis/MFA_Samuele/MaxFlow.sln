@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaxFlowV1", "src\MaxFlowV1\MaxFlowV1.csproj", "{F0E581C4-AC70-48E6-8AB9-58CB68E5951B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseSearch", "src\DatabaseSearch\DatabaseSearch.csproj", "{05D6431C-17D9-4F97-B5A1-BCA24DA00387}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseSearch", "src\DatabaseSearch\DatabaseSearch.csproj", "{05D6431C-17D9-4F97-B5A1-BCA24DA00387}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseSearchV2", "DatabaseSearchV2\DatabaseSearchV2.csproj", "{9DECA04A-F0F8-4D04-A504-3040F7DCCC2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{05D6431C-17D9-4F97-B5A1-BCA24DA00387}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05D6431C-17D9-4F97-B5A1-BCA24DA00387}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05D6431C-17D9-4F97-B5A1-BCA24DA00387}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DECA04A-F0F8-4D04-A504-3040F7DCCC2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DECA04A-F0F8-4D04-A504-3040F7DCCC2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DECA04A-F0F8-4D04-A504-3040F7DCCC2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DECA04A-F0F8-4D04-A504-3040F7DCCC2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
