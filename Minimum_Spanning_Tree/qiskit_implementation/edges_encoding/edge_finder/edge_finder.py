@@ -131,7 +131,7 @@ class EdgeFinder():
         if local:
             results = simulator.parallel_simulation(self.circuit, n_of_shots)
         else:
-            results = simulator.distribuited_simulation(self.circuit, n_of_shots, [("::1",10000,4,False), ("169.254.75.69",10001,8,True)])
+            results = simulator.distribuited_simulation(self.circuit, n_of_shots, [("::1",10000,8,False)])#, ("169.254.75.69",10001,8,True)
 
         results_path = self.__name__ + ".json"
         logger.info("Saving the results to %s"%results_path)

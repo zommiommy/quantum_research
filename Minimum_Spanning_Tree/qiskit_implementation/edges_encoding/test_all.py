@@ -1,11 +1,10 @@
 from os import system
 
 def execute(file_path : str) -> None:
-    system("python %s"%file_path)
+    system("~/anaconda3/bin/python %s"%file_path)
     
 # Clear the log
-with open("main.log", "w") as f:
-    pass
+system("rm *.log")
 
 execute("grover_test.py")
 execute("graph_test.py")

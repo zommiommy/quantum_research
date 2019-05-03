@@ -21,16 +21,20 @@ class GroverTest(EdgeFinder):
     def setup_oracle(self):
         self.oracle  = q.QuantumCircuit(*self.qregisters)
         self.oracle.barrier()
+
         self.oracle.x(self.start[0])
         self.oracle.x(self.end[1])
         self.oracle.x(self.flags[0])
+
         self.oracle.h(self.flags[1])
         controlled = [q for register in [self.start, self.end, [self.flags[0]]] for q in register]
         self.oracle.cnx(controlled ,self.flags[1],self.ancillas)
         self.oracle.h(self.flags[1])
+
         self.oracle.x(self.flags[0])
         self.oracle.x(self.end[1])
         self.oracle.x(self.start[0])
+        
         self.oracle.barrier()
 
 if __name__ == "__main__":

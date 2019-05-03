@@ -1,0 +1,94 @@
+
+
+Intro to Quantum
+    Wave-function
+        Implicitly 2^n states with n qbits, e' questo che si sfrutta per l'accellerazione esponenziale
+    Gates
+        Gates must be unitary!
+        H (superposition)
+        X (Not)
+        Z (Phase inversion)
+        Controlled Gates
+            CZ
+            CX
+            CCX
+            Come fare Controleld Gates ad n qbit
+    Come fare porte logiche col CCX
+        AND
+        OR
+        XOR
+        NOT
+    (Come si fa in realta'? trapped Ions or qualcosa)
+
+Grover
+    Intro a che serve e pro e contro
+        Deustsch problem
+            Grover lo risolve!
+        Cos'e' un oracolo e cosa deve fare
+        Diffusion step
+        Query Complexity di Grover = ((pi/4) * sqrt(N))
+        Complessita' di Grover = ((pi/4) * sqrt(N)) * Complessita' di costruire l'oracolo
+    Caso base dove cerchi 1 valore
+        Come creare il diffusion operator su n qbits
+    Caso dove ne cerchi n
+        Come funziona
+        Complessita' = ((pi/4) * sqrt(N / M))
+        Hey ci sono casi in cui non funziona! (grafico probabilita' di successo che rimbalza)
+    Caso dove non sai quanti risultati ci sono
+        Si possono contare i risultati usando la QFT sul risultato di grover
+        poi si usa il caso prima
+    Considerazione Hey ma e' un SAT-solver e non actually ricerca
+
+Minimum spanning tree
+    Intro
+        Definizione formale del problema (Wikipedia)
+    Esempi di problemi dove si usa il MST
+        Strade necessarie per circolare in una citta'
+        Tipo tutta FOR
+    Algoritmi Classici
+        Kruskal
+            Pseudocodice
+        Bokurva (aggiungendo anche con O(log(n)) cpu si fa in O(N))
+            Pseudocodice
+        Prims
+            Pseudocodice
+    Complessita' prevista con Quantum
+
+Come si implementa in Quantum
+    Intro Perche' kruskal e why
+        Confronto col paper su cui ci basiamo che invece usano Bokurva
+    Come usiamo Grover per farlo
+    Pseudocodice algoritmo
+    Costruzione oracolo per la ricerca
+        Come lo costruiamo
+            Codifica Numeri
+                Approccio Amplitude
+                Approccio Stato
+                    Perche' scegliamo questo
+            Codifica Vertici e Pesi
+            Codifica edges
+            Codifica graph
+            Come aggiungere constraints
+                la codifica del graph e' un constraint!
+            Come fare il minimo (Trova degli edge che soddifano i constraints con peso inferiore a j, prendi j = ad un peso a caso tra questi edges reitera finche' unico risultato )
+        Hey si puo' fare in O(log(n)) ma DIO MIO
+        Considerazione Quanti Qbits servono dato un grafo ad n vertici => ~ 4log2(n) + 3
+    Considerazione Complessita' nei vari casi
+        Query Complexity
+        Complessita' di gates
+            Hey ma tipo decoherence e noise quindi e' tipo impossibile
+
+
+Considerazioni che tipo BAH non e' worth
+    Classic Vs Quantum Vs Quantum Simulato
+        Considerazione che oggi c'e' il Cloud e con Bokurva si risolve in O(n) quindi meh
+        Tabella delle complessita' dei vari casi
+        Tabella delle risorse stimate dato un problema (e.g. ho un grafo con 100 nodi e 1000 edges quanto ci si mette? quanti qbit o ram serve?)
+
+Implementazioni Grover caso di tutti 1 su 12 qbit (numero sparato a caso, ma che sia abbastanza alto)
+    Implementazione Cirq
+    Implementazione Qiskit
+    Implementazione Q#
+    Tabella caratteristiche implementazioni (velocita', processi usati, memoria, CPU o GPU?, n_di_righe_di_codice, documentazione, quanto la sintassi e' friendly)
+
+
