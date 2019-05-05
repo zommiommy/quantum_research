@@ -49,7 +49,7 @@ state of the art.
 		This quantum states are usually represented with the Dirac/bra-ket notation.
 		The notation uses angle brackets and a vertical bar to denote the scalar product of vectors or the action of a linear 
 		functional on a vector in a complex vector space. So for example the scalar product between $v_i$ and $v_j$ can be expressed
-	 	as $\braket{v_i|v_j}$, the left part $\bra{}$ is called \textit{bra} and the right part $\ket{}$ is called \textit{ket}. A
+	 	as $\braket{v_i|v_j}$; the left part $\bra{}$ is called \textit{bra} and the right part $\ket{}$ is called \textit{ket}. A
 	 	ket is a representation of a single vector, so our basis can be represented as 
 		\begin{center}
 		$\ket{0} = 
@@ -63,7 +63,20 @@ state of the art.
            1
         \end{bmatrix}$
 		\end{center}
-        This notation can describe states of multiple qubit. For example two qubit can be represented as follow
+       	This notation is very useful for describing qubit in superposition state. We have said that a qubit can be 
+        represented as a linear combination of its basis, so we can write 
+      	\begin{equation}
+        \ket{\psi}=\alpha\ket{0}+\beta\ket{1} 
+        \quad \alpha, \beta \in \mathbb{C}
+        \end{equation}
+        where $\alpha$ and $\beta$ are probability amplitudes. So for the Born rule the probability of a given qubit to have 
+        value $\ket{0}$ is equal to $|\alpha|^2$
+        and to have value equal to $\ket{1}$ is $|\beta|^2$. Because the absolute squares of the amplitudes equate to probabilities,
+        it follows that $\alpha$ an $\beta$ must be constrained by the equation
+        \begin{equation}
+        |\alpha|^2+|\beta|^2=1
+        \end{equation}
+        This notation can also describe states of multiple qubits. The quantum state of multiple qubits can be represented as tensor product between them. So for example for two qubits we have
 		\begin{center}        
         $\ket{00} =
         \begin{bmatrix}
@@ -82,6 +95,16 @@ state of the art.
         \end{bmatrix}$
         ,
          $\ket{10} =
+    	\begin{pmatrix}
+        0\\
+        1
+        \end{pmatrix}
+        \otimes
+        \begin{pmatrix}
+        1\\
+        0
+        \end{pmatrix}
+        =
         \begin{bmatrix}
            0 \\
            0 \\
@@ -97,19 +120,6 @@ state of the art.
            1 
          \end{bmatrix}$
         \end{center}
-       	This notation is also very useful for describing qubit in superposition state. We have said that a qubit can be 
-        represented as a linear combination of its basis, so we can write 
-      	\begin{equation}
-        \ket{\psi}=\alpha\ket{0}+\beta\ket{1} 
-        \quad \alpha, \beta \in \mathbb{C}
-        \end{equation}
-        where $\alpha$ and $\beta$ are probability amplitudes. So for the Born rule the probability of a given qubit to have 
-        value $\ket{0}$ is equal to $|\alpha|^2$
-        and to have value equal to $\ket{1}$ is $|\beta|^2$. Because the absolute squares of the amplitudes equate to probabilities,
-        it follows that $\alpha$ an $\beta$ must be constrained by the equation
-        \begin{equation}
-        |\alpha|^2+|\beta|^2=1
-        \end{equation}
         
         One very important clarification has to be done. A qubit can't have a value between "0" or "1", in fact when measured its
         value can only be $\ket{0}$ or $\ket{1}$. The superposition is given by the intrinsic uncertainty of the qubit and the
@@ -250,11 +260,184 @@ state of the art.
 	\end{equation}
 	
 	
-	\paragraph{Pauli X gate}X
-	\paragraph{Pauli Y gate}Y
-	\paragraph{Pauli Z gate}Z
-	\paragraph{CNOT gate}CNOT
+	\paragraph{Pauli X gate (X)} The Pauli-X gate acts on a single qubit. It is the quantum equivalent of the NOT gate for classical 
+	computers (with respect to the standard basis states $\ket{0}$ and $\ket{1}$).  It equates to a rotation around the X-axis of the
+	Bloch sphere by $\pi$ radians. Its matrix is 
+	\begin{equation}
+	X=
+	\begin{bmatrix}
+	0 & 1\\
+	1 & 0
+	\end{bmatrix}
+	\end{equation}
+	So for example if we apply it on the basis states we have
 	
+	$$
+	X\ket{0}=
+	\begin{bmatrix}
+	0 & 1\\
+	1 & 0
+	\end{bmatrix}
+	\begin{bmatrix}
+	1 \\
+	0
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+	0 \\
+	1
+	\end{bmatrix}
+	=\ket{1}
+	$$
+	$$
+	X\ket{1}=
+	\begin{bmatrix}
+	0 & 1\\
+	1 & 0
+	\end{bmatrix}
+	\begin{bmatrix}
+	0 \\
+	1
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+	1 \\
+	0
+	\end{bmatrix}
+	=\ket{0}
+	$$
+	
+	\paragraph{Pauli Y gate (Y)} The Pauli-Y gate acts on a single qubit. It equates to a rotation around the Y-axis of the Bloch sphere by $\pi$ radians. So its matrix is 
+	\begin{equation}
+	Y=
+	\begin{bmatrix}
+	0 & -i\\
+	i & 0
+	\end{bmatrix}
+	\end{equation}
+	The effect of the gate is to map
+	$\ket{0}$ to $i\ket{1}$ and 
+	$\ket{1}$ to $-i\ket{0}$. In fact
+	$$
+	Y\ket{0}=
+	\begin{bmatrix}
+	0 & -i\\
+	i & 0
+	\end{bmatrix}
+	\begin{bmatrix}
+	1 \\
+	0
+	\end{bmatrix}
+	=
+		\begin{bmatrix}
+	0 \\
+	i
+	\end{bmatrix}
+	=
+	i\ket{1}
+	$$
+	$$
+	Y\ket{1}=
+	\begin{bmatrix}
+	0 & -i\\
+	i & 0
+	\end{bmatrix}
+	\begin{bmatrix}
+	0 \\
+	1
+	\end{bmatrix}
+	=
+		\begin{bmatrix}
+	-i \\
+	0
+	\end{bmatrix}
+	=
+	-i\ket{0}
+	$$
+	
+	\paragraph{Pauli Z gate (Z)} The Pauli-Z gate acts on a single qubit. It equates to a rotation around the Z-axis of the Bloch sphere by $\pi$ radians. It's equivalent to 
+	a phase shift with $\phi=\pi$.
+	Its matrix is
+	\begin{equation}
+	Z=
+	\begin{bmatrix}
+	1 & 0\\
+	0 & -1
+	\end{bmatrix}
+	\end{equation}
+	It's effect is to leave $\ket{0}$ unchanged and to map $\ket{1}$ to $-\ket{1}$. In fact we have
+	$$
+	Z\ket{0}=
+	\begin{bmatrix}
+	1 & 0\\
+	0 & -1
+	\end{bmatrix}
+	\begin{bmatrix}
+	1 \\
+	0
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+	1 \\
+	0
+	\end{bmatrix}
+	=
+	\ket{0}
+	$$
+	$$
+	Z\ket{1}=
+	\begin{bmatrix}
+	1 & 0\\
+	0 & -1
+	\end{bmatrix}
+	\begin{bmatrix}
+	0 \\
+	1
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+	0 \\
+	-1
+	\end{bmatrix}
+	=
+	-\ket{1}
+	$$	
+	
+	\paragraph{Controlled not gate (CNOT)}Controlled gates act on 2 or more qubits, where one or more qubits act as a control for some operation. For example, the controlled NOT gate (or CNOT or cX) acts on 2 qubits, and performs the NOT operation on the second qubit only when the first qubit is $\ket{1}$, and otherwise leaves it unchanged. With respect to the basis $\ket{00}, \ket{01}, \ket{10}, \ket{11}$, it is represented by the matrix:
+	\begin{equation}
+	CNOT=
+	\begin{bmatrix}
+	1 & 0 & 0 & 0\\
+	0 & 1 & 0 & 0\\
+	0 & 0 & 0 & 1\\
+	0 & 0 & 1 & 0
+	\end{bmatrix}
+	\end{equation}
+	So, for example
+	$$
+	CNOT\ket{10}=
+	\begin{bmatrix}
+	1 & 0 & 0 & 0\\
+	0 & 1 & 0 & 0\\
+	0 & 0 & 0 & 1\\
+	0 & 0 & 1 & 0
+	\end{bmatrix}
+	\begin{bmatrix}
+	0 \\
+	0 \\
+	1 \\
+	0
+	\end{bmatrix}
+	= 
+	\begin{bmatrix}
+	0 \\
+	0 \\
+	0 \\
+	1
+	\end{bmatrix}
+	=
+	\ket{11}
+	$$
 	
 	
 \end{document}
