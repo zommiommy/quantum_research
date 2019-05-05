@@ -76,7 +76,8 @@ state of the art.
         \begin{equation}
         |\alpha|^2+|\beta|^2=1
         \end{equation}
-        This notation can also describe states of multiple qubits. The quantum state of multiple qubits can be represented as tensor product between them. So for example for two qubits we have
+        This notation can also describe states of multiple qubits. The quantum state of multiple qubits can be represented as tensor 
+        product between them. So for example for two qubits we have
 		\begin{center}        
         $\ket{00} =
         \begin{bmatrix}
@@ -188,7 +189,7 @@ state of the art.
 	The opposite approach to the digital one is the analogic approach, which will not be discussed in this document.
 	The digital approach consist in manipulating a n-qubit register sequentially through quantum gates.
 	
-	\paragraph{Quantum logic gates}Gates can be considered like a quantum equivalent of classical logic gates, but they change the 
+	\subsubsection{Logic gates}Gates can be considered like a quantum equivalent of classical logic gates, but they change the 
 	quantum state of the qubits manipulating their probability distribution rather than apply logic functions to the input. 
 	Also quantum logic gates have to follow some restrictions that emerge from the nature of qubit. All gates must be 
 	reversible, in other word the gate function must be	bijective, so from the output of the gate we can infer the input.
@@ -208,8 +209,9 @@ state of the art.
 	\end{equation}
 	
 	Now that we know which rules a quantum gate must follow, we can present the available gates.
-	
-	\paragraph{Hadamard gate (H)} The Hadamard gate acts on a single qubit. It's purpose is to map the
+	\paragraph{Single qubit gates}
+	\begin{itemize}
+	\item \textbf{Hadamard gate (H)} The Hadamard gate acts on a single qubit. It's purpose is to map the
 	basis state $\ket{0}$  and $\ket{1}$ to a superposition state.
 	The hadamard gate is the combination of two rotation, $\pi$ about the Z-axis and 
 	$\frac{\pi}{2}$ about Y-axis. 
@@ -257,10 +259,9 @@ state of the art.
 	\end{bmatrix}
 	=
 	\frac{1}{\sqrt{2}}\ket{0}-\frac{1}{\sqrt{2}}\ket{1}
-	\end{equation}
+	\end{equation}\\
 	
-	
-	\paragraph{Pauli X gate (X)} The Pauli-X gate acts on a single qubit. It is the quantum equivalent of the NOT gate for classical 
+	\item \textbf{Pauli X gate (X)} The Pauli-X gate acts on a single qubit. It is the quantum equivalent of the NOT gate for classical 
 	computers (with respect to the standard basis states $\ket{0}$ and $\ket{1}$).  It equates to a rotation around the X-axis of the
 	Bloch sphere by $\pi$ radians. Its matrix is 
 	\begin{equation}
@@ -305,9 +306,9 @@ state of the art.
 	0
 	\end{bmatrix}
 	=\ket{0}
-	$$
+	$$\\
 	
-	\paragraph{Pauli Y gate (Y)} The Pauli-Y gate acts on a single qubit. It equates to a rotation around the Y-axis of the Bloch sphere by $\pi$ radians. So its matrix is 
+	\item \textbf{Pauli Y gate (Y)} The Pauli-Y gate acts on a single qubit. It equates to a rotation around the Y-axis of the Bloch sphere by $\pi$ radians. So its matrix is 
 	\begin{equation}
 	Y=
 	\begin{bmatrix}
@@ -353,10 +354,10 @@ state of the art.
 	\end{bmatrix}
 	=
 	-i\ket{0}
-	$$
+	$$\\
 	
-	\paragraph{Pauli Z gate (Z)} The Pauli-Z gate acts on a single qubit. It equates to a rotation around the Z-axis of the Bloch sphere by $\pi$ radians. It's equivalent to 
-	a phase shift with $\phi=\pi$.
+	\item \textbf{Pauli Z gate (Z)} The Pauli-Z gate acts on a single qubit. It equates to a rotation around 
+	the Z-axis of the Bloch sphere by $\pi$ radians. It's equivalent to a phase shift with $\phi=\pi$.
 	Its matrix is
 	\begin{equation}
 	Z=
@@ -402,8 +403,34 @@ state of the art.
 	=
 	-\ket{1}
 	$$	
-	
-	\paragraph{Controlled not gate (CNOT)}Controlled gates act on 2 or more qubits, where one or more qubits act as a control for some operation. For example, the controlled NOT gate (or CNOT or cX) acts on 2 qubits, and performs the NOT operation on the second qubit only when the first qubit is $\ket{1}$, and otherwise leaves it unchanged. With respect to the basis $\ket{00}, \ket{01}, \ket{10}, \ket{11}$, it is represented by the matrix:
+	\end{itemize}
+	\paragraph{Controlled gate}
+	Controlled gates act on 2 or more qubits, where one or more qubits act as a control for some 
+	operation. Their are represented by matrix composed by the identity matrix on the top left corner plus an operation matrix 
+	$
+	U=
+	\begin{bmatrix}
+	u_{11} & u_{12}\\
+	u_{21} & u_{22}
+	\end{bmatrix}
+	$
+	on bottom right corner
+	\begin{equation}
+	\begin{bmatrix}
+	1 & 0 & \dots & 0 & 0\\
+	0 & 1 & \dots & 0 & 0\\
+	\vdots & \vdots & \ddots & \vdots & \vdots\\
+	0 & 0 & \dots & u_{11} & u_{12}\\
+	0 & 0 & \dots & u_{21} & u_{22}
+	\end{bmatrix}
+	\end{equation}
+	Here there are some examples
+	\begin{itemize}
+	\item \textbf{Controlled not gate (CNOT)} The 
+	controlled NOT gate (or CNOT or cX) acts on 2 qubits, and performs the NOT operation on the 
+	second qubit only when the first qubit is $\ket{1}$, and otherwise leaves 
+	it unchanged. With respect to the basis $\ket{00}, \ket{01}, \ket{10}, \ket{11}$, it is 
+	represented by the matrix:
 	\begin{equation}
 	CNOT=
 	\begin{bmatrix}
@@ -437,8 +464,116 @@ state of the art.
 	\end{bmatrix}
 	=
 	\ket{11}
-	$$
+	$$\\
 	
+	\item \textbf{Controlled phase shift gate (CZ)} The CZ gate acts on 2 qubits, 
+	and performs the Z operation on the second qubit only when the first qubit is $\ket{1}$, and 
+	otherwise leaves it unchanged. It is represented by the matrix:
+	\begin{equation}
+	CZ=
+	\begin{bmatrix}
+	1 & 0 & 0 & 0\\
+	0 & 1 & 0 & 0\\
+	0 & 0 & 1 & 0\\
+	0 & 0 & 0 & -1
+	\end{bmatrix}
+	\end{equation}
+	So for example
+	$$
+	CZ\ket{11}=
+	\begin{bmatrix}
+	1 & 0 & 0 & 0\\
+	0 & 1 & 0 & 0\\
+	0 & 0 & 1 & 0\\
+	0 & 0 & 0 & -1
+	\end{bmatrix}
+	\begin{bmatrix}
+	0 \\
+	0 \\
+	0 \\
+	1
+	\end{bmatrix}
+	= 
+	\begin{bmatrix}
+	0 \\
+	0 \\
+	0 \\
+	-1
+	\end{bmatrix}
+	=
+	-\ket{11}
+	$$\\
+	
+	\item \textbf{CCNOT} The CCNOT gate, also called Toffoli gate or Deutsch gate, is a 3-bit gate
+	which performs the NOT operation on the third qubit only when the first and the second qubit are
+	$\ket{1}$, and otherwise leaves it unchanged. As we have said before controlled gate are represented 
+	by matrix composed by the identity matrix on the top left corner plus an operation matrix, in this 
+	case X. So we have
+	\begin{equation}
+	CCNOT=
+	\begin{bmatrix}
+	1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+	0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+	0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+	0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+	0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+	0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+	0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+	0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+	\end{bmatrix}
+	\end{equation}
+	Now we can make an example	 
+	$$
+	CCNOT\ket{101}=
+	\begin{bmatrix}
+	1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+	0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+	0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+	0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+	0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+	0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+	0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+	0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+	\end{bmatrix}
+	\begin{bmatrix}
+	0\\
+	0\\
+	0\\
+	0\\
+	0\\
+	1\\
+	0\\
+	0\\
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+	0\\
+	0\\
+	0\\
+	0\\
+	0\\
+	1\\
+	0\\
+	0\\
+	\end{bmatrix}
+	=
+	\ket{101}
+	$$
+	The controlled gate can have an arbitrary number of qubit so, theoretically, we can construct controlled gate of 
+	any dimension. It's worth mentioning that CCNOT gate is an universal gate for classical computing, which means 
+	that every classical gate like, AND, OR, XOR, ecc... can be reconstructed from the CCNOT gate. This can be view 
+	as an evidence of the Turing completeness of quantum machines.
+	\end{itemize}
+	
+	\paragraph{Special gate}
+	\begin{itemize}
+	\item \textbf{Measurement} The measurement gate is responsible of the measurement of a qubit. Measurement is irreversible 
+	and therefore not a quantum gate, because it assigns the observed variable to a singular value. Measurement takes a quantum state 
+	and projects it to one of the base vectors with a likelihood equal to the square of the amplitude along that base vector collapsing 
+	the state of the qubit to a definite state.
+	\end{itemize}
+	
+	\subsubsection{Circuit example (Entanglement)}
 	
 \end{document}
 
