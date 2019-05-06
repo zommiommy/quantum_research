@@ -121,3 +121,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# LatexMST
+/Minimum_Spanning_Tree/*.log
+/Minimum_Spanning_Tree/*.aux
+/Minimum_Spanning_Tree/*.synctex.gz
+/Minimum_Spanning_Tree/*.toc
+/Minimum_Spanning_Tree/*.out
+/Minimum_Spanning_Tree/*.blg
+/Minimum_Spanning_Tree/*.bbl
