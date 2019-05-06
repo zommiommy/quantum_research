@@ -7,8 +7,8 @@
 \section{Quantum world basis}
 In this chapter we will build the foundations of our quantum world knowledge.
 We will start from understanding some basic and very important quantum phenomena which will be 
-a must-know for the following chapters. Then we will talk about the notation of quantum computing, it's basic concept and its current
-state of the art.
+a must-know for the following chapters. Then we will talk about the notation of quantum computing, it's 
+basic concept and its current state of the art.
 	\subsection{Quantum phenomena}
 	In this section we will discuss the most important quantum mechanics phenomena for the quantum computing world.
 	Before we start we have to clarify the concept of \textit{quantum state}
@@ -570,11 +570,34 @@ state of the art.
 	\item \textbf{Measurement} The measurement gate is responsible of the measurement of a qubit. Measurement is irreversible 
 	and therefore not a quantum gate, because it assigns the observed variable to a singular value. Measurement takes a quantum state 
 	and projects it to one of the base vectors with a likelihood equal to the square of the amplitude along that base vector collapsing 
-	the state of the qubit to a definite state.
+	the state of the qubit to a definite state. For this reason the measurement is usually the last operation.
 	\end{itemize}
 	
 	\subsubsection{Circuit example (Entanglement)}
 	
+	\subsubsection{Quantum speed up} At this point we can discuss the benefit of the quantum 
+	computation in comparison to classical computing. \\
+	As we have shown in the CCNOT paragraph, the quantum computation is at least Turing complete. So
+	we can say that every operation that can be carried out by a classical computer, can also be done by 
+	a quantum computer. The edge of the quantum computers are their abilities to parallelize 
+	computation. Consider a function $f: \{0, 1\}^n\rightarrow\{0, 1\}^n$ computable using a circuit 
+	consisting of k classical gates.
+	This circuit can be implemented with $\Theta(k)$ CCNOT gates. We can consider the circuit as a 
+	single gate named U. Now consider a quantum system composed by a n-qubit register, in an equally 
+	weighted superposition
+	\begin{equation}
+	\ket{\psi}=\frac{1}{\sqrt{2^{n}}}(\ket{0}+\ket{1}+\ket{2}+...+\ket{2^{n}-1})
+	\end{equation}
+	Applying the gate U yelds the state
+	\begin{equation}
+	\ket{\psi}=\frac{1}{\sqrt{2^{n}}}(\ket{f(0)}+\ket{f(1)}+\ket{f(2)}+...+\ket{f(2^{n}-1)})
+	\end{equation}
+	Thus computation of the function $f$ is done exponentially many times (in the number
+of bits) using the same time as used for computing one value. This phenomenon
+is called quantum parallelism, and this is obviously a huge advantage of quantum
+computing, though it takes some non-trivial methods to truly exploit it. This is due
+to the fact that simply measuring the outcome yields just one of the results, which
+is no better than just computing $f(i)$ for some randomly chosen $i\in\{0,...,2^{n}-1\}$
 \end{document}
 
 \newpage
