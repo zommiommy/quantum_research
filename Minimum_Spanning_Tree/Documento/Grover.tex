@@ -1,0 +1,61 @@
+\documentclass[main.tex]{subfiles}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\begin{document}
+\section{Grover's algorithm}
+In this section we will discuss about Grover's algorithm and its 
+utilisation in the MST problem.
+We can start with its definition,
+\theoremstyle{definition}
+	\begin{definition}{\textbf{Grover's algorithm}}
+	Grover's algorithm is a quantum algorithm that finds with high 
+	probability the input to a black box function that produces a 
+	particular output value.
+	$$f:\{0, 1, ..., N-1\}\rightarrow\{0,1\},\quad where$$ 
+	\[
+    f(x)=\left\{
+                \begin{array}{ll}
+                  0 \quad\text{if }x \neq w\\
+                  1 \quad\text{if }x = w
+                \end{array}
+              \right.
+  \]
+	\end{definition}
+	
+	\subsection{Algorithm characteristics}
+The applications of the algorithm can be many, but usually, as it is presented in the original paper of Grover, the algorithm
+is described as "searching a database". This definition is not really precise inasmuch the algorithm cannot be used for actual databases (see https://web.eecs.umich.edu/~imarkov/pubs/jour/cise05-grov.pdf, \textit{Hint}: construct an oracle for an unstructured database have a linear complexity, this will be clear in a moment). As we have said in the definition, if we have $y=f(x)$ the algorithm can calculates efficiently $x$ when given $y$.
+Inverting a function is related to the searching of a database because we could come up with a function that produces one particular value of $y$ (1, for instance) if $x$ matches a desired entry in a database, and another value of $y$ (0) for other values of $x$. So Grover's algorithm can be seen as a searching algorithm in an unstructured table.
+Now let's analyse the definition step by step. 
+
+Like many quantum algorithms, Grover's algorithm is probabilistic in the sense that it 
+gives the correct answer with a probability of less than 1. Though there is technically no upper bound on the number of repetitions that might be needed before the correct answer is obtained, the expected number of repetitions is a constant factor that does not grow with $N$, number of elements.
+In particular the number of iteration is a very focal point in the correctness of the result. This point will be discussed more in depth in the following paragraph.
+Now that we have the definition of the algorithm we can talk about it's complexity. Classically a search in an unordered table takes $O(N)$ steps, where N is the number of entries. Grover's algorithm takes only $O(\sqrt{N})$ steps to find the solution. This speed up, even though is no exponential, gives a pretty big boost to the satisfiability problems, which belong to the NP-complete class of complexity.
+
+\subsection{Algorithm phases}
+The algorithm is structured in multiple steps \begin{enumerate}
+\item Superposition setup
+\item Phase inversion
+\item Inversion about the mean
+\end{enumerate}
+Now let's analyse each step, but before we start we have to do an assumption. N, cardinality of the domain of $f$, is equal to $2^{n}$ where $n\in\mathbb{N}$
+\subsubsection{Superposition setup}
+The algorithm has multiple variations, the one that we utilize in this document starts with a $n$ qubit register set to $\ket{0}$.
+The first step consist in putting all qubit in a superposition state through Hadamard gates.
+\subsubsection{Phase inversion}
+Now our objective is to highlight the value we are searching for. To do so we can take the phase of the number and invert it. So written in formulas we have
+\begin{align*}
+& f(x^{*})=1 &\textit{where} \quad x^{*}=w \\
+& \sum_{x}^{}\alpha_{x}\ket{x} & \textit{start from this state} \\
+& \quad\downarrow & \textit{Applying phase inversion we obtain} \\
+& \sum_{x\neq x^{*}}^{}\alpha_{x}\ket{x}-\alpha_{x^{*}}\ket{x^{*}}
+\end{align*}
+Now the problem is how to know which is the right number to flip. To do so we have to introduce the oracle.
+\paragraph{Oracle} 
+
+\subsubsection{Inversion about the mean}
+
+\end{document}
