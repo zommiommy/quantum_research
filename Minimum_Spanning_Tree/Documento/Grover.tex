@@ -13,7 +13,7 @@ We can start with its definition,
 	Grover's algorithm is a quantum algorithm that finds with high 
 	probability the input to a black box function that produces a 
 	particular output value.
-	$$f:\{0, 1, ..., N-1\}\rightarrow\{0,1\},\quad where$$ 
+	$$f:\{0, 1, ..., N-1\}\rightarrow\{0,1\},\quad where \quad N=2^{n}\textit{, }n\in\mathbb{N}$$ 
 	\[
     f(x)=\left\{
                 \begin{array}{ll}
@@ -41,21 +41,50 @@ The algorithm is structured in multiple steps \begin{enumerate}
 \item Phase inversion
 \item Inversion about the mean
 \end{enumerate}
-Now let's analyse each step, but before we start we have to do an assumption. N, cardinality of the domain of $f$, is equal to $2^{n}$ where $n\in\mathbb{N}$
+Now let's analyse each step.
 \subsubsection{Superposition setup}
 The algorithm has multiple variations, the one that we utilize in this document starts with a $n$ qubit register set to $\ket{0}$.
 The first step consist in putting all qubit in a superposition state through Hadamard gates.
 \subsubsection{Phase inversion}
-Now our objective is to highlight the value we are searching for. To do so we can take the phase of the number and invert it. So written in formulas we have
+Now our objective is to isolate the value we are searching for. To do so we can take the phase of that number and invert it. So written in formulas we have
 \begin{align*}
-& f(x^{*})=1 &\textit{where} \quad x^{*}=w \\
-& \sum_{x}^{}\alpha_{x}\ket{x} & \textit{start from this state} \\
-& \quad\downarrow & \textit{Applying phase inversion we obtain} \\
-& \sum_{x\neq x^{*}}^{}\alpha_{x}\ket{x}-\alpha_{x^{*}}\ket{x^{*}}
+& f(x^{*})=1 \quad\textit{where} \quad x^{*}=w \\
+& \sum_{x}^{}\alpha_{x}\ket{x}  \xrightarrow{\textit{phase inversion}} \sum_{x\neq x^{*}}^{}\alpha_{x}\ket{x}-\alpha_{x^{*}}\ket{x^{*}}
 \end{align*}
-Now the problem is how to know which is the right number to flip. To do so we have to introduce the oracle.
+Now the problem is how to recognize the right number and flip its phase. To do so we have to introduce the oracle.
 \paragraph{Oracle} 
+Just as in classical computation, the idea of an oracle is
+useful in quantum computation. In the classical case,
+an oracle was a black box that input an n-bit number $x$
+and output a function $f(x)$. (Oracles can be reversible,
+just like any other classical circuit; for instance, it could
+input $x$ and $y$ and output $x$ and $x\oplus y$).
+In the quantum case, an oracle is a black box which
+takes n q-bits and performs a unitary transformation U on them. It could input two quantum registers, and
+transform them like so 
+$$U\ket{x}\ket{y} = \ket{x}\ket{y \oplus f(x)}$$
+However, in the quantum world there are other possibilities; e.g., we could perform a phase shift based on the value of f(x)
+$$U\ket{x} = (-1)^{f(x)}\ket{x}$$
+In the quantum world an oracle is used to encode data into the system, in order to perform action on it. In fact for Grover algorithm, there's no external data structure, the data are encoded in the oracle function $f(x)$.
+
+The first oracle presented is called \textit{boolean oracle}, the second one is called \textit{phase oracle}. Like we can imagine for Grover algorithm the phase oracle is the right oracle to use, because for construction flips the phase of the desired value.
 
 \subsubsection{Inversion about the mean}
+Now we have achieved to isolate the value we are searching for. At this stage our objective is to highlight the phase or amplitude of our value with respect to the other, making its amplitude
+higher. To do so we can invert all the amplitudes about the overall mean amplitude. In fact if the amplitude of a value is lower than the mean amplitude this will increase, therefore will decrease. Doing so the amplitudes of all $x\neq x^*$ will decrease and the amplitude of $x^*$ will increase. This also explain why we are inverting the phase of $x^*$. In fact doing so the distance between the mean and the phase of $x^*$ increases and so the phase boosting in this last operation will have a greater effect.
+
+\begin{align*}
+& u=\frac{\sum\limits_{x=0}^{N-1}\alpha_x}{N}  &\textit{mean amplitude}\\
+& \alpha_x \rightarrow (2u-\alpha_x)=u+(u-\alpha_x) &\textit{amplitudes mapping}\\
+& \sum_{x}\alpha_{x}\ket{x} \xrightarrow{\textit{inversion about u}} \sum_{x}(2u-\alpha_x)\ket{x} &\textit{new state after flipping}
+\end{align*}
+
+\subsection{Number of iteration}
+As we have seen applying a phase inversion followed by an inversion about the mean will have as a result that the amplitude of the searched value $x^*$ will increase and the other amplitudes will decrease. THis two operation are called \textit{diffusion step}.
+To have a better result we have to iterate the diffusion step many times. To estimate the number of iteration we can proceed as follow. 
+Suppose that we want to take the $x^*$ amplitude to at least $\frac{1}{\sqrt{2}}$, which mean 50\% of probability to have this result.
+To do so we can measure the how much the amplitude of $x^*$ increases at each iteration.
+$$\textit{\#steps}=\frac{\widehat{\alpha_{x^{*}}}}{\textit{improvement by step}}$$
+
 
 \end{document}
