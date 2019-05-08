@@ -1,7 +1,7 @@
 \documentclass[main.tex]{subfiles}
 
-%\theoremstyle{definition}
-%\newtheorem{definition}{Definition}[section]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
 
 \begin{document}
 \section{Grover's algorithm}
@@ -97,6 +97,19 @@ So the number of steps will be around
 \textit{\#steps}=\frac{\widehat{\alpha_{x^{*}}}}{\textit{improvement by step}}=\frac{\frac{1}{\sqrt{2}}}{\sqrt{\frac{2}{N}}}=\frac{\sqrt{N}}{2}\sim\sqrt{N}
 \end{equation}
 This is the reason why the complexity of the algorithm is $O(\sqrt{N})$
+In practise the number of iteration is described by the following formula
+\begin{equation}
+\textit{\# iterations}=\frac{\pi}{4}\sqrt{N}
+\end{equation}
+this is proved to be optimal to get the highest probability with the minimum number of iterations, moreover doing more iteration than suggested will lead to failure in the search rather than a more precise result. This fact is really important when the matches in the unordered table are more than one.
+
+\subsubsection{Multiple matches}
+So far we have supposed that there was a single match, but in many application the search could return multiple result. Grover algorithm can be generalized to take into account this fact.
+The number of required iteration changes to
+\begin{equation}
+\textit{\# iterations}=\frac{\pi}{4}\sqrt{\frac{N}{M}}\quad\textit{where M is the number of matches}
+\end{equation}
+As we can see the number of matches play an important role in defining the number of iterations required. This could create some problem when the number of matches is unknown, because the number of iteration can't be exactly estimated. Absurdly the case with multiple matches is harder to handle!
 
 \end{document}
 
