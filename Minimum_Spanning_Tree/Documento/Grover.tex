@@ -1,7 +1,7 @@
 \documentclass[main.tex]{subfiles}
 
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
+%\theoremstyle{definition}
+%\newtheorem{definition}{Definition}[section]
 
 \begin{document}
 \section{Grover's algorithm}
@@ -80,11 +80,24 @@ higher. To do so we can invert all the amplitudes about the overall mean amplitu
 \end{align*}
 
 \subsection{Number of iteration}
-As we have seen applying a phase inversion followed by an inversion about the mean will have as a result that the amplitude of the searched value $x^*$ will increase and the other amplitudes will decrease. THis two operation are called \textit{diffusion step}.
+As we have seen applying a phase inversion followed by an inversion about the mean will have as a result that the amplitude of the searched value $x^*$ will increase and the other amplitudes will decrease. This two operation are called \textit{diffusion step}.
 To have a better result we have to iterate the diffusion step many times. To estimate the number of iteration we can proceed as follow. 
-Suppose that we want to take the $x^*$ amplitude to at least $\frac{1}{\sqrt{2}}$, which mean 50\% of probability to have this result.
+Suppose that we want to take the $x^*$ amplitude to at least $\widehat{\alpha_{x^{*}}}=\frac{1}{\sqrt{2}}$, which mean 50\% of probability to have this result.
 To do so we can measure the how much the amplitude of $x^*$ increases at each iteration.
 $$\textit{\#steps}=\frac{\widehat{\alpha_{x^{*}}}}{\textit{improvement by step}}$$
-
+When $x^*$ has amplitude equal to $\frac{1}{\sqrt{2}}$, the rest of the amplitude, $\frac{1}{\sqrt{2}}$, has to be distributed among the remaining N-1 values, so each value will have an amplitude
+$$ \alpha_x >\frac{1}{\sqrt{2(N-1)}}> \frac{1}{\sqrt{2N}}$$
+Now we can assume that the mean amplitude is roughly equal to the amplitude of a generic $x\neq x^*$ when N is big enough.
+When we apply the diffusion step the amplitude of $x^*$ increases about twice as the value of the mean which is roughly $\frac{1}{\sqrt{2N}}$. So the improvement of each step will be
+\begin{equation}
+\textit{improvement by step}=\frac{2}{\sqrt{2N}}=\sqrt{\frac{2}{N}}
+\end{equation}
+So the number of steps will be around
+\begin{equation}
+\textit{\#steps}=\frac{\widehat{\alpha_{x^{*}}}}{\textit{improvement by step}}=\frac{\frac{1}{\sqrt{2}}}{\sqrt{\frac{2}{N}}}=\frac{\sqrt{N}}{2}\sim\sqrt{N}
+\end{equation}
+This is the reason why the complexity of the algorithm is $O(\sqrt{N})$
 
 \end{document}
+
+\newpage
