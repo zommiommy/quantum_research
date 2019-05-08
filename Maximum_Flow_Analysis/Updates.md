@@ -1,8 +1,59 @@
 # Updates log
 
-### 25/04/2019
+## 08/05/2019
 
-##### Samuele
+#### Samuele
+
+Sotto suggerimento della prof Di Nitto, ho consultato il sito http://quantumalgorithmzoo.org/. Tra i vari algoritmi, ho selezionato quelli che menzionano il searching. Di seguito ricopio commento le parti rilevanti.
+
+##### Searching (Grover)
+
+> **Speedup:** Polynomial 
+**Description:** We are given an oracle with N allowed inputs. For one input w ("the winner") the corresponding output is 1, and for all other inputs the corresponding output is 0. The task is to find w. [...]
+
+questa è la definizione che conoscevamo già.
+
+> This has algorithm has subsequently been generalized to search in the presence of multiple "winners" [15], [...]
+> 
+> [15] M. Boyer, G. Brassard, P. Høyer, and A. Tapp 
+Tight bounds on quantum searching. 
+Fortschritte der Physik, 46:493-505, 1998. 
+
+Questa generalizzazione non basta a risolvere il nostro problema, perché noi non vogliamo avere necessariamente "multiple winners", ma vogliamo limitare lo spazio di ricerca ad un database in memoria.
+
+> One of the natural applications for Grover search is speeding up the solution to NP-complete problems such as 3-SAT. [...]
+
+Da qui prendiamo atto che almeno per qualcosa l'algoritmo può essere usato.
+
+> A problem closely related to, but harder than, Grover search, is spatial search, in which database queries are limited by some graph structure. On sufficiently well-connected graphs, O(√n) quantum query complexity is still achievable [274, 275, 303, 304, 305, 306, 330].
+
+Questa cosa potrebbe essere interessante per il nostro caso di ricerca su un grafo, ma l'argomento sembra particolarmente complesso. Per capire di cosa si tratta riporto una definizione da Wikipedia:
+
+> A **spatial database** is a database that is optimized for storing and querying data that represents objects defined in a geometric space.
+
+##### Ordered search
+
+> **Speedup:** Constant factor 
+**Description:** We are given oracle access to a list of N numbers in order from least to greatest. Given a number x, the task is to find out where in the list it would fit. 
+
+Possiamo già escludere a priori questo tipo di ricerca. Il nostro algoritmo prevede di cercare tra i vari archi connessi ad un nodo, quelli che hanno costo 'infinito'. Se avessimo gli archi già ordinati per costo allora il problema sarebbe risolto, prendendo gli archi all'estremo della lista.
+
+##### Altri paper con titoli apparentemente interessanti
+
+> [133] Quantum search algorithms
+https://arxiv.org/abs/quant-ph/0504012
+
+Buono per cultura personale, ma gli algoritmi non sono utili al nostro scopo.
+
+> [137] Single quantum querying of a database
+https://arxiv.org/abs/quant-ph/9705041
+
+Vari algoritmi che risolvono con una singola quantum query problemi quali "parity problem", "coin weighing" ecc... Ancora non utile al nostro scopo.
+
+
+## 25/04/2019
+
+#### Samuele
 
 Come già visto implementazioni (anche in Q#) della Grover Search su database impliciti.
 La differenza tra database implciti e reali è spiegata dal paper "Quantum search of a real unstructured database":
@@ -19,9 +70,9 @@ Sono quindi arrivato alla conclusione che: **l'utilizzo di Grover** come algorit
 
 Grover è un algoritmo che può funzionare come invertitore di funzione one-way (utile in crittografia e hashing) ma la sua utilità decade come algoritmo di ricerca in lista o in database.
 
-### 24/04/2019
+## 24/04/2019
 
-##### Samuele
+#### Samuele
 
 **Premessa**: il nostro algoritmo di Quantum Max Flow Analysis, basa il suo motivo di esistere nel fatto che una piccola routine dell'algoritmo (la ricerca del prossimo arco da considerare tra quelli uscenti da un determinato nodo) venga fatta da un computer quantistico. Si tratta quindi, di fatti, di una ricerca in una lista (o più genericamente in una tabella/database) di uno o più elementi che soddisfino una certa condizione (in particolare che gli archi non siano stati visitati e quindi abbiano valore di peso == infinito).
 
@@ -29,16 +80,16 @@ Ho lavorato a una dimostrazione pratica della **Grover search** su database impl
 
 In particolare sono partito da un'implementazione dell'Amplitude Amplification presente nella libreria Canon del Microsoft QDK e altre funzioni suggerite da Microsoft per la risoluzione del problema specifico, ottenendo quindi una routine quantum che dati più elementi target, riesce a trovarli come output del registro quantistico con una certa probabilità. La chiamata alla routine viene fatta tramite un programma in C# che si preoccupa di calcolare le varie statistiche e di stampare in modo carino i risultati.
 
-### 23/04/2019
+## 23/04/2019
 
-##### Samuele
+#### Samuele
 
 Ho aggiornato il codice che esegue l'**algoritmo di Edmonds-Karp per il Max Flow su computer classici**, suddividendolo in classi più organizzate e semplificando ancoradi più la funzione che andrebbe fatta in quantum, in modo da poterla sostituire con una eventuale futura routine.
 Purtroppo ancora, seppur ridotta, è complicata da farla in quantum.
 
-### 09/04/2019
+## 09/04/2019
 
-##### Samuele
+#### Samuele
 
 Dal paper sugli algoritmi, algoritmo Max Flow, paragrafo B, pagina 40:
 “The Quantum algorithm described by Ambainis and Spalek is a “quantized” version of the Edmonds-Karp algorithm [...]”
@@ -50,7 +101,7 @@ Edmonds Karp in C#: https://gist.github.com/Eyas/7520781
 
 Ho fatto alcune modifiche al codice e l’ho predisposto all’inserimento della funzione quantistica una volta che sarà stata realizzata
 
-##### Moreno
+#### Moreno
 
 Al momento il mio piano è quello di trovare un algoritmo basato sul individuare un augmenting path. Vorrei trovare un percorso dalla sorgente al pozzo del grafo (sink).
 Parto dal considerare grafi aciclici, per poi eventualmente trovare il modo di escludere i cicli dai grafi ciclici.
