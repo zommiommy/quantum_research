@@ -109,7 +109,28 @@ The number of required iteration changes to
 \begin{equation}
 \textit{\# iterations}=\frac{\pi}{4}\sqrt{\frac{N}{M}}\quad\textit{where M is the number of matches}
 \end{equation}
-As we can see the number of matches play an important role in defining the number of iterations required. This could create some problem when the number of matches is unknown, because the number of iteration can't be exactly estimated. Absurdly the case with multiple matches is harder to handle!
+As we can see the number of matches play an important role in defining the number of iterations required. This could create some problem when the number of matches is unknown, because the number of iteration can't be exactly estimated. Absurdly the case with multiple matches is harder to handle! Moreover the probability of finding a result is dependent on the amount of matches.
+Now we can discuss more in depth this topic.
+Consider a random guesser implemented in a classical way and using Grover's algorithm for one iteration. The classical guesser will have a probability $\frac{N}{M}$ of finding a result with a single random guess. Now it's useful to compare a classical random guesser with a single iteration of Grover's algorithm.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{GroverMultipleMatchesRandom.png}
+	\caption{Probability of success $P^{Classical}$, $P^{Grover}$ as a function of $\frac{M}{N}$}
+\end{figure}
+
+We can see from figure YYY that Grover’s algorithm solves the case where $M = \frac{N}{4}$ with certainty.
+The probability of success of Grover’s algorithm will be below one-half for M > $\frac{N}{2}$ and will fail
+with certainty for $M = \frac{3}{4}$. The probability of success of the classical guess technique is always over that of Grover’s algorithm for M > N/2.
+Now let's concentrate of how the quantum algorithm behaves when iterate following (4).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{GroverMultipleMatches.png}
+	\caption{Probability of success $P^{Classical}$, $P^{Grover}$ as a function of $\frac{M}{N}$}
+\end{figure}
+
+As we can see from figure YYY the algorithm behaves better. The minimum probability of finding the correct result is $0.5$ when $\frac{M}{N}$ is equal to $0.5$. When $\frac{M}{N}$ is less then $0.25$ the algorithm have an high probability of finding a result but when $\frac{M}{N}$ is more than $0.5$ tha algorithm behave as a classical random guesser.
 
 \end{document}
 
