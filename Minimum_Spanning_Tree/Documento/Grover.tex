@@ -80,11 +80,58 @@ higher. To do so we can invert all the amplitudes about the overall mean amplitu
 \end{align*}
 
 \subsection{Number of iteration}
-As we have seen applying a phase inversion followed by an inversion about the mean will have as a result that the amplitude of the searched value $x^*$ will increase and the other amplitudes will decrease. THis two operation are called \textit{diffusion step}.
+As we have seen applying a phase inversion followed by an inversion about the mean will have as a result that the amplitude of the searched value $x^*$ will increase and the other amplitudes will decrease. This two operation are called \textit{diffusion step}.
 To have a better result we have to iterate the diffusion step many times. To estimate the number of iteration we can proceed as follow. 
-Suppose that we want to take the $x^*$ amplitude to at least $\frac{1}{\sqrt{2}}$, which mean 50\% of probability to have this result.
+Suppose that we want to take the $x^*$ amplitude to at least $\widehat{\alpha_{x^{*}}}=\frac{1}{\sqrt{2}}$, which mean 50\% of probability to have this result.
 To do so we can measure the how much the amplitude of $x^*$ increases at each iteration.
 $$\textit{\#steps}=\frac{\widehat{\alpha_{x^{*}}}}{\textit{improvement by step}}$$
+When $x^*$ has amplitude equal to $\frac{1}{\sqrt{2}}$, the rest of the amplitude, $\frac{1}{\sqrt{2}}$, has to be distributed among the remaining N-1 values, so each value will have an amplitude
+$$ \alpha_x >\frac{1}{\sqrt{2(N-1)}}> \frac{1}{\sqrt{2N}}$$
+Now we can assume that the mean amplitude is roughly equal to the amplitude of a generic $x\neq x^*$ when N is big enough.
+When we apply the diffusion step the amplitude of $x^*$ increases about twice as the value of the mean which is roughly $\frac{1}{\sqrt{2N}}$. So the improvement of each step will be
+\begin{equation}
+\textit{improvement by step}=\frac{2}{\sqrt{2N}}=\sqrt{\frac{2}{N}}
+\end{equation}
+So the number of steps will be around
+\begin{equation}
+\textit{\#steps}=\frac{\widehat{\alpha_{x^{*}}}}{\textit{improvement by step}}=\frac{\frac{1}{\sqrt{2}}}{\sqrt{\frac{2}{N}}}=\frac{\sqrt{N}}{2}\sim\sqrt{N}
+\end{equation}
+This is the reason why the complexity of the algorithm is $O(\sqrt{N})$
+In practise the number of iteration is described by the following formula
+\begin{equation}
+\textit{\# iterations}=\frac{\pi}{4}\sqrt{N}
+\end{equation}
+this is proved to be optimal to get the highest probability with the minimum number of iterations, moreover doing more iteration than suggested will lead to failure in the search rather than a more precise result. This fact is really important when the matches in the unordered table are more than one.
 
+\subsubsection{Multiple matches}
+So far we have supposed that there was a single match, but in many application the search could return multiple result. Grover algorithm can be generalized to take into account this fact.
+The number of required iteration changes to
+\begin{equation}
+\textit{\# iterations}=\frac{\pi}{4}\sqrt{\frac{N}{M}}\quad\textit{where M is the number of matches}
+\end{equation}
+As we can see the number of matches play an important role in defining the number of iterations required. This could create some problem when the number of matches is unknown, because the number of iteration can't be exactly estimated. Absurdly the case with multiple matches is harder to handle! Moreover the probability of finding a result is dependent on the amount of matches.
+Now we can discuss more in depth this topic.
+Consider a random guesser implemented in a classical way and using Grover's algorithm for one iteration. The classical guesser will have a probability $\frac{N}{M}$ of finding a result with a single random guess. Now it's useful to compare a classical random guesser with a single iteration of Grover's algorithm.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{GroverMultipleMatchesRandom.png}
+	\caption{Probability of success $P^{Classical}$, $P^{Grover}$ as a function of $\frac{M}{N}$}
+\end{figure}
+
+We can see from figure YYY that Grover’s algorithm solves the case where $M = \frac{N}{4}$ with certainty.
+The probability of success of Grover’s algorithm will be below one-half for M > $\frac{N}{2}$ and will fail
+with certainty for $M = \frac{3}{4}$. The probability of success of the classical guess technique is always over that of Grover’s algorithm for M > N/2.
+Now let's concentrate of how the quantum algorithm behaves when iterate following (4).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{GroverMultipleMatches.png}
+	\caption{Probability of success $P^{Classical}$, $P^{Grover}$ as a function of $\frac{M}{N}$}
+\end{figure}
+
+As we can see from figure YYY the algorithm behaves better. The minimum probability of finding the correct result is $0.5$ when $\frac{M}{N}$ is equal to $0.5$. When $\frac{M}{N}$ is less then $0.25$ the algorithm have an high probability of finding a result but when $\frac{M}{N}$ is more than $0.5$ tha algorithm behave as a classical random guesser.
 
 \end{document}
+
+\newpage
