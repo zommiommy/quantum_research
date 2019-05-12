@@ -1,5 +1,27 @@
 # Updates log
 
+## 12/05/2019
+
+### Samuele
+
+Un altro paper che skippa il problema con eleganza:
+https://arxiv.org/pdf/quant-ph/0301079.pdf
+
+> Suppose we have an unstructured database with N elements. Without loss of generality, suppose that the elements are numbers from 0 to N − 1.
+
+No, non è vero, non c'è informazione in un insieme con tutti i possibili valori. Dato un numero n di bit, un database i cui elementi sono stringhe lunghe tutte n bit ha senso solo se non rientra nei 2 casi banali: database vuoto o database con tutte le possibili combinazioni.
+Chiaramente la ricerca di un elemento nel primo caso fallirà sempre. Nel secondo caso la ricerca ha senso solo se viene restituita la posizione dell'elemento, cosa che non succede qui, in quanto l'algoritmo è progettato per trovare il numero che soddisfa una funzione, non la sua posizione in una lista.
+
+Ciliegina sulla torta, si può trovare la stessa omissione di spiegazioni nel paper originale scritto dal sig Grover (che per inciso ho letto tutto)
+https://arxiv.org/pdf/quant-ph/9605043.pdf
+dopo aver promesso applicazioni dell'algoritmo come cercare un numero nella rubrica telefonica tramite il nome, anche questo paper non fa altro che limitarsi a cercare tra i numeri da 0 a 2^n-1
+
+--
+
+**No va beh, FERMI TUTTI, forse ho trovato quello che cercavo**
+https://apps.dtic.mil/dtic/tr/fulltext/u2/a559750.pdf
+
+
 ## 09/05/2019
 
 ### Samuele
