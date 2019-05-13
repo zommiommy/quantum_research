@@ -1,4 +1,8 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// DatabaseSearch.qs
+// Changed namespace to MFA
+// https://github.com/microsoft/Quantum/blob/master/Samples/src/DatabaseSearch/DatabaseSearch.qs
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace MFA {
     open Microsoft.Quantum.Intrinsic;

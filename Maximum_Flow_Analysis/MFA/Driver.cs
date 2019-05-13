@@ -49,74 +49,88 @@ namespace MFA
     }
     class Driver
     {
-        static void Main(string[] args)
+        static void quantumEdmondsKarp()
         {
-            string answ="1";
-            while (answ=="1")
-            {
             Utilities u= new Utilities();
             long[] schema=u.getSchema();
             List<Node> nodes=new List<Node>();
             List<Edge> edges= new List<Edge>();
             Node rootNode=Graph.buildGraph(ref nodes,ref edges,ref schema,0);//We chose to set node 0 as root
-            if(rootNode==null)
-                throw new System.ArgumentNullException("Graph build failed.");
             
             //Graph has been built.
             System.Console.WriteLine("Graph has been built.");
+            
             //Start layering
-
             Queue<Node> q=new Queue<Node>();
-            q.Append(rootNode);
+            q.Enqueue(rootNode);
             int i=1;//layer value
             while(q.Count>0)
             {
                 Node element=q.Peek();
-                Node[] neighbors=element.OutboundNodes;
+                Node[] neighbors=element.OutboundNodes();
                 Node item=null;
-                do{//While there are neighbors with infinite distance
+                do
+                {
+                    //While there are neighbors with infinite distance
                     List<int> layerList=new List<int>();
                     for(int j=0;j<neighbors.Length;++j)
-                    {
                         layerList.Add(neighbors[j].Layer);
-                    }
 
                     //Quantum part
-                    bool notValid=true;//Quantum part result is not valid
-                    while(notValid)
+                    bool quantumError=true;//Quantum part result is not valid
+                    do
                     {
+                        int itemIndex=0;
                         using (var qsim = new QuantumSimulator(throwOnReleasingQubitsNotInZeroState:false))
                         {
-                            int itemIndex=findInfiniteLayerNeighbors(qsim,layerList.ToArray());
+                            itemIndex=findInfiniteLayerNeighbors(qsim,layerList.ToArray());
                             
-                            if(layerList[itemIndex]!=-1)//if item found by Grover search is not a -1
-                                System.Console.WriteLine("Quantum run failed. Retrying.");
-                            else
-                            {
-                                item=neighbors[itemIndex];
-                                item.Layer=i;//assigning correct layer number
-                                notValid=false;
-                            }
                         }
-                    }
+                        if(itemIndex==-1)//no more neighbors
+                        {
+                            quantumError=false;
+                            item=null;
+                        }
+                        else if(itemIndex>(layerList.Count-1) || layerList[itemIndex]!=-1)//if quantum errors happen
+                        {
+                            System.Console.WriteLine("Quantum run failed. Retrying.");
+                            //quantumError=true; //there is no need to do this
+                        }
+                        else
+                        {
+                            item=neighbors[itemIndex];
+                            //System.Console.WriteLine($"Layer value changing from {item.Layer.ToString()} to {i.ToString()}");
+                            item.Layer=i;//assigning correct layer number
+                            layerList[itemIndex]=i;//updating layer list
+                            quantumError=false;
+                        }
+
+                    }while(quantumError);//keep cycling if quantum part fails
                     //End of quantum part
 
                     if(item!=null)
                     {
                         q.Enqueue(item);
                     }
-                    else
-                    { 
-                        q.Dequeue();//All neighbors visited
-                    }
-                    
                 }while(item!=null);//While there are neighbors with infinite distance
-                i++;//Incrementing layer value
                 
+                i++;//Incrementing layer value
+                q.Dequeue();//All neighbors visited  
             }
 
-            System.Console.WriteLine(nodes);
-            System.Console.WriteLine("Write 1 to continue");
+            foreach (var item in nodes)
+            {
+                System.Console.WriteLine(item.ToString());
+            }
+        }
+        static void Main(string[] args)
+        {
+            string answ="1";
+            while (answ=="1")
+            {
+            quantumEdmondsKarp();
+
+            System.Console.WriteLine("Write 1 to restart");
             answ=Console.ReadLine();
             }
         }
@@ -134,7 +148,8 @@ namespace MFA
             int nDatabaseQubits=layerArray.Length;//How many neighbors 
             var nMarkedElements = markedElements.Length;
             var nIterations=3;//TODO set the correct value calculated theorically
-            
+            if (nMarkedElements==0)
+                return -1;
             var task = ApplyGroverSearch.Run(sim, new QArray<long>(markedElements), nIterations, nDatabaseQubits);
 
             var data = task.Result;
