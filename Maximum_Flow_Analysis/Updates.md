@@ -1,8 +1,25 @@
 # Updates log
 
-## 12/05/2019
+## 15/05/2019 - Samuele
 
-### Samuele
+Come anticipato nell'update precedente, il paper
+https://apps.dtic.mil/dtic/tr/fulltext/u2/a559750.pdf
+sembra essere quello che cercavamo.
+Esso trova un modo per codificare gli elementi presenti in un database, come stati entangled di un registro. Quindi query casuali a questo registro restituirebbero solo i valori entangled.
+
+Il registro-database viene creato moltiplicandolo per una matrice particolare in cui le righe sono scambiate in modo da codificare nella loro nuova posizione i dati.
+Per ottenere questa matrice basta un operatore identitità I, un paio di porte H e una matrice che se la moltiplichi a qualcosa scambia semplicemente l'ordine delle righe di quel qualcosa.
+
+Quest'ultima matrice non può essere ottenuta come prodotto di operatori semplici (H, I, X, Y, Z), ma deve essere implementata come porte logiche sui singoli bit in maniera più o meno complessa. L'obiettivo per adesso è capire se è possibile trovare la combinazione di porte logiche opportune per riprodurre una generica matrice di scambio righe oppure, se non si può automatizzare la cosa, una sua istanza specifica.
+
+Vorrei provare ad implementare in Q# un esempio di semplice database e di ricerca in esso. Quindi un'istanza.
+
+Tommaso mi ha fornito un paio di paper da leggere per l'implementazione di una matrice tramite porte:
+http://home.lu.lv/~sd20008/papers/essays/Solovay-Kitaev.pdf
+https://arxiv.org/pdf/quant-ph/0505030.pdf
+
+
+## 12/05/2019 - Samuele
 
 Un altro paper che skippa il problema con eleganza:
 https://arxiv.org/pdf/quant-ph/0301079.pdf
@@ -22,9 +39,7 @@ dopo aver promesso applicazioni dell'algoritmo come cercare un numero nella rubr
 https://apps.dtic.mil/dtic/tr/fulltext/u2/a559750.pdf
 
 
-## 09/05/2019
-
-### Samuele
+## 09/05/2019 - Samuele
 
 Mi sono informato un po' di più sugli **spatial database**, per capire se potevano essere utili a modellare un grafo con costi arbitrari sugli archi.
 
@@ -46,9 +61,7 @@ Ho anche letto materiale su **Random Walk** e **Quantum Walk** su grafi:
 Nonostante i punti di contatto con Grover siano molteplici, nessuno di questi mi è sembrato di una qualche utilità per il nostro algoritmo di Max Flow Analysis.
 
 
-## 08/05/2019
-
-### Samuele
+## 08/05/ - Samuele
 
 Sotto suggerimento della prof Di Nitto, ho consultato il sito http://quantumalgorithmzoo.org/. Tra i vari algoritmi, ho selezionato quelli che menzionano il searching. Di seguito ricopio commento le parti rilevanti.
 
@@ -97,9 +110,7 @@ https://arxiv.org/abs/quant-ph/9705041
 Vari algoritmi che risolvono con una singola quantum query problemi quali "parity problem", "coin weighing" ecc... Ancora non utile al nostro scopo.
 
 
-## 25/04/2019
-
-### Samuele
+## 25/04/2019 - Samuele
 
 Come già visto implementazioni (anche in Q#) della Grover Search su database impliciti.
 La differenza tra database implciti e reali è spiegata dal paper "Quantum search of a real unstructured database":
@@ -116,9 +127,7 @@ Sono quindi arrivato alla conclusione che: **l'utilizzo di Grover** come algorit
 
 Grover è un algoritmo che può funzionare come invertitore di funzione one-way (utile in crittografia e hashing) ma la sua utilità decade come algoritmo di ricerca in lista o in database.
 
-## 24/04/2019
-
-### Samuele
+## 24/04/2019 - Samuele
 
 **Premessa**: il nostro algoritmo di Quantum Max Flow Analysis, basa il suo motivo di esistere nel fatto che una piccola routine dell'algoritmo (la ricerca del prossimo arco da considerare tra quelli uscenti da un determinato nodo) venga fatta da un computer quantistico. Si tratta quindi, di fatti, di una ricerca in una lista (o più genericamente in una tabella/database) di uno o più elementi che soddisfino una certa condizione (in particolare che gli archi non siano stati visitati e quindi abbiano valore di peso == infinito).
 
@@ -126,16 +135,12 @@ Ho lavorato a una dimostrazione pratica della **Grover search** su database impl
 
 In particolare sono partito da un'implementazione dell'Amplitude Amplification presente nella libreria Canon del Microsoft QDK e altre funzioni suggerite da Microsoft per la risoluzione del problema specifico, ottenendo quindi una routine quantum che dati più elementi target, riesce a trovarli come output del registro quantistico con una certa probabilità. La chiamata alla routine viene fatta tramite un programma in C# che si preoccupa di calcolare le varie statistiche e di stampare in modo carino i risultati.
 
-## 23/04/2019
-
-### Samuele
+## 23/04/2019 - Samuele
 
 Ho aggiornato il codice che esegue l'**algoritmo di Edmonds-Karp per il Max Flow su computer classici**, suddividendolo in classi più organizzate e semplificando ancoradi più la funzione che andrebbe fatta in quantum, in modo da poterla sostituire con una eventuale futura routine.
 Purtroppo ancora, seppur ridotta, è complicata da farla in quantum.
 
-## 09/04/2019
-
-### Samuele
+## 09/04/2019 - Samuele
 
 Dal paper sugli algoritmi, algoritmo Max Flow, paragrafo B, pagina 40:
 “The Quantum algorithm described by Ambainis and Spalek is a “quantized” version of the Edmonds-Karp algorithm [...]”
@@ -147,7 +152,7 @@ Edmonds Karp in C#: https://gist.github.com/Eyas/7520781
 
 Ho fatto alcune modifiche al codice e l’ho predisposto all’inserimento della funzione quantistica una volta che sarà stata realizzata
 
-### Moreno
+## 09/04/2019 - Moreno
 
 Al momento il mio piano è quello di trovare un algoritmo basato sul individuare un augmenting path. Vorrei trovare un percorso dalla sorgente al pozzo del grafo (sink).
 Parto dal considerare grafi aciclici, per poi eventualmente trovare il modo di escludere i cicli dai grafi ciclici.
