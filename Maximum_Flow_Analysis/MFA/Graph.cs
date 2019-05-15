@@ -1,13 +1,43 @@
     using System.Collections.Generic;
     using System.Linq;
-
     namespace quantumGraph{
-    public static class Graph
+    public class Graph
     {
-        public static Node buildGraph(ref List<Node> nodes,ref List<Edge> edges,ref long[] schema, int rootNode)
+        public List<Node> nodes=new List<Node>();
+        public List<Edge> edges=new List<Edge>();
+
+        public Node sourceNode;
+        public Node sinkNode;
+        private void createNode(ref int elementName,bool isSourceNode,bool isSinkNode)
+        {
+            Node n=null;
+            if (isSourceNode)
+            {
+                n=new Node(true);
+                this.sourceNode=n;
+            }
+            else
+            {
+                n=new Node();
+            }
+
+            if (isSinkNode)
+            {
+                sinkNode=n;
+            }
+            n.Name=elementName.ToString();
+            elementName++;
+            this.nodes.Add(n);
+        }
+        private void createEdge(Node startingNode,Node endingNode, long capacity)
+        {
+                this.edges.Add(new Edge(startingNode,endingNode,capacity));
+        }
+        public Graph(ref long[] schema,
+         int sourceNode,int sinkNode)
         {
             int elementName=0;
-            if(schema.Length%3!=0||rootNode>=System.Math.Ceiling((double)schema.Length/3))
+            if(schema.Length%3!=0||sourceNode>=System.Math.Ceiling((double)schema.Length/3))
                 throw new System.ArgumentException("Schema is not valid. Schema should include arcs triples made as src,capacity,destination.");
             
             for (int i=0;i<schema.Length;i=i+3)
@@ -16,22 +46,20 @@
                 long capacity=schema[i+1];
                 int dest=(int)schema[i+2];
 
-                while(nodes.Count<(src+1) || nodes.Count<(dest+1))// The source or the destination node (or both) are not in nodes list
+                while(this.nodes.Count<(src+1) || this.nodes.Count<(dest+1))// The source or the destination node (or both) are not in nodes list
                 {
-                    Node n=new Node();
-                    n.Name=elementName.ToString();
-                    elementName++;
-                    nodes.Add(n);                    
+                    createNode(ref elementName,elementName==sourceNode,elementName==sinkNode);                  
                 }
 
                 //create edge
-                //System.Console.WriteLine("Adding an edge");
-                edges.Add(new Edge(nodes[src],nodes[dest],capacity));
+                createEdge(this.nodes[src],this.nodes[dest],capacity);
             }
-            if(nodes[rootNode]==null)
-                throw new System.ArgumentNullException("Graph build failed.");
-            nodes[rootNode].Layer=0;
-            return nodes[rootNode];
+            //Add some extra nodes if required
+            int nodesToBeAdded=System.Math.Max(sourceNode,sinkNode)+1 - nodes.Count();
+            for(int j=0;j<nodesToBeAdded;j++)//in case the required nodes are not linked with other nodes
+            {
+                createNode(ref elementName,elementName==sourceNode,elementName==sinkNode); 
+            }
         }
     }
     

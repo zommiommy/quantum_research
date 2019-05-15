@@ -49,21 +49,12 @@ namespace MFA
     }
     class Driver
     {
-        static void quantumEdmondsKarp()
+        static void layerGraph(Graph g)
         {
-            Utilities u= new Utilities();
-            long[] schema=u.getSchema();
-            List<Node> nodes=new List<Node>();
-            List<Edge> edges= new List<Edge>();
-            Node rootNode=Graph.buildGraph(ref nodes,ref edges,ref schema,0);//We chose to set node 0 as root
-            
-            //Graph has been built.
-            System.Console.WriteLine("Graph has been built.");
-            
             //Start layering
             Queue<Node> q=new Queue<Node>();
-            q.Enqueue(rootNode);
-            int i=1;//layer value
+            q.Enqueue(g.sourceNode);
+            int i=1;//layer value, source node layer value is set to 0 when constructed
             while(q.Count>0)
             {
                 Node element=q.Peek();
@@ -117,8 +108,19 @@ namespace MFA
                 i++;//Incrementing layer value
                 q.Dequeue();//All neighbors visited  
             }
+        }
+        static void quantumEdmondsKarp()
+        {
+            Utilities u= new Utilities();
+            long[] schema=u.getSchema();
+            Graph g=new Graph(ref schema,0,2);//We chose to set node 0 as source node, node 2 as sink node
+            
+            //Graph has been built.
+            System.Console.WriteLine("Graph has been built.");
+            layerGraph(g);
+            
 
-            foreach (var item in nodes)
+            foreach (var item in g.nodes)
             {
                 System.Console.WriteLine(item.ToString());
             }
