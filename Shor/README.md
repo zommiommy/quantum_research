@@ -6,7 +6,6 @@ Shor's algorithm, named after mathematician Peter Shor, is a quantum algorithm (
 
 Since GitHub has some issues in rendering LaTeX notation, use the following links to visualize the notebooks:
 - [Shor's algorithm](https://nbviewer.jupyter.org/github/zommiommy/quantum_research/blob/master/Shor/Shor.ipynb)
-- [Platforms' comparison](https://nbviewer.jupyter.org/github/zommiommy/quantum_research/blob/master/Shor/Quantum-Software-Platforms.ipynb)
 - [Noise](https://nbviewer.jupyter.org/github/zommiommy/quantum_research/blob/master/Shor/Noise.ipynb)
 
 ## Overview
