@@ -11,12 +11,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("MaxFlowV1")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("MFA")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
-[assembly: System.Reflection.AssemblyProductAttribute("MaxFlowV1")]
-[assembly: System.Reflection.AssemblyTitleAttribute("MaxFlowV1")]
+[assembly: System.Reflection.AssemblyProductAttribute("MFA")]
+[assembly: System.Reflection.AssemblyTitleAttribute("MFA")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Generato dalla classe WriteCodeFragment di MSBuild.
