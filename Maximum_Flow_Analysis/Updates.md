@@ -47,12 +47,12 @@ E' molto semplice implementare anche tutte le altre operazioni sopra elencate, p
 
 Chiamerò "grado" di una porta il numero log2(k).
 
-Esempi:
+*Esempi:*
 
-> Le porte CNOT e SWAP   hanno n=2, k=1, grado=0
-Le porte CNOT3 e SWAP3 hanno n=3, k=2, grado=1
-Le porte CNOT4 e SWAP4 hanno n=4, k=4, grado=2
-La porta CCNOT ha            n=3, k=1, grado=0
+- *Le porte CNOT e SWAP   hanno n=2, k=1, grado=0*
+- *Le porte CNOT3 e SWAP3 hanno n=3, k=2, grado=1*
+- *Le porte CNOT4 e SWAP4 hanno n=4, k=4, grado=2*
+- *La porta CCNOT ha            n=3, k=1, grado=0*
 
 Sì può facilmente aumentare di h il grado di una matrice G facendo kron(G,I), dove I è la matrice identità di dimensione 2^h.
 Ciò equivale, in un registro grande n+h qubits, ad applicare G ai primi n qubits e non applicare nulla ai restanti h.
