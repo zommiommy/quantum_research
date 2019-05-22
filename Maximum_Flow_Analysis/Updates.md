@@ -1,5 +1,80 @@
 # Updates log
 
+## 23/05/2019 - Samuele
+
+*Abstract: ho un'idea di procedimento per permutare le righe di una matrice tramite quantum gates.*
+
+### Octave
+
+Ho scritto i seguenti codici che implementano operazioni elementari tra matrici:
+- Pauli X, Y, Z
+- Hadamard (H)
+- CNOT
+- SWAP
+- CCNOT
+- CSWAP
+
+Ho definito delle nuove operazioni non elementari (derivate):
+- DSWAP (double swap)
+- ICNOT (inverse CNOT)
+- CNOT3 (CNOT 8x8 != CCNOT)
+- CNOT4 (CNOT 16x16 != CCCNOT)
+- SWAP3 (SWAP 8x8 != CSWAP)
+- SWAP4 (SWAP 16x16 != CCSWAP)
+- SHIFT (scambia semimatrice sup con semimatrice inf)
+- SHIFT3 (SHIFT 8x8)
+- SHIFT4 (SHIFT 16x16)
+
+Ho implementato la funzione *swap_rows_quantum()*, in grado di scambiare 2 righe arbitrarie di una matrice 4x4 (rappresentante 2bit) attraverso l'applicazione sequenziale delle porte logiche sopra definite.
+
+Non dovrebbe essere troppo difficile implementare anche *swap_rows_quantum3* e *swap_rows_quantum4*, in grado di scambiare blocchi contigui da 2 e da 4 righe.
+
+### Q\#
+
+Ho implementato le operazioni
+- DSWAP
+- SHIFT
+- ICNOT
+
+E' molto semplice implementare anche tutte le altre operazioni sopra elencate, perché direttamente derivabili dai prodotti di kronecker.
+
+### Algoritmo
+
+#### Definizioni
+
+- Sia N il numero di righe della matrice rappresentante un'operazione G. Il numero N è ovviamente 2^n, dove n è il numero di bit su cui si applica la porta G.
+- Sia *kxk* la sottomatrice minima su cui una porta G agisce, cioè il blocco quadrato più piccolo in cui tutti gli elementi della matrice G sono uguali.
+
+Chiamerò "grado" di una porta il numero log2(k).
+
+Esempi:
+
+> Le porte CNOT e SWAP   hanno n=2, k=1, grado=0
+Le porte CNOT3 e SWAP3 hanno n=3, k=2, grado=1
+Le porte CNOT4 e SWAP4 hanno n=4, k=4, grado=2
+La porta CCNOT ha            n=3, k=1, grado=0
+
+Sì può facilmente aumentare di h il grado di una matrice G facendo kron(G,I), dove I è la matrice identità di dimensione 2^h.
+Ciò equivale, in un registro grande n+h qubits, ad applicare G ai primi n qubits e non applicare nulla ai restanti h.
+
+#### Ragionamento
+
+Ho pensato ad un algoritmo per scambiare in modo arbitrario righe di una matrice 8x8 (3 bit).
+
+Usando CNOT3, SWAP3 e ICNOT3 posso scambiare macroblocchi di matrice (blocchi di 2 righe contigue). Posso operare poi sui due blocchi (ognuno 2x8) della semimatrice inferiore usando le porte CCNOT, CSWAP e CICNOT, con granularità delle singole righe. Da notare che la CSWAP mi permette di scambiare due righe di due blocchi (2x8) diversi.
+
+Lo stesso algoritmo si può utilizzare per matrici 16x16, aumentando di uno il grado di tutte le porte precedenti e aggiungendo alla collezione le porte CCCNOT, CCSWAP, CCICNOT.
+
+#### Questioni irrisolte
+
+Il ragionamento che sta alla base dell'algoritmo sembra funzionare, tuttavia la costruzione della porta CICNOT non è banale ma probabilmente fattibile, mentre la costruzione delle porte CCCNOT, CCSWAP, CCICNOT (ecc...) è probabilmente esponenzialmente più complessa ogni volta che si aggiunge una "C".
+
+Una pagina di StackExchange sull'implementazione di CNOT e CCNOT (detta Toffoli Gate), e in generale di una qualsiasi altra porta "controlled": https://quantumcomputing.stackexchange.com/questions/3943/how-do-you-implement-the-toffoli-gate-using-only-single-qubit-and-cnot-gates
+
+Ritengo comunque al di fuori degli scopi della mia ricerca trovare un'implementazione in porte elementari per la porta CICNOT.
+
+Inoltre, sebbene congetturo di poter ottenere tutte le permutazioni possibili utilizzando solo il set di operazioni mostrate, non ne ho una dimostrazione, né un algoritmo che possa calcolare qual è la sequenza di operazioni da applicare per ottenere una permutazione arbitraria.
+
 ## 15/05/2019 - Samuele
 
 Come anticipato nell'update precedente, il paper
