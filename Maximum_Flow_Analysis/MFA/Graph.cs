@@ -1,11 +1,10 @@
     using System.Collections.Generic;
-    using System.Linq;
-
+    
+using System.Xml;
     using System;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 using quantumGraph;
-
 using System.Text;
 using System.Threading.Tasks;
 using static System.Math;
@@ -46,6 +45,105 @@ using static System.Math;
         {
                 this.edges.Add(new Edge(startingNode,endingNode,capacity));
         }
+        public void printSchemaAsGEXF(string path="outputGraph.gexf")
+        {
+            XmlWriterSettings settings = new XmlWriterSettings();  
+            settings.Async = true;
+            settings.Indent = true;
+            settings.IndentChars = "\t";
+            using (var gexf = new System.IO.StreamWriter(path))
+            using (XmlWriter writer = XmlWriter.Create(gexf, settings))
+            {
+                writer.WriteStartDocument(true);//<?xml version="1.0" encoding="UTF-8"?>
+                {
+                    writer.WriteStartElement("gexf","http://www.gexf.net/1.2draft");//<gexf xmlns="http://www.gexf.net/1.2draft" version="1.2">
+                    writer.WriteAttributeString("xmlns","http://www.gexf.net/1.2draft");
+                    writer.WriteAttributeString("version","1.2");
+                    {
+                        writer.WriteStartElement("meta");
+                        writer.WriteAttributeString("lastmodifieddate",DateTime.Now.ToString("yyyy-MM-dd"));//<meta lastmodifieddate="2009-03-20">
+                        {
+                            {
+                            writer.WriteStartElement("creator");    //<creator>Gexf.net</creator>
+                            writer.WriteString(Environment.UserName);
+                            writer.WriteEndElement();
+                            }
+                            {
+                                writer.WriteStartElement("description");    //<description>A hello world! file</description>
+                                writer.WriteString("Quantum max flow graph");
+                                writer.WriteEndElement();
+                            }
+
+                        }
+                        writer.WriteEndElement();
+                    writer.WriteStartElement("graph");//<graph mode="static" defaultedgetype="directed">
+                    writer.WriteAttributeString("mode","static");
+                    writer.WriteAttributeString("defaultedgetype","directed");
+                    {
+                        writer.WriteStartElement("nodes");
+                        {
+                            foreach (var node in nodes) //<node id="0" label="Hello" />
+                            {
+                                 writer.WriteStartElement("node");
+                                 writer.WriteAttributeString("id",node.Index.ToString());
+                                 writer.WriteAttributeString("label",node.Index.ToString());
+                                 writer.WriteEndElement();
+                            }
+                        }
+                        writer.WriteEndElement();
+
+                        writer.WriteStartElement("edges");
+                        {
+                            long i=0;
+                            foreach (var edge in edges)
+                            {
+                                writer.WriteStartElement("edge");// <edge id="0" source="0" target="1" />
+                                writer.WriteAttributeString("id",i.ToString());
+                                writer.WriteAttributeString("source",edge.Source.Index.ToString());
+                                writer.WriteAttributeString("target",edge.Destination.Index.ToString());
+                                writer.WriteAttributeString("label",edge.Stream.ToString()+"/"+edge.Capacity.ToString());
+                                writer.WriteAttributeString("weight",edge.Stream.ToString());
+                                writer.WriteEndElement();
+                                ++i;
+                            }
+                        }
+                        writer.WriteEndElement();
+                    }
+                    writer.WriteEndElement();
+                    }
+                writer.WriteEndElement();//gexf
+                }
+            }
+        }
+
+        public void printSchemaAsDOT(string path="outputGraph.dot")
+        {
+            using (var dot = new System.IO.StreamWriter(path))
+            {
+                dot.WriteLine("digraph G");
+                dot.WriteLine("{");
+                foreach (var node in nodes) 
+                {
+                    dot.WriteLine(node.Index.ToString());
+                }
+                StringBuilder s=new StringBuilder();
+                foreach (var edge in edges)
+                {
+                    s.Append(edge.Source.Index);
+                    s.Append(" -> ");
+                    s.Append(edge.Destination.Index);
+                    s.Append(" [label=\" ");
+                    s.Append(edge.Stream.ToString());
+                    s.Append("/");
+                    s.Append(edge.Capacity.ToString());
+                    s.Append("\"]");
+                    dot.WriteLine(s.ToString());
+                    s.Clear();
+                }
+                dot.WriteLine("}");
+
+            }
+        }
         public Graph(ref long[] schema,
          int sourceNode,int sinkNode)
         {
@@ -68,7 +166,7 @@ using static System.Math;
                 createEdge(this.nodes[src],this.nodes[dest],capacity);
             }
             //Add some extra nodes if required
-            int nodesToBeAdded=System.Math.Max(sourceNode,sinkNode)+1 - nodes.Count();
+            int nodesToBeAdded=System.Math.Max(sourceNode,sinkNode)+1 - nodes.Count;
             for(int j=0;j<nodesToBeAdded;j++)//in case the required nodes are not linked with other nodes
             {
                 createNode(ref elementIndex,elementIndex==sourceNode,elementIndex==sinkNode); 

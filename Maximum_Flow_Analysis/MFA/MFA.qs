@@ -516,7 +516,7 @@ namespace MFA {
             // Measure the marked qubit. On success, this should be One.
             let resultSuccess = MResetZ(markedQubit);
 
-            // Measure the state of the database register post-selected on
+            // Measure the state of the finddatabase register post-selected on
             // the state of the marked qubit and return the measurement results
             // of the algorithm.
             return (resultSuccess, ResultArrayAsInt(ForEach(MResetZ, databaseRegister)));

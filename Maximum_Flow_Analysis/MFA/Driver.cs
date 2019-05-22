@@ -28,28 +28,26 @@ namespace MFA
             };
             return arr;
         }
-        public int howManyRuns()// all functions here must be static. Otherwise create a new class and instantiate it in the static method
+        public long[] getSchemaFromFile(string path)
         {
-            System.Console.WriteLine("Write how many runs you want the quantum program to do (default=1)");
-            String input=Console.ReadLine();
-            int nIteration=1000;
-            if(Int32.TryParse(input,out nIteration))
-                return nIteration;
-            else
-                return 1;
+            List<long> arr;
+             using (System.IO.StreamReader streamReader = new System.IO.StreamReader(path))
+            {
+                using (var csv = new CsvHelper.CsvReader(streamReader))
+                {    csv.Configuration.HasHeaderRecord = false;
+                    var arr2 = csv.GetRecords<long>();
+                    arr=new List<long>(arr2);
+                }
+            }
+            return arr.ToArray();
         }
-
         
     }
     class Driver
     {
         
-        static void quantumEdmondsKarp()
+        static void quantumEdmondsKarp(Graph g)
         {
-            Utilities u= new Utilities();
-            long[] schema=u.getSchema();
-            Graph g=new Graph(ref schema,0,2);//We chose to set node 0 as source node, node 2 as sink node
-            
             //Graph has been built
             System.Console.WriteLine("Graph has been built.");
             long maxflow=0;
@@ -77,13 +75,24 @@ namespace MFA
             {
                 System.Console.WriteLine(item.ToString());
             }
+            g.printSchemaAsDOT();
+            g.printSchemaAsGEXF();
+
         }
         static void Main(string[] args)
         {
             string answ="1";
             while (answ=="1")
             {
-            quantumEdmondsKarp();
+            Utilities u= new Utilities();
+            long[] schema;
+            if(args.Length==0)
+                schema=u.getSchema();
+            else
+                schema=u.getSchemaFromFile(args[0]);
+
+            Graph g=new Graph(ref schema,0,2);//We chose to set node 0 as source node, node 2 as sink node
+            quantumEdmondsKarp(g);
             System.Console.WriteLine("Write 1 to restart");
             answ=Console.ReadLine();
             }

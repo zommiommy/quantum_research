@@ -1,13 +1,14 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "be9cad97c6c559e4c1f864fc348d4cfa1b9f9258"
+    "signature": "9bffeae6e25c8061cfc40a887091ab513f3005e4"
   },
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v2.0": {
       "MFA/1.0.0": {
         "dependencies": {
+          "CsvHelper": "12.0.1",
           "Microsoft.Quantum.Development.Kit": "0.6.1905.301",
           "Microsoft.Quantum.Standard": "0.6.1905.301"
         },
@@ -15,6 +16,19 @@
           "MFA.dll": {}
         }
       },
+      "CsvHelper/12.0.1": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.4.0",
+          "System.Reflection.TypeExtensions": "4.4.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/CsvHelper.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.0.0"
+          }
+        }
+      },
+      "Microsoft.CSharp/4.4.0": {},
       "Microsoft.Quantum.Development.Kit/0.6.1905.301": {
         "dependencies": {
           "Microsoft.Quantum.Simulators": "0.6.1905.301"
@@ -87,7 +101,8 @@
             "fileVersion": "11.0.2.21924"
           }
         }
-      }
+      },
+      "System.Reflection.TypeExtensions/4.4.0": {}
     }
   },
   "libraries": {
@@ -95,6 +110,20 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "CsvHelper/12.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0WCjFtnquxlwGcim+2r4AZa2na4deYT2jw+q/Yisr7WwOKSnCMwgPk/V2dCi+wgNzWtk5rukZC8WTLXlIe7E3Q==",
+      "path": "csvhelper/12.0.1",
+      "hashPath": "csvhelper.12.0.1.nupkg.sha512"
+    },
+    "Microsoft.CSharp/4.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vvVR/B08YVghQ4jHEloxqw2ZWzEGE1AOA5E0DioUM3ujbXz6FD3AfB/0Jl2ohJPd0nXYGwmPe1En6HTsSriq1A==",
+      "path": "microsoft.csharp/4.4.0",
+      "hashPath": "microsoft.csharp.4.4.0.nupkg.sha512"
     },
     "Microsoft.Quantum.Development.Kit/0.6.1905.301": {
       "type": "package",
@@ -123,6 +152,13 @@
       "sha512": "sha512-IvJe1pj7JHEsP8B8J8DwlMEx8UInrs/x+9oVY+oCD13jpLu4JbJU2WCIsMRn5C4yW9+DgkaO8uiVE5VHKjpmdQ==",
       "path": "newtonsoft.json/11.0.2",
       "hashPath": "newtonsoft.json.11.0.2.nupkg.sha512"
+    },
+    "System.Reflection.TypeExtensions/4.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dkmh/ySlwnXJp/1qYP9uyKkCK1CXR/REFzl7abHcArxBcV91mY2CgrrzSRA5Z/X4MevJWwXsklGRdR3A7K9zbg==",
+      "path": "system.reflection.typeextensions/4.4.0",
+      "hashPath": "system.reflection.typeextensions.4.4.0.nupkg.sha512"
     }
   }
 }
