@@ -43,7 +43,7 @@ E' molto semplice implementare anche tutte le altre operazioni sopra elencate, p
 #### Definizioni
 
 - Sia N il numero di righe della matrice rappresentante un'operazione G. Il numero N è ovviamente 2^n, dove n è il numero di bit su cui si applica la porta G.
-- Sia *kxk* la sottomatrice minima su cui una porta G agisce, cioè il blocco quadrato più piccolo in cui tutti gli elementi della matrice G sono uguali.
+- Sia *kxk* la sottomatrice minima su cui una porta G agisce, cioè il blocco più piccolo (e non espandibile) in cui tutti gli elementi formano una matrice identità I_k.
 
 Chiamerò "grado" di una porta il numero log2(k).
 

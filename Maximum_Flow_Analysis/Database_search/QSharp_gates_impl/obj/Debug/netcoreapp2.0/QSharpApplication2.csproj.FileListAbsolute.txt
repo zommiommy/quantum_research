@@ -1,0 +1,11 @@
+C:\Users\Samuele\source\repos\QSharpApplication2\QSharpApplication2\bin\Debug\netcoreapp2.0\QSharpApplication2.deps.json
+C:\Users\Samuele\source\repos\QSharpApplication2\QSharpApplication2\bin\Debug\netcoreapp2.0\QSharpApplication2.runtimeconfig.json
+C:\Users\Samuele\source\repos\QSharpApplication2\QSharpApplication2\bin\Debug\netcoreapp2.0\QSharpApplication2.runtimeconfig.dev.json
+C:\Users\Samuele\source\repos\QSharpApplication2\QSharpApplication2\bin\Debug\netcoreapp2.0\QSharpApplication2.dll
+C:\Users\Samuele\source\repos\QSharpApplication2\QSharpApplication2\bin\Debug\netcoreapp2.0\QSharpApplication2.pdb
+C:\Users\Samuele\source\repos\QSharpApplication2\QSharpApplication2\obj\Debug\netcoreapp2.0\QSharpApplication2.csprojAssemblyReference.cache
+C:\Users\Samuele\source\repos\QSharpApplication2\QSharpApplication2\obj\Debug\netcoreapp2.0\QSharpApplication2.csproj.CoreCompileInputs.cache
+C:\Users\Samuele\source\repos\QSharpApplication2\QSharpApplication2\obj\Debug\netcoreapp2.0\QSharpApplication2.AssemblyInfoInputs.cache
+C:\Users\Samuele\source\repos\QSharpApplication2\QSharpApplication2\obj\Debug\netcoreapp2.0\QSharpApplication2.AssemblyInfo.cs
+C:\Users\Samuele\source\repos\QSharpApplication2\QSharpApplication2\obj\Debug\netcoreapp2.0\QSharpApplication2.dll
+C:\Users\Samuele\source\repos\QSharpApplication2\QSharpApplication2\obj\Debug\netcoreapp2.0\QSharpApplication2.pdb
