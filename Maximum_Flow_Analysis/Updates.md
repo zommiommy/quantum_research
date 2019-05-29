@@ -1,5 +1,18 @@
 # Updates log
 
+## 29/05/2019 - Samuele
+
+Ho provato a capire come si implementa la direct sum tra due matrici. L'unica soluzione che ho trovato è un caso particolare che usa le controlled gates e crea un blocco H alla fine della matrice (angolo in basso a destra), mentre a me serve in alto a sinistra, ma non è sufficiente invertire i qubit.
+
+Per farsi un'idea:
+- https://pdfs.semanticscholar.org/e3d6/67105c20beb7e272f81de95d8823193decef.pdf
+- https://qiskit.org/documentation/terra/summary_of_quantum_operations.html
+
+L'implementazione della direct sum è fondamentale per soddisfare il requisito nella Figura 2 del paper sull'implementazione della rubrica telefonica
+- https://apps.dtic.mil/dtic/tr/fulltext/u2/a559750.pdf
+
+Dal momento che non sono riuscito a trovare altro materiale, credo di fermare qui la mia ricerca.
+
 ## 23/05/2019 - Samuele
 
 *Abstract: ho un'idea di procedimento per permutare le righe di una matrice tramite quantum gates.*
@@ -69,7 +82,9 @@ Lo stesso algoritmo si può utilizzare per matrici 16x16, aumentando di uno il g
 
 Il ragionamento che sta alla base dell'algoritmo sembra funzionare, tuttavia la costruzione della porta CICNOT non è banale ma probabilmente fattibile, mentre la costruzione delle porte CCCNOT, CCSWAP, CCICNOT (ecc...) è probabilmente esponenzialmente più complessa ogni volta che si aggiunge una "C".
 
-Una pagina di StackExchange sull'implementazione di CNOT e CCNOT (detta Toffoli Gate), e in generale di una qualsiasi altra porta "controlled": https://quantumcomputing.stackexchange.com/questions/3943/how-do-you-implement-the-toffoli-gate-using-only-single-qubit-and-cnot-gates
+Una pagina di StackExchange sull'implementazione di CNOT e CCNOT (detta Toffoli Gate), e in generale di una qualsiasi altra porta "controlled":
+
+https://quantumcomputing.stackexchange.com/questions/3943/how-do-you-implement-the-toffoli-gate-using-only-single-qubit-and-cnot-gates
 
 Ritengo comunque al di fuori degli scopi della mia ricerca trovare un'implementazione in porte elementari per la porta CICNOT.
 
@@ -78,8 +93,11 @@ Inoltre, sebbene congetturo di poter ottenere tutte le permutazioni possibili ut
 ## 15/05/2019 - Samuele
 
 Come anticipato nell'update precedente, il paper
+
 https://apps.dtic.mil/dtic/tr/fulltext/u2/a559750.pdf
+
 sembra essere quello che cercavamo.
+
 Esso trova un modo per codificare gli elementi presenti in un database, come stati entangled di un registro. Quindi query casuali a questo registro restituirebbero solo i valori entangled.
 
 Il registro-database viene creato moltiplicandolo per una matrice particolare in cui le righe sono scambiate in modo da codificare nella loro nuova posizione i dati.
@@ -90,13 +108,14 @@ Quest'ultima matrice non può essere ottenuta come prodotto di operatori semplic
 Vorrei provare ad implementare in Q# un esempio di semplice database e di ricerca in esso. Quindi un'istanza.
 
 Tommaso mi ha fornito un paio di paper da leggere per l'implementazione di una matrice tramite porte:
-http://home.lu.lv/~sd20008/papers/essays/Solovay-Kitaev.pdf
-https://arxiv.org/pdf/quant-ph/0505030.pdf
+- http://home.lu.lv/~sd20008/papers/essays/Solovay-Kitaev.pdf
+- https://arxiv.org/pdf/quant-ph/0505030.pdf
 
 
 ## 12/05/2019 - Samuele
 
 Un altro paper che skippa il problema con eleganza:
+
 https://arxiv.org/pdf/quant-ph/0301079.pdf
 
 > Suppose we have an unstructured database with N elements. Without loss of generality, suppose that the elements are numbers from 0 to N − 1.
@@ -105,12 +124,15 @@ No, non è vero, non c'è informazione in un insieme con tutti i possibili valor
 Chiaramente la ricerca di un elemento nel primo caso fallirà sempre. Nel secondo caso la ricerca ha senso solo se viene restituita la posizione dell'elemento, cosa che non succede qui, in quanto l'algoritmo è progettato per trovare il numero che soddisfa una funzione, non la sua posizione in una lista.
 
 Ciliegina sulla torta, si può trovare la stessa omissione di spiegazioni nel paper originale scritto dal sig Grover (che per inciso ho letto tutto)
+
 https://arxiv.org/pdf/quant-ph/9605043.pdf
+
 dopo aver promesso applicazioni dell'algoritmo come cercare un numero nella rubrica telefonica tramite il nome, anche questo paper non fa altro che limitarsi a cercare tra i numeri da 0 a 2^n-1
 
 --
 
 **No va beh, FERMI TUTTI, forse ho trovato quello che cercavo**
+
 https://apps.dtic.mil/dtic/tr/fulltext/u2/a559750.pdf
 
 
