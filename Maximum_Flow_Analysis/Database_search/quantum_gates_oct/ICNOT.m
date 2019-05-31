@@ -1,5 +1,5 @@
 function out = ICNOT
-  #display("ICNOT");
+  # Inverted CNOT
   out = DSWAP * CNOT;
   #{
   out = [

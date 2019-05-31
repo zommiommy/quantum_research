@@ -1,17 +1,13 @@
-function out = swap_rows_quantum(in, row1, row2, nondestructive)
-  
-  if (rows(in) != 4) || (columns(in) != 4)
-    display("Matrix is not 4x4");
-    return;
-  endif
+function out = switch_g(row1, row2)
   
   if (row1>4) || (row1<1) || (row2>4) || (row2<1)
     display("Row parameters must be between 1 and 4");
     return;
   endif
   
+  out = eye(4);
+  
   if (row1 == row2)
-    out = in;
     return;
   endif
   
@@ -19,36 +15,26 @@ function out = swap_rows_quantum(in, row1, row2, nondestructive)
   row_max = max(row1,row2);
   
   if (row_min == 1) && (row_max == 2)
-    out = in * ICNOT;
+    out = ICNOT;
   endif
   
   if (row_min == 1) && (row_max == 3)
-    out = in * SWAP * ICNOT;
-    if nondestructive
-      out = out * SWAP;
-    endif
+    out = SWAP * ICNOT * SWAP;
   endif
   
   if (row_min == 1) && (row_max == 4)
-    out = in * CNOT * SWAP * ICNOT;
-    if nondestructive
-      out = out * SWAP * CNOT;
-    endif
+    out = CNOT * SWAP * ICNOT * SWAP * CNOT;
   endif
   
   if (row_min == 2) && (row_max == 3)
-    out = in * SWAP;
+    out = SWAP;
   endif
   
   if (row_min == 2) && (row_max == 4)
-    out = in * CNOT * SWAP;
-    if nondestructive
-      out = out * CNOT;
-    endif
+    out = CNOT * SWAP * CNOT;
   endif
   
   if (row_min == 3) && (row_max == 4)
-    out = in * CNOT;
+    out = CNOT;
   endif
-  
 endfunction

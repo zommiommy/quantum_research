@@ -1,6 +1,5 @@
 function out = DSWAP
   # Double swap
-  display("DSWAP");
   #{
   out = [
   0, 1, 0, 0;

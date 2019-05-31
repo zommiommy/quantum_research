@@ -1,6 +1,4 @@
 function out = H
-  display("H");
-  
   out = [
   1,  1; 
   1,  -1

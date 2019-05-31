@@ -1,5 +1,5 @@
 function out = SHIFT
-  display("SHIFT");
+  # Changes top half matrix with bottom half
   #{
   out = [
   0, 1, 0, 0;
