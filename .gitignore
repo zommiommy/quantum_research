@@ -130,3 +130,11 @@ dmypy.json
 /Minimum_Spanning_Tree/*.out
 /Minimum_Spanning_Tree/*.blg
 /Minimum_Spanning_Tree/*.bbl
+
+/Maximum_Flow_Analysis/Report/*.log
+/Maximum_Flow_Analysis/Report/*.aux
+/Maximum_Flow_Analysis/Report/*.synctex.gz
+/Maximum_Flow_Analysis/Report/*.toc
+/Maximum_Flow_Analysis/Report/*.out
+/Maximum_Flow_Analysis/Report/*.blg
+/Maximum_Flow_Analysis/Report/*.bbl

@@ -158,7 +158,7 @@ Ho anche letto materiale su **Random Walk** e **Quantum Walk** su grafi:
 Nonostante i punti di contatto con Grover siano molteplici, nessuno di questi mi è sembrato di una qualche utilità per il nostro algoritmo di Max Flow Analysis.
 
 
-## 08/05/ - Samuele
+## 08/05/2019 - Samuele
 
 Sotto suggerimento della prof Di Nitto, ho consultato il sito http://quantumalgorithmzoo.org/. Tra i vari algoritmi, ho selezionato quelli che menzionano il searching. Di seguito ricopio commento le parti rilevanti.
 

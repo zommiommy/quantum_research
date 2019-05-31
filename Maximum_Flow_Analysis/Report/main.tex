@@ -1,0 +1,52 @@
+\documentclass[12pt,a4paper]{report}
+
+%---------- packages imports --------
+
+\usepackage[english]{babel}		% makes english syllabization for breaking words between lines
+\usepackage{xspace}				% adds a space between words when used a custom command
+\usepackage{indentfirst}		% indents the first line of the first paragraph of a section
+%\usepackage{enumitem}			% to create custom enumerations
+%\usepackage{clipboard}			% to copy-paste a certain piece of text in several parts of the doc
+\usepackage[hidelinks]{hyperref}	% to have clickable URLs, hidelinks is for removing visible boxes in links
+\usepackage{tabularx}			% to create tables that do automatic line break of the text inside
+\usepackage{graphicx}			% for including images
+	\graphicspath{{./images/}}
+	
+%\usepackage{subcaption}			% multiple figures
+%\usepackage{scrextend}			% for text indentation	
+
+%\usepackage[dvipsnames]{xcolor}	% color in text
+\usepackage{listings}			% code snippets
+%\usepackage{alloy-style}		% alloy highlighting
+
+%\usepackage[export]{adjustbox}	% add border to figures
+
+%----------- doc info ---------------
+
+\title{
+	\includegraphics[width=0.2\textwidth]{polimi_logo}\\
+	\vspace{30pt}
+	Report on Quantum Computing exploratory research
+}
+\author{
+	Moreno Giussani, Samuele Pino\\\\
+	{\normalsize Project for Software Engineering 2, Politecnico di Milano}
+}
+
+\begin{document}
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	\include{intro}
+	\include{qdk}
+	\include{mfa}
+	\include{grover}
+	\include{other}
+	\include{conclusions}
+	
+	\bibliography{biblio}
+	\bibliographystyle{abbrv}
+	
+\end{document}

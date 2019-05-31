@@ -1,0 +1,39 @@
+%!TEX root = main.tex
+
+\chapter{Insights on Grover Search Algorithm and its implementation}
+\label{chp:grover}
+
+\section{Introduction}
+
+\subsection{Premise}
+
+Our Quantum Max Flow Analysis algorithm described in \ref{chp:mfa}, bases its reason to exist in the fact that a small routine of the algorithm (the search for the next arc to be considered among those coming out of a given node) is done by a quantum computer. It is in fact nothing more than a search in a list (or more generally in a database) of one or more elements that satisfy a certain condition (the arcs that have not been visited yet, i.e. having infinite weight value).
+
+\subsection{The problem}
+
+As shown in Section \ref{sec:QSgrover}, the implementation of Grover Search is done on a virtual database.
+
+Alike real databases, virtual (or implicit) databases are not really a databases, they can be implemented as quantum registers initialized so that when measured they collapse to one of all the possible combinations of bits of the register itself, being these combinations all equally probable.
+
+Actually the implementation described in Section \ref{sec:QSgrover} complies with most of the available literature \cite{Grover:1996:FQM:237814.237866, lavor2003grover}. It is evident that currently most of the works someway related to Grover Search Algorithm are devoted to quantum search on virtual databases. \cite{Broda2016}
+
+\bigskip
+
+Apparently some people agree that Grover is limited to implicit databases, therefore not convenient or even not useful at all for real databases. \cite{1425397, Zalka2000, stackexchange1, stackexchange2, stackexchange3}
+
+On the other hand, someone had a deeper study on the algorithm, understanding the mechanism and implementing (at least mathematically) the encoding and the search on a real database. \cite{alsing2011grover}
+
+\bigskip
+
+We will build on this last paper to answer the questions:
+\begin{itemize}
+	\item Is it correct to use Grover Search for a real database search?
+	\item Is it feasible? (i.e. could an algorithm be devised to do so?)
+\end{itemize}
+
+
+%TODO
+
+\section{Feasibility analysis}
+
+%TODO
