@@ -2,7 +2,7 @@
 % If the image is too large to fit on this documentclass use
 \documentclass[draft]{beamer}
 % img_width = 16, img_depth = 19
-\usepackage[size=custom,height=40,width=40,scale=0.7]{beamerposter}
+\usepackage[size=custom,height=24,width=31,scale=0.7]{beamerposter}
 % instead and customize the height and width (in cm) to fit.
 % Large images may run out of memory quickly.
 % To fix this use the LuaLaTeX compiler, which dynamically
@@ -22,14 +22,14 @@
 	 	\lstick{\ket{J_1}} & \qw & \qw & \qw & \qw & \ctrl{4} & \qw & \qw & \qw & \ctrl{5} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \quad \ket{J_1}\\
 	 	\lstick{\ket{J_2}} & \qw & \qw & \qw & \qw & \qw & \ctrl{5} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \quad \ket{J_2}\\
 	 	\lstick{\ket{0}} & \targ & \qw & \qw & \targ & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \quad \qquad \qquad \ket{X_0 == J_0}\\
-	 	\lstick{\ket{0}} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \targ & \qw & \ctrl{2} & \ctrl{1} & \qw & \ctrl{1} & \gate{X} & \ctrl{4} & \qw & \qw & \qw & \qw & \qquad \qquad \ket{X_0 > J_0}\\
-	 	\lstick{\ket{0}} & \qw & \targ & \qw & \qw & \targ & \qw & \qw & \qw & \qw & \qw & \ctrl{4} & \qw & \ctrl{4} & \qw & \qw & \qw & \qw & \qw & \qw & \quad \qquad \qquad \ket{X_1 == J_1}\\
-	 	\lstick{\ket{0}} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \targ & \ctrl{2} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw &  \qquad \qquad \ket{X_1 > J_1}\\
-	 	\lstick{\ket{0}} & \qw & \qw & \qw & \qw & \qw & \targ & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qquad \qquad \ket{X_2 > J_2}\\
-	 	\lstick{\ket{0}} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \targ & \qw & \gate{X} & \qw & \qw & \ctrl{3} & \qw & \qw & \qw & \qw & \quad \qquad \qquad \qquad \qquad \qquad \ket{(X_0 == J_0) \wedge (X_1 > J_1)}\\
-	 	\lstick{\ket{0}} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \targ & \qw & \targ & \qw & \qw & \qw & \qw & \qw & \qw & \qquad \qquad \qquad  \qquad \qquad \qquad\ket{(X_0 == J_0) \wedge (X_1 == J_1)}\\
-	 	\lstick{\ket{0}} & \qw & \qw & \gate{X} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \ctrl{1} & \qw & \qw & \quad \qquad  \qquad \qquad \qquad \qquad \qquad \qquad \qquad\ket{(X_0 == J_0) \wedge (X_1 == J_1) \wedge(X_2 > J_2)}\\
-	 	\lstick{\ket{0}} & \qw & \qw & \gate{X} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \targ & \gate{X} & \ctrl{1} & \qw & \qw & \qquad  \qquad \qquad  \qquad \qquad \qquad \qquad \qquad \qquad\ket{(X_0 > J_0) \vee ((X_0 == J_0) \wedge (X_1 == J_1)) }\\
+	 	\lstick{\ket{0}} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \targ & \qw & \ctrl{2} & \ctrl{1} & \qw & \gate{X} & \ctrl{4} & \qw & \qw & \qw & \qw & \qw & \qquad \qquad \ket{X_0 > J_0}\\
+	 	\lstick{\ket{0}} & \qw & \targ & \qw & \qw & \targ & \qw & \qw & \qw & \qw & \qw & \ctrl{4} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \quad \qquad \qquad \ket{X_1 == J_1}\\
+	 	\lstick{\ket{0}} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \targ & \ctrl{2} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw  &  \qquad \qquad \ket{X_1 > J_1}\\
+	 	\lstick{\ket{0}} & \qw & \qw & \qw & \qw & \qw & \targ & \qw & \qw & \qw & \qw & \qw & \qw & \ctrl{3} & \qw & \qw & \qw & \qw & \qw & \qw & \qquad \qquad \ket{X_2 > J_2}\\
+	 	\lstick{\ket{0}} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \targ & \qw & \gate{X} & \qw & \ctrl{3} & \qw & \qw & \qw & \qw & \qw & \quad \qquad \qquad \qquad \qquad \qquad \ket{(X_0 == J_0) \wedge (X_1 > J_1)}\\
+	 	\lstick{\ket{0}} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \targ & \qw & \ctrl{-2} & \qw & \qw & \qw & \qw & \qw & \qw & \qquad \qquad \qquad  \qquad \qquad \qquad\ket{(X_0 == J_0) \wedge (X_1 == J_1)}\\
+	 	\lstick{\ket{0}} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \targ & \qw & \gate{X} & \qw & \ctrl{1} & \qw & \qw & \quad \qquad  \qquad \qquad \qquad \qquad \qquad \qquad \qquad\ket{(X_0 == J_0) \wedge (X_1 == J_1) \wedge(X_2 > J_2)}\\
+	 	\lstick{\ket{0}} & \qw & \qw & \gate{X} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \targ & \qw & \gate{X} & \ctrl{1} & \qw & \qw & \qquad  \qquad \qquad  \qquad \qquad \qquad \qquad \qquad \qquad\ket{(X_0 > J_0) \vee ((X_0 == J_0) \wedge (X_1 == J_1)) }\\
 	 	\lstick{\ket{0}} & \qw & \qw & \gate{X} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \targ & \qw & \qw & \qquad  \qquad  \ket{X > J)}\\
 	 }
 \end{equation*}
