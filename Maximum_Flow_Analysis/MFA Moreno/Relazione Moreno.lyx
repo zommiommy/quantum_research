@@ -1,0 +1,668 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{tikz}
+\usepackage{braket}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Quantum Max Flow Analysis
+\end_layout
+
+\begin_layout Author
+Moreno Giussani
+\end_layout
+
+\begin_layout Abstract
+This document will describe the analysis I have performed in the last months
+ about the quantum implementation of the Max Flow algorithm.
+ The max flow problem involves finding a feasible flow through a single-source,
+ single-sink flow network that is maximum.
+ I have been working for finding a practical solution to this problem using
+ a quantum algorithm which could be at least as efficient as a classical
+ one, without succeding in it.
+\end_layout
+
+\begin_layout Part
+Introduction
+\end_layout
+
+\begin_layout Standard
+Before considering the algorithm, I have tried to understand most of the
+ concepts which lies behind a quantum algorithm.
+\end_layout
+
+\begin_layout Standard
+For what regards quantum computing, the standard model of computation is
+ the quantum circuit.
+ A quantum circuit is a scheme composed of some elementary blocks, which
+ are qubits and quantum logic gates.
+ Rows of this scheme represents qubits, while in columns are inserted quantum
+ logic gates.
+\end_layout
+
+\begin_layout Section
+Qubit
+\end_layout
+
+\begin_layout Standard
+Qubits are the quantum equivalent of bits.
+ A single qubit 
+\begin_inset Formula $\Ket{Q_{0}}$
+\end_inset
+
+is usually described by a 2-dimensional column vector which is a particular
+ linear combination of its orthonormal bases 
+\begin_inset Formula $\Ket{0}=\left[\begin{array}{c}
+1\\
+0
+\end{array}\right]$
+\end_inset
+
+ and 
+\begin_inset Formula $\Ket{1}=\left[\begin{array}{c}
+0\\
+1
+\end{array}\right]$
+\end_inset
+
+.
+ When the qubit is measured (an equivalent operation of reading a bit value
+ in classical computing), its value collapses to either 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\Ket{0}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ or 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\Ket{1}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ (their orthonormal bases).
+\end_layout
+
+\begin_layout Standard
+Suppose 
+\begin_inset Formula $\Ket{Q_{0}}$
+\end_inset
+
+is defined as 
+\begin_inset Formula 
+\[
+\Ket{Q_{0}}=\alpha\Ket{0}+\beta\Ket{1}\;\alpha\in\mathbb{C},\beta\in\mathbb{C}
+\]
+
+\end_inset
+
+Then 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta$
+\end_inset
+
+ must respect the rule 
+\begin_inset Formula $|\alpha|^{2}+|\beta|^{2}=1$
+\end_inset
+
+ , because 
+\begin_inset Formula $|\alpha|^{2}$
+\end_inset
+
+ represents the probability that a measurement outputs 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\Ket{0}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ and 
+\begin_inset Formula $|\beta|^{2}$
+\end_inset
+
+ represents the probability that a measurement outputs 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\Ket{1}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+.
+ During the computation the qubit can assume an 
+\begin_inset Quotes eld
+\end_inset
+
+overlapped
+\begin_inset Quotes erd
+\end_inset
+
+ state (both state 0 and state 1), but when measured, its expressivity power
+ reduces to a classical bit.
+ When both 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta$
+\end_inset
+
+ are different from 0 ,
+\begin_inset Formula $Q_{0}$
+\end_inset
+
+ is said to be in superposition.
+\end_layout
+
+\begin_layout Standard
+Qubits have also another interesting property: they cannot be copied.
+ There is no way to create an identical copy of an arbitrary unknown quantum
+ state (
+\shape italic
+no cloning theorem
+\shape default
+).
+\end_layout
+
+\begin_layout Standard
+Now, things get a bit tricky when considering a N-qubit quantum computer.
+ If there are two or more qubits, their representation is made as the tensor
+ product of all of the qbits.
+ Suppose to have a 3-qubit quantum computer which uses qubits 
+\begin_inset Formula $Q_{a},Q_{b},Q_{c}$
+\end_inset
+
+.
+ The representation of the state of the quantum system becomes:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\Ket{Q_{x}}=x_{1}\left[\begin{array}{c}
+1\\
+0
+\end{array}\right]+x_{2}\left[\begin{array}{c}
+0\\
+1
+\end{array}\right]=\left[\begin{array}{c}
+x_{1}\\
+x_{2}
+\end{array}\right]\;x\in\left\{ a,b,c\right\} 
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\Ket{Q_{ab}}=\Ket{Q_{a}}\otimes\Ket{Q_{b}}=\begin{bmatrix}a_{1}\begin{bmatrix}b_{1}\\
+b_{2}
+\end{bmatrix}\\
+a_{2}\begin{bmatrix}b_{1}\\
+b_{2}
+\end{bmatrix}
+\end{bmatrix}=\begin{bmatrix}a_{1}b_{1}\\
+a_{1}b_{2}\\
+a_{2}b_{1}\\
+a_{2}b_{2}
+\end{bmatrix}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\Ket{Q_{abc}}=\Ket{Q_{a}}\otimes\Ket{Q_{b}}\otimes\Ket{Q_{c}}=\Ket{Q_{ab}}\otimes\Ket{Q_{c}}=\begin{bmatrix}a_{1}b_{1}\begin{bmatrix}c_{1}\\
+c_{2}
+\end{bmatrix}\\
+a_{1}b_{2}\begin{bmatrix}c_{1}\\
+c_{2}
+\end{bmatrix}\\
+a_{2}b_{1}\begin{bmatrix}c_{1}\\
+c_{2}
+\end{bmatrix}\\
+a_{2}b_{2}\begin{bmatrix}c_{1}\\
+c_{2}
+\end{bmatrix}
+\end{bmatrix}=\begin{bmatrix}a_{1}b_{1}c_{1}\\
+a_{1}b_{1}c_{2}\\
+a_{1}b_{2}c_{1}\\
+a_{1}b_{2}c_{2}\\
+a_{2}b_{1}c_{1}\\
+a_{2}b_{1}c_{2}\\
+a_{2}b_{2}c_{1}\\
+a_{2}b_{2}c_{2}
+\end{bmatrix}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In many cases it is impossible to consider 
+\begin_inset Formula $Q_{a},Q_{b}$
+\end_inset
+
+and 
+\begin_inset Formula $Q_{c}$
+\end_inset
+
+separately, because in a quantum system some quantum logic gates may cause
+ to obtain a 
+\begin_inset Quotes eld
+\end_inset
+
+mixed
+\begin_inset Quotes erd
+\end_inset
+
+ state from which is not possible to find some suitable 
+\begin_inset Formula $Q_{a},Q_{b}$
+\end_inset
+
+and 
+\begin_inset Formula $Q_{c}$
+\end_inset
+
+ which satisfies (3).
+ This concept, which is called entanglement, will be described in detail
+ later.
+ Of course, the quadratic sum of all elements of (3) must be 1.
+\end_layout
+
+\begin_layout Section
+Quantum logic gates
+\end_layout
+
+\begin_layout Standard
+Quantum logic gates are represented by means of unitary square matrices.
+ A matrix 
+\begin_inset Formula $U$
+\end_inset
+
+ is said unitary if
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+UU^{\dagger}=U^{\dagger}U=I
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $U^{\dagger}$
+\end_inset
+
+ is the Hermitian conjugate of 
+\begin_inset Formula $U$
+\end_inset
+
+.
+ The Hermitian conjugate could be described as a conjugate traspose of 
+\begin_inset Formula $U$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The most known unitary logic gates are:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Symbol
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Matrix
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Hadamard
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $H$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{\sqrt{2}}\begin{bmatrix}1 & 1\\
+1 & -1
+\end{bmatrix}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

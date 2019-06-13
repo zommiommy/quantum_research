@@ -12,6 +12,7 @@ using static System.Math;
     namespace quantumGraph{
     public class Graph
     {
+        public long quantumErrors=0;
         public List<Node> nodes=new List<Node>();
         public List<Edge> edges=new List<Edge>();
         public Node sourceNode;
@@ -242,10 +243,12 @@ using static System.Math;
                 else if(itemIndex>(reachableNeighbors.Count-1))
                     //if quantum errors happen
                 {
+                    this.quantumErrors++;
                     System.Console.WriteLine("Quantum run failed, index out of range. Retrying. ");
                 }
                 else if(nodesLayer[(int)itemIndex]!=-1)
                 {
+                    this.quantumErrors++;
                     System.Console.WriteLine("Quantum run failed, selected value hasn't infinite layer value. Retrying.");
                 }
                 else
@@ -253,7 +256,7 @@ using static System.Math;
                     System.Console.WriteLine("Item found:"+reachableNeighbors[(int)itemIndex].ToString());
                     nodesLayer[(int)itemIndex]=element.Layer+1;//change layer in "local" context
                     reachableNeighbors[(int)itemIndex].Layer=element.Layer+1;//Update layer value in global context
-                    if(this.sinkNode.Layer==-1)
+                    if(this.sinkNode.Layer==-1)// -1 = infinite layer value
                     {
                         q.Enqueue(reachableNeighbors[(int)itemIndex]);
                         System.Console.WriteLine("Item updated to "+reachableNeighbors[(int)itemIndex].ToString()+" and enqueued.");
@@ -337,7 +340,7 @@ using static System.Math;
                             System.Console.WriteLine("Quantum run failed, selected value hasn't infinite layer value. Retrying.");
                             else
                             System.Console.WriteLine($"Quantum run failed, selected value hasn't {layerNumber} layer value. Retrying.");
-                            
+                            this.quantumErrors++;
                             //quantumError=true; //there is no need to do this
                         }
                         else
@@ -399,14 +402,13 @@ private long findInfiniteLayerNeighbors(QuantumSimulator sim,List<Node> neighbor
             Console.WriteLine("Actual size of the dataset: "+Math.Pow(2,nDatabaseQubits).ToString());        
             int nIterations;
             if(r.Next(0,2)==0)
-                nIterations=(int)Math.Floor(Math.PI/4*Math.Sqrt(Math.Pow(2,nDatabaseQubits)));//TODO set the correct value calculated theorically
+                nIterations=(int)Math.Floor(Math.PI/4*Math.Sqrt(Math.Pow(2,nDatabaseQubits)));
             else
-                nIterations=(int)Math.Ceiling(Math.PI/4*Math.Sqrt(Math.Pow(2,nDatabaseQubits)));//TODO set the correct value calculated theorically
+                nIterations=(int)Math.Ceiling(Math.PI/4*Math.Sqrt(Math.Pow(2,nDatabaseQubits)));
             if (nMarkedElements==0)
                 return -1;
-            Console.WriteLine("Phase shift iterations: "+nIterations.ToString());    
+            Console.WriteLine("Diffusion iterations: "+nIterations.ToString());    
             var task = MFA.ApplyGroverSearch.Run(sim, new QArray<long>(markedElements), nIterations, nDatabaseQubits);
-
             var data = task.Result;
             Console.WriteLine("Outcome is "+task.Result);
                 //var success= data.Item1;

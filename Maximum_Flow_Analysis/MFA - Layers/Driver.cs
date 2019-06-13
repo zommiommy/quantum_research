@@ -136,6 +136,41 @@ namespace MFA
             }
             return arr.ToArray();
         }
+
+        public long[] getRandomSchemaNotLayered(int rows,int src,int sink)
+        {
+            List<long> arr= new List<long>();
+            Random r=new Random();
+            int numberOfNodes= Math.Max(rows/5,3);
+            
+
+            HashSet<KeyValuePair<int, int>> arcPairs = new HashSet<KeyValuePair<int, int>>();
+            int maxConsecutiveFailures= Math.Max(rows,10);//seems a reasonable value
+            
+            for (int i = 0; i < rows; i++)
+            {
+                int consecutiveFailures=-1;
+                KeyValuePair<int, int> pair;
+                int startingValue;
+                int destinationValue;
+                do
+                {consecutiveFailures++;
+                
+                startingValue=r.Next(0,numberOfNodes);//pick an index of a value from the starting layer list
+                destinationValue=r.Next(0,numberOfNodes);//pick an index of a value from the ending layer list
+                pair=new KeyValuePair<int, int>(startingValue,destinationValue);
+                } while(arcPairs.Contains(pair)&&consecutiveFailures<maxConsecutiveFailures&&startingValue==destinationValue);
+                if(consecutiveFailures<maxConsecutiveFailures&&startingValue!=destinationValue)
+                {
+                arr.Add(startingValue);
+                arr.Add(r.Next(1,30000));
+                arr.Add(destinationValue);
+                arcPairs.Add(pair);
+                }
+                
+            }
+            return arr.ToArray();
+        }
         public long[] getSchemaFromFile(string path)
         {
             List<long> arr;
@@ -197,6 +232,7 @@ namespace MFA
             {
                 System.Console.WriteLine(item.ToString());
             }
+            Console.WriteLine("Quantum errors: "+g.quantumErrors);
             g.printSchemaAsDOT();
             g.printSchemaAsGEXF();
             g.printCompactSchemaAsDOT();
@@ -214,7 +250,7 @@ namespace MFA
                 System.Console.WriteLine("Write whatever for a random initialization, or write 1 for the default one");
                 answ=Console.ReadLine();
                 if(answ!="1")
-                    schema=u.getRandomSchema(u.getRandomSchemaDesiredSize(),src:0,sink:2);           
+                    schema=u.getRandomSchemaNotLayered(u.getRandomSchemaDesiredSize(),src:0,sink:2);           
                 else
                     schema=u.getSchema();
 

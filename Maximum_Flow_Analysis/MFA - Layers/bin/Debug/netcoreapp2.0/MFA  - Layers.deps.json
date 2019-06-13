@@ -1,0 +1,164 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.0",
+    "signature": "9bffeae6e25c8061cfc40a887091ab513f3005e4"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.0": {
+      "MFA  - Layers/1.0.0": {
+        "dependencies": {
+          "CsvHelper": "12.0.1",
+          "Microsoft.Quantum.Development.Kit": "0.6.1905.301",
+          "Microsoft.Quantum.Standard": "0.6.1905.301"
+        },
+        "runtime": {
+          "MFA  - Layers.dll": {}
+        }
+      },
+      "CsvHelper/12.0.1": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.4.0",
+          "System.Reflection.TypeExtensions": "4.4.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/CsvHelper.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.0.0"
+          }
+        }
+      },
+      "Microsoft.CSharp/4.4.0": {},
+      "Microsoft.Quantum.Development.Kit/0.6.1905.301": {
+        "dependencies": {
+          "Microsoft.Quantum.Simulators": "0.6.1905.301"
+        }
+      },
+      "Microsoft.Quantum.Simulators/0.6.1905.301": {
+        "dependencies": {
+          "Newtonsoft.Json": "11.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Quantum.Intrinsic.dll": {
+            "assemblyVersion": "0.6.1905.301",
+            "fileVersion": "0.6.1905.301"
+          },
+          "lib/netstandard2.0/Microsoft.Quantum.Simulation.Common.dll": {
+            "assemblyVersion": "0.6.1905.301",
+            "fileVersion": "0.6.1905.301"
+          },
+          "lib/netstandard2.0/Microsoft.Quantum.Simulation.Core.dll": {
+            "assemblyVersion": "0.6.1905.301",
+            "fileVersion": "0.6.1905.301"
+          },
+          "lib/netstandard2.0/Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime.dll": {
+            "assemblyVersion": "0.6.1905.301",
+            "fileVersion": "0.6.1905.301"
+          },
+          "lib/netstandard2.0/Microsoft.Quantum.Simulators.dll": {
+            "assemblyVersion": "0.6.1905.301",
+            "fileVersion": "0.6.1905.301"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/linux-x64/native/Microsoft.Quantum.Simulator.Runtime.dll": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx-x64/native/Microsoft.Quantum.Simulator.Runtime.dll": {
+            "rid": "osx-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x64/native/Microsoft.Quantum.Simulator.Runtime.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x64/native/vcomp140.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Microsoft.Quantum.Standard/0.6.1905.301": {
+        "dependencies": {
+          "Microsoft.Quantum.Development.Kit": "0.6.1905.301"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Quantum.Standard.dll": {
+            "assemblyVersion": "0.6.1905.301",
+            "fileVersion": "0.6.1905.301"
+          }
+        }
+      },
+      "Newtonsoft.Json/11.0.2": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.2.21924"
+          }
+        }
+      },
+      "System.Reflection.TypeExtensions/4.4.0": {}
+    }
+  },
+  "libraries": {
+    "MFA  - Layers/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CsvHelper/12.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0WCjFtnquxlwGcim+2r4AZa2na4deYT2jw+q/Yisr7WwOKSnCMwgPk/V2dCi+wgNzWtk5rukZC8WTLXlIe7E3Q==",
+      "path": "csvhelper/12.0.1",
+      "hashPath": "csvhelper.12.0.1.nupkg.sha512"
+    },
+    "Microsoft.CSharp/4.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vvVR/B08YVghQ4jHEloxqw2ZWzEGE1AOA5E0DioUM3ujbXz6FD3AfB/0Jl2ohJPd0nXYGwmPe1En6HTsSriq1A==",
+      "path": "microsoft.csharp/4.4.0",
+      "hashPath": "microsoft.csharp.4.4.0.nupkg.sha512"
+    },
+    "Microsoft.Quantum.Development.Kit/0.6.1905.301": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3OvFEt0hplb4upLVYuQqRhtxB3xrbhG7dwP9qF1NFP2U2dkcnTj84BLrMB0T2TAl8FWANf97AxlkVlZ0pRRVlw==",
+      "path": "microsoft.quantum.development.kit/0.6.1905.301",
+      "hashPath": "microsoft.quantum.development.kit.0.6.1905.301.nupkg.sha512"
+    },
+    "Microsoft.Quantum.Simulators/0.6.1905.301": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uuE731xvDEugbw979P0nEAuUDvL1bTz3Hne0epHX6eMnRaLtSpom+ANDH+c9/SJM8DV2NyKcDmGxlPCI6IXe4g==",
+      "path": "microsoft.quantum.simulators/0.6.1905.301",
+      "hashPath": "microsoft.quantum.simulators.0.6.1905.301.nupkg.sha512"
+    },
+    "Microsoft.Quantum.Standard/0.6.1905.301": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KNa/qdZmbZfP/LljBHJgY6lbfLg7SaEJ31ng6Y23MIM3K42VAgTJRs+ypOJaPDfQgGai6gi0LOHf3cQFjR6Bgw==",
+      "path": "microsoft.quantum.standard/0.6.1905.301",
+      "hashPath": "microsoft.quantum.standard.0.6.1905.301.nupkg.sha512"
+    },
+    "Newtonsoft.Json/11.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IvJe1pj7JHEsP8B8J8DwlMEx8UInrs/x+9oVY+oCD13jpLu4JbJU2WCIsMRn5C4yW9+DgkaO8uiVE5VHKjpmdQ==",
+      "path": "newtonsoft.json/11.0.2",
+      "hashPath": "newtonsoft.json.11.0.2.nupkg.sha512"
+    },
+    "System.Reflection.TypeExtensions/4.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dkmh/ySlwnXJp/1qYP9uyKkCK1CXR/REFzl7abHcArxBcV91mY2CgrrzSRA5Z/X4MevJWwXsklGRdR3A7K9zbg==",
+      "path": "system.reflection.typeextensions/4.4.0",
+      "hashPath": "system.reflection.typeextensions.4.4.0.nupkg.sha512"
+    }
+  }
+}
