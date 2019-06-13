@@ -30,7 +30,7 @@
 	 	\lstick{\ket{0}} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \targ & \qw & \ctrl{-2} & \qw & \qw & \qw & \qw & \qw & \ctrl{-2} & \targ & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \quad \ket{0}\\
 	 	\lstick{\ket{0}} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \targ & \qw & \gate{X} & \ctrl{2} & \gate{X} & \qw & \targ & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \quad \ket{0}\\
 	 	\lstick{\ket{0}} & \qw & \qw & \gate{X} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \targ & \gate{X} & \ctrl{-1} & \gate{X} & \targ & \qw & \qw & \qw & \gate{X} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \quad \ket{0}\\
-	 	\lstick{\ket{0}} & \qw & \qw & \gate{X} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \targ & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \quad \qquad \ket{X \ge 0}\\
+	 	\lstick{\ket{0}} & \qw & \qw & \gate{X} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \targ & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \quad \qquad \ket{X \ge J}\\
 	 }
 \end{equation*}
 
