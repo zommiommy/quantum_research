@@ -1,0 +1,86 @@
+\begin{thebibliography}{10}
+
+\bibitem{stackexchange2}
+Grover's algorithm: what to input to oracle?
+\newblock
+  \url{https://quantumcomputing.stackexchange.com/questions/2149/grovers-algorithm-what-to-input-to-oracle},
+  2018.
+
+\bibitem{stackexchange3}
+Grover's algorithm: where is the list?
+\newblock
+  \url{https://quantumcomputing.stackexchange.com/questions/2110/grovers-algorithm-where-is-the-list},
+  2018.
+
+\bibitem{stackexchange1}
+How is the oracle in grover's search algorithm implemented?
+\newblock
+  \url{https://quantumcomputing.stackexchange.com/questions/175/how-is-the-oracle-in-grovers-search-algorithm-implemented},
+  2018.
+
+\bibitem{Aharonov:2001:QWG:380752.380758}
+D.~Aharonov, A.~Ambainis, J.~Kempe, and U.~Vazirani.
+\newblock Quantum walks on graphs.
+\newblock In {\em Proceedings of the Thirty-third Annual ACM Symposium on
+  Theory of Computing}, STOC '01, pages 50--59, New York, NY, USA, 2001. ACM.
+
+\bibitem{alsing2011grover}
+P.~Alsing and N.~McDonald.
+\newblock Grover's search algorithm with an entangled database state.
+\newblock {\em Proceedings of SPIE - The International Society for Optical
+  Engineering}, 05 2011.
+
+\bibitem{Boyer1998}
+M.~Boyer, G.~Brassard, P.~Høyer, and A.~Tapp.
+\newblock Tight bounds on quantum searching.
+\newblock {\em Fortschritte der Physik}, 46(4‐5):493--505, 1998.
+
+\bibitem{Broda2016}
+B.~Broda.
+\newblock Quantum search of a real unstructured database.
+\newblock {\em The European Physical Journal Plus}, 131(2):38, Feb 2016.
+
+\bibitem{childs2004spatial}
+A.~M. Childs and J.~Goldstone.
+\newblock Spatial search by quantum walk.
+\newblock {\em Physical Review A}, 70(2):022314, 2004.
+
+\bibitem{Grover:1996:FQM:237814.237866}
+L.~K. Grover.
+\newblock A fast quantum mechanical algorithm for database search.
+\newblock In {\em Proceedings of the Twenty-eighth Annual ACM Symposium on
+  Theory of Computing}, STOC '96, pages 212--219, New York, NY, USA, 1996. ACM.
+
+\bibitem{helwer2018quantum}
+A.~Helwer.
+\newblock Quantum computing for computer scientists.
+\newblock Available at
+  \url{https://www.microsoft.com/en-us/research/video/quantum-computing-computer-scientists/},
+  2018.
+
+\bibitem{lavor2003grover}
+C.~Lavor, L.~Manssur, and R.~Portugal.
+\newblock Grover's algorithm: quantum database search.
+\newblock {\em arXiv preprint quant-ph/0301079}, 2003.
+
+\bibitem{montanaro2016quantum}
+A.~Montanaro.
+\newblock Quantum algorithms: an overview.
+\newblock {\em npj Quantum Information}, 2:15023, 2016.
+
+\bibitem{1425397}
+G.~F. {Viamontes}, I.~L. {Markov}, and J.~P. {Hayes}.
+\newblock Is quantum search practical?
+\newblock {\em Computing in Science Engineering}, 7(3):62--70, May 2005.
+
+\bibitem{Colin2011Explorations}
+C.~P. Williams.
+\newblock {\em Explorations in Quantum Computing}.
+\newblock Texts in Computer Science. Springer, 2nd edition, 2011.
+
+\bibitem{Zalka2000}
+C.~Zalka.
+\newblock Using grover's quantum algorithm for searching actual databases.
+\newblock {\em Physical Review A}, 62:52305, 10 2000.
+
+\end{thebibliography}
