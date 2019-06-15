@@ -58,6 +58,11 @@ A.~Helwer.
   \url{https://www.microsoft.com/en-us/research/video/quantum-computing-computer-scientists/},
   2018.
 
+\bibitem{larose2019overview}
+R.~LaRose.
+\newblock Overview and comparison of gate level quantum software platforms.
+\newblock {\em Quantum}, 3:130, 2019.
+
 \bibitem{lavor2003grover}
 C.~Lavor, L.~Manssur, and R.~Portugal.
 \newblock Grover's algorithm: quantum database search.

@@ -1,9 +1,47 @@
 %!TEX root = main.tex
 
-\chapter{Quantum Development Kit}
+\chapter{Microsoft Quantum Development Kit}
 \label{chp:qdk}
 
-%TODO
+QDK is Microsoft's open source developement kit for quantum computing. It is quite young, as it has been released in January 2018. Despite that, it has some interesting characteristics, like the use of a specific ``quantum focused'' language: Q\#. Differently from  other frameworks (like pyQuil, QISKit, ProjectQ...), QDK uses a technology based on Majorana fermions, which is also the reason why right now there are no hardware devices on which run the algorithms. \cite{larose2019overview}
+
+It is updated very frequently with often drastic improvement in terms of usability and bug fixes. Of course it is not yet a mature enviroment, as it is still under development.
+
+\section{Software overview}
+
+\subsection{Installation}
+
+Microsoft QDK can be installed on top of Visual Studio or Visual Studio Code (recommended). The setup is easy and the process it's well explained in the official page: \url{https://docs.microsoft.com/it-it/quantum/install-guide/vs-2017}.
+
+After installation it is also possible to validate its correctness running a sample program whose aim is to check the possible absence of needed packages (linke NuGet).
+
+\subsection{Documentation}
+
+A complete documentation of the software and language can be found on the official website \url{https://docs.microsoft.com/it-it/quantum}. It contains tutorials on how to run the first quantum program, info about the simulator, Q\# syntax and its libraries. Other part of the website also contain a good documentation on the theory about quantum computing.
+
+Moreover the open source libraries are useful to learn the language. Last but not least, there is a vast number of verbosely commented examples (Teleportation, Grover's Search, Integer factorization, simulations...).
+
+\subsection{Language}
+
+Using QDK requires some basic knowledge of C\# for the classical host computation, usually contained in a ``driver.cs'' file, that is used to call the simulator with the quantum program, optionally providing inputs.
+
+The quantum part of the program uses Q\# that, despite the name, is more similar to a hardware description language than to an object oriented one. We can define \textit{operations}, callable routines with quantum instructions, that as functions take some input and return an output value. We can also define variables to values bindings (like integers and booleans), perform operations on single qubits (like gates, conditionals and controls).
+
+In general the language is high level oriented: you do not have to design the spatial disposition of gates on qubit lines as you are not bound to a specific architecture, therefore the programmer can focus more on the algorithm than on the implementation details, thanks also to the available libraries.
+
+\subsection{Simulator}
+
+QDK can be used within a local run of Visual Studio, in this case it can simulate circuits of up to 30 qubits. If more power is needed, it can also be run in Microsoft Azure cloud (through a pais subscription) achieving simulations of more than 40 qubits.
+
+It uses a locally deployed simulation environment based on dotnet. The language abstracts from the actual architecture to be deployed (it uses Qubit objects, not specific low level registers), in order to allow an better re-usability and portability of the code.
+
+It also implements a Toffoli simulator, a special-purpose simulator for quantum algorithms that are limited to X, CNOT, and multi-controlled X.
+
+A trace simulator is also provided. It is useful for debugging classical code and estimating the resources required to run a given instance of a quantum program. Circuits of thousands of qubits can be tested, as the trace simulator executes the program without simulating the state of the quantum computer.
+
+\subsubsection{Hardware and noise analysis}
+
+The technology Microsoft is trying to use has not been implemented on hardware yet. Moreover QDK does not provide any functionality for noise analysis or simulation. This is probably connected to the fact that Microsoft is betting on topological qubits, that should be highly resilient to noise and decoherence.
 
 \section{Example: Grover Search implementation}
 \label{sec:QSgrover}
