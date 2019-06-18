@@ -1,0 +1,38 @@
+display("# Format of the database register:")
+n1 = 1;       # 1 bit for the name
+n2 = 2;       # 2 bit for the telephone number
+
+N1 = 2^n1
+N2 = 2^n2
+
+display("# initialization hadamard matrix. Size: N1xN1")
+init_H = H;
+for i = 1:(n1-1)
+  init_H = kron(init_H, H); # note that int this case order of kron parameters does not matter
+endfor
+H
+
+display("# initialization of primed matrix as direct sum. Size: (N1*N2)x(N1*N2)")
+primed_m = init_H;
+for i = 1:n2
+  primed_m = IC(primed_m);
+endfor
+primed_m
+
+display("# exchange rows")
+
+m = primed_m;
+
+display("# exchange rows 1 and 3")
+m = SHIFT3 * m;
+m = C(switch_g(1,3)) * m;
+m = SHIFT3 * m;
+m
+
+display("# now exchange rows 2 and 6")
+m = kron(switch_g(1,4),eye(2)) * m;
+m = C(switch_g(2,4)) * m;
+m = kron(switch_g(1,4),eye(2)) * m;
+m
+
+display("done")

@@ -1,0 +1,520 @@
+%!TEX root = main.tex
+
+\begin{appendices}
+
+\lstset{
+	language=octave,
+	basicstyle=\linespread{0.9}\ttfamily,		% line space
+}
+
+\chapter{Quantum gates in Octave}
+\label{chp:octave}
+
+Octave is a free software and a scientific programming language whose syntax is largely compatible with Matlab.
+
+To fill the gap between some theoretical papers (which perform calculations on matrices) and quantum gates (that are eventually how those matrices are implemented) we modeled some quantum matrices as combination of known gates. In this way it was possible to investigate on how such matrices could be really implemented.
+
+Therefore here we show the implementation of some gates used in other chapters.
+
+\section{Elementary (existing) gates}
+
+\subsection{Hadamard and X, Y, Z}
+
+We will show only $H$ as an example, but the same applies for $X$, $Y$ and $Z$ and in general for $2 \times 2$ gates.
+
+\noindent
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	Circuit	& Octave code\\
+	\hline
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \gate{H} & \qw \\
+	}
+	\end{equation*}
+	&
+	\begin{lstlisting}
+	H = [
+	1,  1; 
+	1,  -1
+	]./sqrt(2);
+	\end{lstlisting}
+\end{tabular}
+
+\subsection{CNOT}
+
+\noindent
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	Circuit	& Octave code\\
+	\hline
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \ctrl{1} & \qw \\
+		\lstick{b_{1}: } & \targ    & \qw \\
+	}
+	\end{equation*}
+	&
+	\begin{lstlisting}
+	CNOT = C(X);
+	\end{lstlisting}
+\end{tabular}
+
+\subsection{ICNOT: inverted CNOT}
+
+\noindent
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	Circuit	& Octave code\\
+	\hline
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \ctrlo{1} & \qw \\
+		\lstick{b_{1}: } & \targ    & \qw \\
+	}
+	\end{equation*}
+	&
+	\begin{lstlisting}
+	ICNOT = IC(X);
+	\end{lstlisting}
+\end{tabular}
+
+\bigskip
+
+Note that \textbf{it is not equivalent} to this circuit:
+
+\noindent
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \targ     & \qw \\
+		\lstick{b_{1}: } & \ctrl{-1} & \qw \\
+	}
+	\end{equation*}
+	&
+	\[
+	\begin{bmatrix}
+	1 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 1 \\
+	0 & 0 & 1 & 0 \\
+	0 & 1 & 0 & 0 \\
+	\end{bmatrix}
+	\]
+\end{tabular}
+
+
+\subsection{SWAP}
+
+\noindent
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	Circuit	& Octave code\\
+	\hline
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \qswap      & \qw \\
+		\lstick{b_{1}: } & \qswap \qwx & \qw \\
+	}
+	\end{equation*}
+	&
+	\begin{lstlisting}
+	SWAP = [
+	1, 0, 0, 0;
+	0, 0, 1, 0;
+	0, 1, 0, 0;
+	0, 0, 0, 1;
+	];
+	\end{lstlisting}
+\end{tabular}
+
+\subsection{CCNOT}
+
+\[
+CCNOT =
+\begin{bmatrix}
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+\end{bmatrix}
+\]
+
+\noindent
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	Circuit	& Octave code\\
+	\hline
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \ctrl{1} & \qw\\
+		\lstick{b_{1}: } & \ctrl{1} & \qw\\
+		\lstick{b_{2}: } & \targ    & \qw\\
+	}
+	\end{equation*}
+	&
+	\begin{lstlisting}
+	CCNOT = C(CNOT);
+	\end{lstlisting}
+\end{tabular}
+
+\subsection{CSWAP}
+
+\[
+CSWAP =
+\begin{bmatrix}
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+\end{bmatrix}
+\]
+
+\noindent
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	Circuit	& Octave code\\
+	\hline
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \ctrl{1}    & \qw\\
+		\lstick{b_{1}: } & \qswap      & \qw\\
+		\lstick{b_{2}: } & \qswap \qwx & \qw\\
+	}
+	\end{equation*}
+	&
+	\begin{lstlisting}
+	CSWAP = C(SWAP);
+	\end{lstlisting}
+\end{tabular}
+
+
+\section{Operations between gates}
+
+\subsection{Kronecker product (or direct product)}
+
+\noindent
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	Circuit	& Octave code\\
+	\hline
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \gate{H} & \qw \\
+		\lstick{b_{1}: } & \gate{H} & \qw \\
+	}
+	\end{equation*}
+	&
+	\begin{lstlisting}
+	kron(H, H);
+	\end{lstlisting}
+	
+\end{tabular}
+
+\subsection{Gate control (direct sum)}
+
+\noindent
+\begin{tabular}{m{.4\linewidth} m{.6\linewidth}}
+	Circuit	& Octave code\\
+	\hline
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \ctrl{1} & \qw \\
+		\lstick{b_{1}: } & \gate{H} & \qw \\
+	}
+	\end{equation*}
+	&
+	\begin{lstlisting}
+	function out = C(gate)
+	size = rows(gate);
+	out = blkdiag(eye(size), gate);
+	endfunction;
+	\end{lstlisting}\\
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \ctrlo{1} & \qw \\
+		\lstick{b_{1}: } & \gate{H} & \qw \\
+	}
+	\end{equation*}
+	&
+	\begin{lstlisting}
+	function out = IC(gate)
+	size = rows(gate);
+	out = blkdiag(gate, eye(size));
+	endfunction;
+	\end{lstlisting}
+\end{tabular}
+
+\bigskip
+\noindent
+Note that CNOT is a ``controlled $X$''.
+
+\section{New (derivated) gates}
+\label{sec:derived_gates}
+
+\subsection{DSWAP}
+
+Performs a swap of the first 2 and the last 2 rows of the matrix, i.e. flips the least significative qubit.
+
+\[
+DSWAP =
+\begin{bmatrix}
+0 & 1 & 0 & 0 \\
+1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 0 & 1 & 0 \\
+\end{bmatrix}
+\]
+
+\noindent
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	Circuit	& Octave code\\
+	\hline
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \qw      & \qw \\
+		\lstick{b_{1}: } & \gate{X} & \qw \gategroup{1}{2}{2}{2}{1em}{--}
+	}
+	\end{equation*}
+	&
+	\begin{lstlisting}
+	DSWAP = kron(eye(2), X);
+	\end{lstlisting}
+\end{tabular}
+
+\subsection{SHIFT}
+\label{sec:shigt_gate}
+
+This gate shifts rows of half the size of the matrix, i.e. flips the most significative qubit.
+
+\[
+SHIFT =
+\begin{bmatrix}
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1 \\
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+\end{bmatrix}
+\]
+
+\noindent
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	Circuit	& Octave code\\
+	\hline
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \gate{X} & \qw \\
+		\lstick{b_{1}: } & \qw      & \qw \gategroup{1}{2}{2}{2}{1em}{--}
+	}
+	\end{equation*}
+	&
+	\begin{lstlisting}
+	DSWAP = kron(X, eye(2));
+	\end{lstlisting}
+\end{tabular}
+
+\subsection{QSD: Quarter Shift Down}
+\label{sec:qsd_gate}
+
+This gate shifts rows down of a quarter the matrix.
+
+\[
+QSD =
+\begin{bmatrix}
+0 & 0 & 0 & 1 \\
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+\end{bmatrix}
+\]
+
+\noindent
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	Circuit	& Octave code\\
+	\hline
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \ctrl{1}	& \qswap	& \ctrlo{1} & \qw \\
+		\lstick{b_{1}: } & \targ    & \qswap \qwx & \targ	& \qw \\
+	}
+	\end{equation*}
+	&
+	\begin{lstlisting}
+	QSD = ICNOT*SWAP*CNOT;
+	\end{lstlisting}
+\end{tabular}
+
+\subsection{QSU: Quarter Shift Up}
+\label{sec:qsu_gate}
+
+This gate shifts rows down of a quarter the matrix.
+
+\[
+QSU =
+\begin{bmatrix}
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1 \\
+1 & 0 & 0 & 0 \\
+\end{bmatrix}
+\]
+
+\noindent
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	Circuit	& Octave code\\
+	\hline
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \ctrlo{1}	& \qswap	& \ctrl{1} & \qw \\
+		\lstick{b_{1}: } & \targ    & \qswap \qwx & \targ	& \qw \\
+	}
+	\end{equation*}
+	&
+	\begin{lstlisting}
+	QSU = CNOT*SWAP*ICNOT;
+	\end{lstlisting}
+\end{tabular}
+
+\subsection{CNOT3}
+
+CNOT of grade 1. Please note that it is different from CCNOT.
+
+\begin{equation*}
+CNOT3 =
+\begin{bmatrix}
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+\end{bmatrix}
+\end{equation*}
+
+\bigskip
+
+\noindent
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	Circuit	& Octave code\\
+	\hline
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \multigate{1}{CNOT} & \qw \\
+		\lstick{b_{1}: } & \ghost{CNOT}    & \qw \\
+		\lstick{b_{2}: } & \qw      & \qw \gategroup{1}{2}{3}{2}{1em}{--}
+	}
+	\end{equation*}
+	&
+	\begin{lstlisting}
+	CNOT3 = kron(CNOT, eye(2));
+	\end{lstlisting}
+\end{tabular}
+
+
+\subsection{SWAP3}
+
+\begin{equation*}
+SWAP3 =
+\begin{bmatrix}
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+\end{bmatrix}
+\end{equation*}
+
+\noindent
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	Circuit	& Octave code\\
+	\hline
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \qswap & \qw \\
+		\lstick{b_{1}: } & \qswap \qwx    & \qw \\
+		\lstick{b_{2}: } & \qw      & \qw \gategroup{1}{2}{3}{2}{1em}{--}
+	}
+	\end{equation*}
+	&
+	\begin{lstlisting}
+	SWAP3 = kron(SWAP, eye(2));
+	\end{lstlisting}
+\end{tabular}
+
+
+\subsection{SHIFT3}
+
+\begin{equation*}
+SHIFT3 =
+\begin{bmatrix}
+0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+\end{bmatrix}
+\end{equation*}
+
+\subsubsection{Octave code}
+\begin{lstlisting}
+SHIFT3 = kron(SHIFT, eye(2));
+\end{lstlisting}
+
+\subsection{CNOT4}
+
+CNOT of grade 2. Please note that it is different from CCCNOT.
+
+\setcounter{MaxMatrixCols}{16}
+\begin{equation*}
+CNOT4 =
+\begin{bmatrix}
+\tikzmark{l1} 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\tikzmark{r1} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \tikzmark{l2}1 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\tikzmark{r2}\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \tikzmark{l3}1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\tikzmark{r3} & 0 & 0 & 0 & 0\\
+\end{bmatrix}
+\end{equation*}
+\DrawBox[thick, blue]{l1}{r1}{}
+\DrawBox[thick, blue]{l2}{r2}{}
+\DrawBox[thick, blue]{l3}{r3}{}
+
+
+\noindent
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	Circuit	& Octave code\\
+	\hline
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \multigate{1}{CNOT} & \qw \\
+		\lstick{b_{1}: } & \ghost{CNOT}    & \qw \\
+		\lstick{b_{2}: } & \qw      & \qw\\
+		\lstick{b_{2}: } & \qw      & \qw \gategroup{1}{2}{4}{2}{1em}{--}
+	}
+	\end{equation*}
+	&
+	\begin{lstlisting}
+	CNOT4 = kron(CNOT, eye(4));
+	\end{lstlisting}
+\end{tabular}
+
+\end{appendices}

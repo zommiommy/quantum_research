@@ -1,0 +1,276 @@
+%!TEX root = main.tex
+
+\chapter{Introduction}
+\label{chp:intro}
+
+The present document is a report of the exploration work performed in the quantum computing field by the author.
+
+\section{Abstract}
+
+Quantum computing is a topic that has gained some ground in the scientific community over the last decades. It promises polynomial or even exponential speedups for certain applications. In \cref{chp:intro} we provide the reader with some useful background on quantum computing theory. In \cref{chp:qdk} we present Quantum Development Kit, a tool for writing and compiling quantum programs in the specific language Q\# and some examples. In \cref{chp:grover} we explore some deep implementation details of a quantum entangled state database, useful for the correct performing of a Grover's search, while in \cref{chp:implementation} we present a sample implementation of what explained in the previous chapter. Finally, in \cref{chp:other} we mention other minor aspects explored during the research process.
+
+\section{Quantum circuits}
+
+We assume the reader already knows the basic concepts about linear algebra and elementary quantum gates. For more information on these basic topics, we recommend \cite{helwer2018quantum, Colin2011Explorations}.
+
+Here we propose a fast walk-through of some possible compositions of quantum gates in the context of a circuit. For further explanations and a more complete reading on the topic we recommend \cite[p. 123--129]{Colin2011Explorations}.
+
+\subsection{Matrix representation of circuits}
+
+Operations that make sense in quantum computing are usually performed on more than 2 or 3 qubits and they often give as an output multiple qubits as well. Such computations can be performed by long and complex circuits, therefore we need to be able to decompose them into a sequence of simpler quantum gates. A circuit can be represented by a unitary matrix, which can mathematically describe the operations performed on an array of input qubits.
+
+Consider a qubit array $\left|b\right\rangle = \left[b_0, b_1\right]^T$ where $b_0$ and $b_1$ are respectively the most and least significative qubits. Therefore a unitary matrix $U$ applied on a $\left|b\right\rangle$ will have the following representation:
+
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_{0}: } & \multigate{1}{U} & \qw \\
+		\lstick{b_{1}: } & \ghost{U}        & \qw \\
+	}
+	\end{equation*}
+	&
+	\begin{equation*}
+		U \left|b\right\rangle =
+		\begin{bmatrix}
+		u_{11} & u_{12}\\
+		u_{21} & u_{22}\\
+		\end{bmatrix}
+		\begin{bmatrix}
+		b_{0}\\
+		b_{1}\\
+		\end{bmatrix}
+	\end{equation*}
+\end{tabular}
+where on the right side we have a standard matrix multiplication. Please note that the order of this product is important, as it is \textit{not commutative}.
+
+\subsection{Some elementary gates}
+
+A computation usually requires a combination of elementary gates in 3 main ways: sequentially, in parallel or conditionally. In \cref{tab:gates} we show some gates (and their matrix form) that will be useful for the rest of this document.
+
+\begin{table}
+	\begin{tabular}{m{.3\linewidth} m{.3\linewidth} m{.4\linewidth}}
+		Hadamard gate &
+		\begin{equation*}
+		\Qcircuit @R=1em @!R {
+			\lstick{} & \gate{H} & \qw \\
+		}
+		\end{equation*}	&
+		\begin{equation*}
+		\frac{1}{\sqrt{2}}
+		\begin{bmatrix}
+		1 & 1 \\
+		1 & -1
+		\end{bmatrix}
+		\end{equation*}\\
+		
+		NOT gate &
+		\begin{equation*}
+		\Qcircuit @R=1em @!R {
+			\lstick{} & \gate{X} & \qw \\
+		}
+		\end{equation*}	&
+		\begin{equation*}
+		\begin{bmatrix}
+		0 & 1 \\
+		1 & 0
+		\end{bmatrix}
+		\end{equation*}\\
+		
+		CNOT (on $b_0=1$)&
+		\begin{equation*}
+		\Qcircuit @R=1em @!R {
+			\lstick{} & \ctrl{1} & \qw \\
+			\lstick{} & \targ    & \qw \\
+		}
+		\end{equation*}	&
+		\begin{equation*}
+		\begin{bmatrix}
+		1 & 0 & 0 & 0 \\
+		0 & 1 & 0 & 0 \\
+		0 & 0 & 0 & 1 \\
+		0 & 0 & 1 & 0 \\
+		\end{bmatrix}
+		\end{equation*}\\
+		
+		CNOT (on $b_0=0$)&
+		\begin{equation*}
+		\Qcircuit @R=1em @!R {
+			\lstick{} & \ctrlo{1} & \qw \\
+			\lstick{} & \targ    & \qw \\
+		}
+		\end{equation*}	&
+		\begin{equation*}
+		\begin{bmatrix}
+		0 & 1 & 0 & 0 \\
+		1 & 0 & 0 & 0 \\
+		0 & 0 & 1 & 0 \\
+		0 & 0 & 0 & 1 \\
+		\end{bmatrix}
+		\end{equation*}\\
+		
+		SWAP gate &
+		\begin{equation*}
+		\Qcircuit @R=2em @!R {
+			\lstick{} & \qswap      & \qw \\
+			\lstick{} & \qswap \qwx & \qw \\
+		}
+		\end{equation*}	&
+		\begin{equation*}
+		\begin{bmatrix}
+		1 & 0 & 0 & 0 \\
+		0 & 0 & 1 & 0 \\
+		0 & 1 & 0 & 0 \\
+		0 & 0 & 0 & 1 \\
+		\end{bmatrix}
+		\end{equation*}\\
+	\end{tabular}
+	\caption{Some elementary quantum gates in circuit and matrix representation.}
+	\label{tab:gates}
+\end{table}
+
+\subsection{Quantum gates in series}
+
+The series of quantum gates applied on a qubit line (or on a subset of qubit lines) in a circuit is equivalent to the \textit{dot product} between the matrices of each gate in reverse order.
+
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{} & \multigate{1}{A} & \multigate{1}{B} & \multigate{1}{C} &\qw \\
+		\lstick{} & \ghost{A}        & \ghost{B}        & \ghost{C}        &\qw \\
+	}
+	\end{equation*}	&
+	\begin{equation*}
+	C \cdot B \cdot A
+	\end{equation*}\\
+\end{tabular}
+
+Matrices A, B and C must be of the same size (in this example, being applied on 2 bits, they must be $4 \times 4$). The result matrix will be obviously of the same size of A, B and C ($4 \times 4$).
+
+\subsection{Quantum gates in parallel}
+
+Applying distinct quantum gates to disjointed subsets of qubits is equivalent to the \textit{direct product} (or \textit{tensor product}, or \textit{kronecker product}) between the matrices of each gate. Here the order is given by the position of the qubits to which gates are applied (most significative first).
+
+\begin{tabular}{m{.5\linewidth} m{.5\linewidth}}
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_0: } & \gate{A} 		  &\qw \\
+		\lstick{b_1: } & \multigate{1}{B} &\qw \\
+		\lstick{b_2: } & \ghost{B}        &\qw \\
+	}
+	\end{equation*}	&
+	\begin{equation*}
+	A^{(2 \times 2)} \otimes B^{(4 \times 4)} = U^{(8 \times 8)}
+	\end{equation*}\\
+\end{tabular}
+
+Given $A \in M^{m\times m}$ and $B \in M^{n\times n}$, the result matrix will be $mn \times mn$ dimensional. We can easily notice that the matrix dimension grows fast with consecutive applications of direct product and the resulting dimension is always a power of 2 in quantum circuits.
+
+\bigskip
+
+A special case is when some qubits have a gate applied, while others have nothing (that is equivalent to an identity matrix).
+
+\begin{tabular}{m{.2\linewidth} m{.8\linewidth}}
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{b_0: } & \gate{X} 		  &\qw \\
+		\lstick{b_1: } & \qw        &\qw \\
+	}
+	\end{equation*}	&
+	\begin{equation*}
+	X \otimes I_{2} =
+	\begin{bmatrix}
+	0 & 1 \\
+	1 & 0
+	\end{bmatrix}
+	\otimes
+	\begin{bmatrix}
+	1 & 0 \\
+	0 & 1
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+	0 & 0 & 1 & 0 \\
+	0 & 0 & 0 & 1 \\
+	1 & 0 & 0 & 0 \\
+	0 & 1 & 0 & 0 \\
+	\end{bmatrix}
+	\end{equation*}\\
+\end{tabular}
+
+\subsection{Controlled gates}
+\label{sec:direct_sum}
+
+The effect of a gate on a subset of qubits (``targets'') can be applied conditionally to the value of one or more other qubits (called ``controls''). This operation is equivalent to a \textit{direct sum} between matrices.
+
+\begin{tabular}{m{.2\linewidth} m{.8\linewidth}}
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{} & \ctrlo{1} & \ctrl{1}		  &\qw \\
+		\lstick{} & \gate{A} & \gate{B}        &\qw \\
+	}
+	\end{equation*}	&
+	\begin{equation*}
+	A \oplus B =
+	\begin{bmatrix}
+	a_{11} 	& a_{12} & 0 	& 0 \\
+	a_{21} 	& a_{22} & 0 	& 0 \\
+	0 		& 0 	& b_{11} & b_{12} \\
+	0 		& 0 	& b_{21} & b_{22}
+	\end{bmatrix}
+	\end{equation*}\\
+\end{tabular}
+in this example $A \oplus B$ means that gate $A$ is applied to the bottom qubit if the top one is in state $\left| 0 \right\rangle$, while $B$ is applied if the top qubit is in state $\left| 1 \right\rangle$. It can be easily generalized to the case of 2 control qubits:
+
+\begin{tabular}{m{.2\linewidth} m{.8\linewidth}}
+	\begin{equation*}
+	\Qcircuit @C=0.7em @R=1em @!R {
+		\lstick{} & \ctrlo{1} & \ctrlo{1} & \ctrl{1} & \ctrl{1}     &\qw \\
+		\lstick{} & \ctrlo{1} & \ctrl{1} & \ctrlo{1} & \ctrl{1}     &\qw \\
+		\lstick{} & \gate{A} & \gate{B} & \gate{C} & \gate{D}       &\qw \\
+	}
+	\end{equation*}	&
+	\begin{equation*}
+	A \oplus B \oplus C \oplus D =
+	\begin{bmatrix}
+	A & 0 & 0 & 0 \\
+	0 & B & 0 & 0 \\
+	0 & 0 & C & 0 \\
+	0 & 0 & 0 & D
+	\end{bmatrix}
+	\end{equation*}\\
+\end{tabular}
+in general if we have $n_c$ control lines and $n_t$ target lines, we can obtain a direct sum of up to $2^{n_c}$ gates, each gate of dimension $2^{n_t}$. If we have less than $2^{n_c}$ gates to control, the missing spots in the direct sum are filled by appropriate sized identity matrices:
+
+\begin{tabular}{m{.2\linewidth} m{.8\linewidth}}
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{} & \qw & \ctrl{1} & \qw \\
+		\lstick{} & \qw & \gate{X}     & \qw \gategroup{1}{2}{2}{3}{1em}{--}
+	}
+	\end{equation*}	&
+	\begin{equation*}
+	I \oplus X =
+	\begin{bmatrix}
+	1 & 0 & 0 & 0 \\
+	0 & 1 & 0 & 0 \\
+	0 & 0 & 0 & 1 \\
+	0 & 0 & 1 & 0 \\
+	\end{bmatrix}
+	\end{equation*}\\
+	
+	\begin{equation*}
+	\Qcircuit @R=1em @!R {
+		\lstick{} & \ctrlo{1} & \qw & \qw \\
+		\lstick{} & \gate{X}     & \qw & \qw \gategroup{1}{2}{2}{3}{1em}{--}
+	}
+	\end{equation*}	&
+	\begin{equation*}
+	X \oplus I =
+	\begin{bmatrix}
+	0 & 1 & 0 & 0 \\
+	1 & 0 & 0 & 0 \\
+	0 & 0 & 1 & 0 \\
+	0 & 0 & 0 & 1 \\
+	\end{bmatrix}
+	\end{equation*}
+\end{tabular}

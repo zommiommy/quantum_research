@@ -1,0 +1,10 @@
+C:\Users\Samuele\Documents\GitHub\quantum_research\Database_Search\QsharpSolution\PhoneBook\obj\Debug\netcoreapp2.0\PhoneBook.csproj.CoreCompileInputs.cache
+C:\Users\Samuele\Documents\GitHub\quantum_research\Database_Search\QsharpSolution\PhoneBook\obj\Debug\netcoreapp2.0\PhoneBook.AssemblyInfoInputs.cache
+C:\Users\Samuele\Documents\GitHub\quantum_research\Database_Search\QsharpSolution\PhoneBook\obj\Debug\netcoreapp2.0\PhoneBook.AssemblyInfo.cs
+C:\Users\Samuele\Documents\GitHub\quantum_research\Database_Search\QsharpSolution\PhoneBook\bin\Debug\netcoreapp2.0\PhoneBook.deps.json
+C:\Users\Samuele\Documents\GitHub\quantum_research\Database_Search\QsharpSolution\PhoneBook\bin\Debug\netcoreapp2.0\PhoneBook.runtimeconfig.json
+C:\Users\Samuele\Documents\GitHub\quantum_research\Database_Search\QsharpSolution\PhoneBook\bin\Debug\netcoreapp2.0\PhoneBook.runtimeconfig.dev.json
+C:\Users\Samuele\Documents\GitHub\quantum_research\Database_Search\QsharpSolution\PhoneBook\bin\Debug\netcoreapp2.0\PhoneBook.dll
+C:\Users\Samuele\Documents\GitHub\quantum_research\Database_Search\QsharpSolution\PhoneBook\bin\Debug\netcoreapp2.0\PhoneBook.pdb
+C:\Users\Samuele\Documents\GitHub\quantum_research\Database_Search\QsharpSolution\PhoneBook\obj\Debug\netcoreapp2.0\PhoneBook.dll
+C:\Users\Samuele\Documents\GitHub\quantum_research\Database_Search\QsharpSolution\PhoneBook\obj\Debug\netcoreapp2.0\PhoneBook.pdb
