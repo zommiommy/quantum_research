@@ -1,0 +1,57 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\section{Quantum Development Kit}
+	\subsection{Documentation}
+	The documentation behind QDK is maybe one of the most complete among the various quantum platforms. There are various way to start interacting with the QDK
+	\begin{itemize}
+		\item Tutorial on their website.
+		\item Dedicated Github page.
+	\end{itemize}
+	The website explain very precisely, with a step by step tutorial, how to install all the mandatory tools in order to use properly their platform. The installation of the required tools is done through .NET platform and directly from Microsoft website.
+	 Also on their website we will find a very complete reference of their new programming language completely dedicated to quantum computing, Q\# and various examples of basic quantum circuits.
+	 On the other hand on the Github we will find more complex examples which teach us how to use properly Q\# and its integration in the C\# ecosystem.
+	
+	\subsection{Features}
+	\subsubsection{Q\#}	
+	The most important feature of QDK is its dedicated programming language Q\#. 
+	The model Microsoft is pursuing for quantum computation is to treat the quantum computer as a coprocessor, similar to that used for GPUs, FPGAs. The primary control logic runs classical code on a classical "host" computer. When appropriate and necessary, the host program can invoke a subroutine that runs on the adjunct processor. When the subroutine completes, the host program gets access to the subroutine's results.
+	Q\# is a domain-specific programming language used for expressing quantum algorithms. It is to be used for writing subroutines that execute on an adjunct quantum processor, under the control of a classical host program and computer running a classical driver written in C\#.
+	
+	The syntax of Q\# is rather different from the language of the other platform. It closely resembles C\# and is more verbose than Python. It's key concept is the "operation" construct. This is a callable routine, which is invoked by the C\# driver, with quantum operations. The "operation" is like a function in a classical programming language but manipulating quantum gate, so creating a new operation is like building a new quantum gate. This fact imposes to the operation the same restrictions which are applied to quantum gates. This direct transposition enables the birth of new construct which are more close to the actual representation of quantum circuit. One example could be the keywords: adj(adjointed) and Ctl(controlled) which permit, if an operation is unitary, to define its behaviour when reversed or controlled by a quantum register.
+	It's also worth mentioning that Q\# has a type model but permits to let the compiler infers the type of the newly initialised variables.
+
+	\subsubsection{Libraries}
+	QDK environment gives us a very rich ecosystem of libraries, which implement the vast majority of basic gate and algorithm currently known. This library list grows day after day allowing developer to have ready to use operator and speeding up development. Some notable mention are:
+	\begin{itemize}
+	\item \textbf{Microsoft.Quantum.diagnostic} library allows developer to build test in order to check the state of the machine, when possible. Its structure resembles the one of JUnit, with an assert-like structure.
+	\item \textbf{Microsoft.Quantum.Simulation.Simulator} gives access to a wide variety of simulators with different property. This allows developer to use specialised simulator for some applications. This topic will be depth in following sections.
+	\end{itemize}
+	
+	\subsubsection{Visual Studio extension}
+	Another great feature is the ability to use QDK in the Visual Studio environment. This enable us to manage in a more precise way the interactions and the execution of the code. The integration in Visual Studio also allows developer to have a more precise control over the QDK libraries. Another great features is the debugging ability of VS.
+	
+	\subsection{Simulator}
+	Not being directly linked to a physical quantum computing, simulation covers a very important role in the QDK platform.
+	There are four main simulator in QDK
+	\begin{itemize}
+	\item \textbf{Full state vector simulator} is the standard and most used simulator. The simulator can be used to execute and debug quantum algorithm.
+	There are two main feature: one being able to simulate quantum randomness and the other is the exploitation of multithreading for parallelize the linear algebra required for the simulations. The number of threads and the workload can be decided before the execution of the simulator. The limit of qubit for the local simulator is 30, if we run the code from the Azure cloud platform the available qubit raises to 40.
+	\item \textbf{Toffoli simulator} is a simplified simulator in which	the only available gate are: X, CNOT an multi-controlled X. This limitation permit to run up to millions of qubits at the same time in a local simulator.
+	\item \textbf{Resources estimator} estimates the resources required to run a given instance of a Q\# operation on a quantum computer. It accomplishes this by executing the quantum operation without actually simulating the state of a quantum computer; for this reason, it can estimate resources for Q\# operations that use thousands of qubits. The resources estimator is just another type of target machine, thus it can be used to run any Q\# operation. the output of the estimator is the number of gates used by the algorithm.
+	\item \textbf{Trace-based resource estimator} is similar to the simpler resources estimator, in fact is able to execute the quantum operation without actually simulating the state of a quantum computer. But in addition can use user information about the probability of certain state during the computation to better understand the behaviour of the simulation and so return richer information about the resources needed for the computation of the actual algorithm.
+	\end{itemize}
+	
+	\subsection{Hardware}
+	Unlike the superconducting qubit technology of Rigetti
+and IBM, Microsoft is betting highly on topological
+qubits based on Majorana fermions. These particles
+have recently been discovered and promise long coherence times and other desirable properties, but no functional quantum computer using topological qubits currently exists. So all Q\# applications can't be executed on physical machine exploiting this new technology, but can be executed, like Qiskit, on IBMQuantumExperience by simply changing the driver.
+
+	\subsection{Final considerations}
+	QDK is one of the most flexible quantum environment currently available. Its dedicated quantum programming language is one of a kind in the quantum word and gives to the developer more freedom considering that Q\# has been specially created for quantum computation. The learning curve could be a little harder with this approach but we think that in the long term could bring some advantages.
+	
+	The only downside of the platform is the absence of a real quantum machine to test the written code. This is due to the age of the project, the youngest among the platform discussed in this report, and the technology chosen for the future physical hardware.
+
+\end{document}
+
+\newpage
