@@ -1,0 +1,11 @@
+C:\Users\Valerio\Documents\Progetti\Grover\bin\Debug\netcoreapp2.0\Grover.deps.json
+C:\Users\Valerio\Documents\Progetti\Grover\bin\Debug\netcoreapp2.0\Grover.runtimeconfig.json
+C:\Users\Valerio\Documents\Progetti\Grover\bin\Debug\netcoreapp2.0\Grover.runtimeconfig.dev.json
+C:\Users\Valerio\Documents\Progetti\Grover\bin\Debug\netcoreapp2.0\Grover.dll
+C:\Users\Valerio\Documents\Progetti\Grover\bin\Debug\netcoreapp2.0\Grover.pdb
+C:\Users\Valerio\Documents\Progetti\Grover\obj\Debug\netcoreapp2.0\Grover.csprojAssemblyReference.cache
+C:\Users\Valerio\Documents\Progetti\Grover\obj\Debug\netcoreapp2.0\Grover.csproj.CoreCompileInputs.cache
+C:\Users\Valerio\Documents\Progetti\Grover\obj\Debug\netcoreapp2.0\Grover.AssemblyInfoInputs.cache
+C:\Users\Valerio\Documents\Progetti\Grover\obj\Debug\netcoreapp2.0\Grover.AssemblyInfo.cs
+C:\Users\Valerio\Documents\Progetti\Grover\obj\Debug\netcoreapp2.0\Grover.dll
+C:\Users\Valerio\Documents\Progetti\Grover\obj\Debug\netcoreapp2.0\Grover.pdb
