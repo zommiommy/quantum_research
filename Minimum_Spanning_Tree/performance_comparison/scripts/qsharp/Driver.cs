@@ -45,8 +45,6 @@ namespace Grover
                 ApplyGroverSearch.Run(sim, markedElement, numIteration, numDatabaseQubits).Wait();
                 System.Console.WriteLine("\n\n");
             }
-
-            Pause();
         }
     }
 }

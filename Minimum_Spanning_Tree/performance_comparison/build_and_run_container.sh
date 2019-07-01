@@ -1,3 +1,17 @@
 #!/bin/bash
-sudo docker build --file Dockerfile -t quantum-test-env .
-sudo docker run -d --name performance-test quantum-test-env
+
+echo "#########################################################"
+echo "Stopping the istance if there is (This might take a few seconds)"
+echo "#########################################################"
+docker stop performance-test
+docker rm performance-test
+
+echo "#########################################################"
+echo "Build the container"
+echo "#########################################################"
+docker build --file Dockerfile -t quantum-test-env .
+
+echo "#########################################################"
+echo "Run the container"
+echo "#########################################################"
+docker run -it quantum-test-env

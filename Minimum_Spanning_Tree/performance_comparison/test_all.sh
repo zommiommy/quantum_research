@@ -1,11 +1,20 @@
 #!/bin/bash
-echo "Testing qiskit runtime"
-time python scripts/qiskit/qiskit.py
+echo "System specifications"
+neofetch
 
 echo "Testing cirq runtine"
-time python scripts/cirq/cirq.py
+/usr/bin/time  --verbose python scripts/cirq/grover_cirq.py > /dev/null
 
-echo "Testing Q# runtime"
 cd scripts/qsharp
-time dotnet run
+# Call the script once before time it so that we don't measure the building
+echo "Building Q# runtime"
+/usr/bin/time  --verbose dotnet run > /dev/null
+echo "Testing Q# runtime"
+/usr/bin/time  --verbose dotnet run > /dev/null
 cd ../..
+
+echo "Testing qiskit runtime without optimizations"
+/usr/bin/time  --verbose python scripts/qiskit/grover_qiskit.py > /dev/null
+
+echo "Testing qiskit runtime with optimizations"
+/usr/bin/time  --verbose python scripts/qiskit/grover_qiskit_with_optimizations.py > /dev/null

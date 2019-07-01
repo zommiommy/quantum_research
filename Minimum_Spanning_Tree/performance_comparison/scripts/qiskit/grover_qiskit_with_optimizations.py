@@ -1,15 +1,16 @@
+
 import qiskit as q
-import qiskit_aqua
+import qiskit.aqua
 
 from math import floor, pi, sqrt
 
-
 # Inizzializzazione dei qbit e i bit su cui fare la ricerca
-register = q.QuantumRegister(8, name="values")
+register = q.QuantumRegister(10, name="values")
 # Lista dei singoli qbits per averne accesso piu' agevole
 qbits = [q for q in register]
+n_of_qbits = len(qbits)
 # Inizzalizzazione degli ancilla qbits che saranno necessari per il cnx gate
-ancillas = q.QuantumRegister(8, name="ancillas")
+ancillas = q.QuantumRegister(10, name="ancillas")
 
 # Creazione del circuito quantum
 circuit = q.QuantumCircuit(register, ancillas)
@@ -26,10 +27,7 @@ oracle.x(qbits[4])
 oracle.x(qbits[6])
 
 # costuriamo un (c^n Z) per poter selezionare il valore
-# poiche' su qiskit non e' presente sfruttiamo che HXH = Z
-oracle.h(qbits[-1])
-oracle.cnx(qbits[:-1], qbits[-1], ancillas)
-oracle.h(qbits[-1])
+oracle.mcmt(qbits[:-1], ancillas, q.QuantumCircuit.cz, [qbits[-1]])
 
 # Rimettiamo a posto lo stato dei qbits rieseguendo le operazioni al contrario
 oracle.x(qbits[6])
@@ -48,10 +46,8 @@ def construct_diffusion_operator(registers, qbits, ancillas) -> q.QuantumCircuit
         circuit.x(qbit)
 
     # Poiche' non esiste il C^n Z su qiskit sfruttiamo ancora HXH = Z
-    diffusion.h(qbits[-1])
-    diffusion.cnx(qbits[:-1], qbits[-1],ancillas)
-    diffusion.h(qbits[-1])
-
+    oracle.mcmt(qbits[:-1], ancillas, q.QuantumCircuit.cz, [qbits[-1]])
+    
     # Secondo muro di X e H
     for qbit in qbits:
         diffusion.x(qbit)
@@ -60,12 +56,12 @@ def construct_diffusion_operator(registers, qbits, ancillas) -> q.QuantumCircuit
     return diffusion
 
 
-def construct_grover(self, circuit : q.QuantumCircuit, oracle : q.QuantumCircuit, registers, qbits, ancillas, number_of_expected_results : int = 1) -> q.QuantumCircuit:
+def construct_grover(circuit : q.QuantumCircuit, oracle : q.QuantumCircuit, registers, qbits, ancillas, number_of_expected_results : int = 1) -> q.QuantumCircuit:
     """Create the circuit to perform a grover search given the orcale"""
     diffusion = construct_diffusion_operator(registers, qbits, ancillas)
 
     # Calcoliamo il numero di iterazioni previste
-    number_of_iterations = (pi / 4)*sqrt((2**len(self.qbits)) / number_of_expected_results)
+    number_of_iterations = (pi / 4)*sqrt((2**len(qbits)) / number_of_expected_results)
     # Arrotondiamo per difetto in quanto sperimentalemnte sembra dare i risultati migliori
     number_of_iterations = floor(number_of_iterations)
 
@@ -79,24 +75,25 @@ def construct_grover(self, circuit : q.QuantumCircuit, oracle : q.QuantumCircuit
 # Applichiamo grover
 circuit = construct_grover(circuit, oracle, [register], qbits, ancillas)
 
+# Inizzializziamo il backend del simulatore
+backend_sim = q.BasicAer.get_backend('qasm_simulator')
+# Optimze the circuit
+circuit = q.compiler.transpile(circuit, backend=backend_sim, optimization_level=2)
 
 # Setuppiamo il circuito per simularlo
 
 # Inizzializziamo un registro di qbit classici
 # I bit normali servono come registi dove il simulatore andra' a salvare il risultato dell'esperimento
-cbits = q.ClassicalRegister(self.n_of_qbits, 'classical_values')
+cbits = q.ClassicalRegister(n_of_qbits, 'classical_values')
 
 # Ed aggiungiamoli al circuito
 
-circuit.add(cbits)
+circuit.add_register(cbits)
 circuit.measure(register, cbits)
-
-# Inizzializziamo il backend del simulatore
-backend_sim = q.BasicAer.get_backend('qasm_simulator')
 
 # Si compila il circuito per ottimizzarlo e renderlo eseguibile
 # Ed imponiamo che il simulatore faccia 10^4 simulazioni
-qobj = q.compile(circuit, backend_sim, shots=1e4)
+qobj = q.compiler.assemble(circuit, shots=10, seed_simulator=42)
 
 # Otteniamo i risultati organizzati come frequenza degli stati misurati
 results = backend_sim.run(qobj).result().get_counts(circuit)
