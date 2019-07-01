@@ -1,6 +1,6 @@
 import cirq
 from math import floor, pi, sqrt
-length = 8
+length = 10
 number_of_expected_results = 1
 qubits = [cirq.GridQubit(i, 0) for i in range(length)]
 
@@ -57,6 +57,6 @@ circuit.append(cirq.measure(*qubits))
 
 from cirq import Simulator
 simulator = Simulator()
-result = simulator.run(circuit, repetitions=100)
+result = simulator.run(circuit, repetitions=10)
 
 print(result)

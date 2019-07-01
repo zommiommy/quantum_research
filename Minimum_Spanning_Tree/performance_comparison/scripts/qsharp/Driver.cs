@@ -24,7 +24,7 @@ namespace Grover
             var sim = new QuantumSimulator(throwOnReleasingQubitsNotInZeroState: true);
 
             //repeats: number of program execution
-            var repeats = 10;
+            var repeats = 10000;
             var successCount = 0;
 
             //n: number of qubit

@@ -90,7 +90,7 @@ circuit.add_register(cbits)
 circuit.measure(register, cbits)
 
 # Otteniamo i risultati organizzati come frequenza degli stati misurati
-results = q.execute(circuit, backend_sim, shots=10).result().get_counts(circuit)
+results = q.execute(circuit, backend_sim, shots=10000).result().get_counts(circuit)
 
 # Stampiamo a schermo il risultato
 print(results)

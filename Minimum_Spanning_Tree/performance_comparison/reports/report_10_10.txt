@@ -1,16 +1,18 @@
-Grover search with 10 searchable qbits and 10 batch simulations
+Test Description:
+	Test of the 3 freamwork executing the Grover search of a single number
+	With 10 searchable qbits and 10 repetitions
 
 System specifications
-            .-/+oossssoo+/-.               root@2256126ca5f8 
+            .-/+oossssoo+/-.               root@10b9fc6ebff3 
         `:+ssssssssssssssssss+:`           ----------------- 
       -+ssssssssssssssssssyyssss+-         OS: Ubuntu 18.04.2 LTS x86_64 
     .ossssssssssssssssssdMMMNysssso.       Host: XPS 15 9570 
    /ssssssssssshdmmNNmmyNMMMMhssssss/      Kernel: 4.19.49-1-MANJARO 
-  +ssssssssshmydMMMMMMMNddddyssssssss+     Uptime: 18 hours, 7 mins 
+  +ssssssssshmydMMMMMMMNddddyssssssss+     Uptime: 18 hours, 23 mins 
  /sssssssshNMMMyhhyyyyhmNMMMNhssssssss/    Packages: 227 
 .ssssssssdMMMNhsssssssssshNMMMdssssssss.   Shell: bash 4.4.19 
 +sssshhhyNMMNyssssssssssssyNMMMysssssss+   CPU: Intel i7-8750H (12) @ 4.100GHz 
-ossyNMMMNyMMhsssssssssssssshmmmhssssssso   Memory: 5370MiB / 31793MiB 
+ossyNMMMNyMMhsssssssssssssshmmmhssssssso   Memory: 5358MiB / 31793MiB 
 ossyNMMMNyMMhsssssssssssssshmmmhssssssso 
 +sssshhhyNMMNyssssssssssssyNMMMysssssss+                           
 .ssssssssdMMMNhsssssssssshNMMMdssssssss. 
@@ -24,20 +26,20 @@ ossyNMMMNyMMhsssssssssssssshmmmhssssssso
 
 Testing cirq runtine
 	Command being timed: "python scripts/cirq/grover_cirq.py"
-	User time (seconds): 1.51
-	System time (seconds): 0.98
-	Percent of CPU this job got: 211%
-	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.18
+	User time (seconds): 1.48
+	System time (seconds): 1.06
+	Percent of CPU this job got: 209%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.21
 	Average shared text size (kbytes): 0
 	Average unshared data size (kbytes): 0
 	Average stack size (kbytes): 0
 	Average total size (kbytes): 0
-	Maximum resident set size (kbytes): 104224
+	Maximum resident set size (kbytes): 104048
 	Average resident set size (kbytes): 0
 	Major (requiring I/O) page faults: 0
-	Minor (reclaiming a frame) page faults: 34529
-	Voluntary context switches: 25
-	Involuntary context switches: 311
+	Minor (reclaiming a frame) page faults: 34688
+	Voluntary context switches: 23
+	Involuntary context switches: 171
 	Swaps: 0
 	File system inputs: 0
 	File system outputs: 80
@@ -49,23 +51,23 @@ Testing cirq runtine
 
 Testing Q# build & runtime
 	Command being timed: "dotnet run"
-	User time (seconds): 9.05
-	System time (seconds): 4.85
-	Percent of CPU this job got: 78%
-	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:17.68
+	User time (seconds): 10.11
+	System time (seconds): 4.77
+	Percent of CPU this job got: 84%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:17.72
 	Average shared text size (kbytes): 0
 	Average unshared data size (kbytes): 0
 	Average stack size (kbytes): 0
 	Average total size (kbytes): 0
-	Maximum resident set size (kbytes): 121820
+	Maximum resident set size (kbytes): 118284
 	Average resident set size (kbytes): 0
 	Major (requiring I/O) page faults: 1
-	Minor (reclaiming a frame) page faults: 94059
-	Voluntary context switches: 52653
-	Involuntary context switches: 366
+	Minor (reclaiming a frame) page faults: 91341
+	Voluntary context switches: 44633
+	Involuntary context switches: 419
 	Swaps: 0
 	File system inputs: 0
-	File system outputs: 247912
+	File system outputs: 248016
 	Socket messages sent: 0
 	Socket messages received: 0
 	Signals delivered: 0
@@ -74,23 +76,23 @@ Testing Q# build & runtime
 
 Testing Q# runtime only
 	Command being timed: "dotnet run"
-	User time (seconds): 1.87
-	System time (seconds): 0.29
-	Percent of CPU this job got: 156%
-	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.38
+	User time (seconds): 1.85
+	System time (seconds): 0.24
+	Percent of CPU this job got: 154%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.35
 	Average shared text size (kbytes): 0
 	Average unshared data size (kbytes): 0
 	Average stack size (kbytes): 0
 	Average total size (kbytes): 0
-	Maximum resident set size (kbytes): 103704
+	Maximum resident set size (kbytes): 103984
 	Average resident set size (kbytes): 0
 	Major (requiring I/O) page faults: 0
-	Minor (reclaiming a frame) page faults: 67074
-	Voluntary context switches: 8921
-	Involuntary context switches: 95
+	Minor (reclaiming a frame) page faults: 66661
+	Voluntary context switches: 8693
+	Involuntary context switches: 129
 	Swaps: 0
 	File system inputs: 0
-	File system outputs: 104
+	File system outputs: 32
 	Socket messages sent: 0
 	Socket messages received: 0
 	Signals delivered: 0
@@ -99,20 +101,20 @@ Testing Q# runtime only
 
 Testing qiskit runtime without optimizations
 	Command being timed: "python scripts/qiskit/grover_qiskit.py"
-	User time (seconds): 223.88
-	System time (seconds): 2.25
+	User time (seconds): 222.34
+	System time (seconds): 2.36
 	Percent of CPU this job got: 101%
-	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:43.65
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:42.19
 	Average shared text size (kbytes): 0
 	Average unshared data size (kbytes): 0
 	Average stack size (kbytes): 0
 	Average total size (kbytes): 0
-	Maximum resident set size (kbytes): 214224
+	Maximum resident set size (kbytes): 213812
 	Average resident set size (kbytes): 0
 	Major (requiring I/O) page faults: 0
-	Minor (reclaiming a frame) page faults: 173816
-	Voluntary context switches: 175
-	Involuntary context switches: 1446
+	Minor (reclaiming a frame) page faults: 173881
+	Voluntary context switches: 162
+	Involuntary context switches: 34605
 	Swaps: 0
 	File system inputs: 0
 	File system outputs: 8
@@ -124,22 +126,22 @@ Testing qiskit runtime without optimizations
 
 Testing qiskit runtime with optimizations
 	Command being timed: "python scripts/qiskit/grover_qiskit_with_optimizations.py"
-	User time (seconds): 247.17
-	System time (seconds): 2.31
-	Percent of CPU this job got: 101%
-	Elapsed (wall clock) time (h:mm:ss or m:ss): 4:06.96
+	User time (seconds): 245.07
+	System time (seconds): 2.35
+	Percent of CPU this job got: 100%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 4:04.98
 	Average shared text size (kbytes): 0
 	Average unshared data size (kbytes): 0
 	Average stack size (kbytes): 0
 	Average total size (kbytes): 0
-	Maximum resident set size (kbytes): 236044
+	Maximum resident set size (kbytes): 235784
 	Average resident set size (kbytes): 0
 	Major (requiring I/O) page faults: 0
-	Minor (reclaiming a frame) page faults: 160665
-	Voluntary context switches: 142
-	Involuntary context switches: 2048
+	Minor (reclaiming a frame) page faults: 160228
+	Voluntary context switches: 166
+	Involuntary context switches: 1135
 	Swaps: 0
-	File system inputs: 0
+	File system inputs: 240
 	File system outputs: 8
 	Socket messages sent: 0
 	Socket messages received: 0

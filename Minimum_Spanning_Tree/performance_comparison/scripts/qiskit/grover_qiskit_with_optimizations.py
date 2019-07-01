@@ -93,7 +93,7 @@ circuit.measure(register, cbits)
 
 # Si compila il circuito per ottimizzarlo e renderlo eseguibile
 # Ed imponiamo che il simulatore faccia 10^4 simulazioni
-qobj = q.compiler.assemble(circuit, shots=10, seed_simulator=42)
+qobj = q.compiler.assemble(circuit, shots=10000, seed_simulator=42)
 
 # Otteniamo i risultati organizzati come frequenza degli stati misurati
 results = backend_sim.run(qobj).result().get_counts(circuit)
