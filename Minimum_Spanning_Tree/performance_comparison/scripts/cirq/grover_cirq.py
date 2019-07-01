@@ -1,6 +1,7 @@
+import sys
 import cirq
 from math import floor, pi, sqrt
-length = 10
+length = int(sys.argv[1])
 number_of_expected_results = 1
 qubits = [cirq.GridQubit(i, 0) for i in range(length)]
 
@@ -26,7 +27,6 @@ class Grover():
         circuit.append(cirq.X(q) for q in self.qubits)
         circuit.append(cirq.H(q) for q in self.qubits)
 
-        print(circuit)
         return circuit
         
 
@@ -42,9 +42,9 @@ def make_oracle(qubits):
     controllee= []
     for i in range(length - 1):
         controllee.append(qubits[i])
-    circuit.append(cirq.X(qubits[i]) for i in [1,3,4,6])
+    circuit.append(cirq.X(qubits[i]) for i in [1,3,4])
     circuit.append(cirq.control(cirq.Z, controllee)(qubits[-1]))
-    circuit.append(cirq.X(qubits[i]) for i in [1,3,4,6])
+    circuit.append(cirq.X(qubits[i]) for i in [1,3,4])
     return circuit
 
 
@@ -55,8 +55,10 @@ circuit.append(cirq.H(q) for q in qubits)
 grover.run(circuit, oracle, number_of_expected_results)
 circuit.append(cirq.measure(*qubits))
 
+print(circuit)
+
 from cirq import Simulator
 simulator = Simulator()
-result = simulator.run(circuit, repetitions=10)
+result = simulator.run(circuit, repetitions=int(sys.argv[2]))
 
 print(result)

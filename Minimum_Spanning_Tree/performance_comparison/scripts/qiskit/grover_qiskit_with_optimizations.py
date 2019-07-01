@@ -5,12 +5,12 @@ import qiskit.aqua
 from math import floor, pi, sqrt
 
 # Inizzializzazione dei qbit e i bit su cui fare la ricerca
-register = q.QuantumRegister(10, name="values")
+register = q.QuantumRegister(6, name="values")
 # Lista dei singoli qbits per averne accesso piu' agevole
 qbits = [q for q in register]
 n_of_qbits = len(qbits)
 # Inizzalizzazione degli ancilla qbits che saranno necessari per il cnx gate
-ancillas = q.QuantumRegister(10, name="ancillas")
+ancillas = q.QuantumRegister(6, name="ancillas")
 
 # Creazione del circuito quantum
 circuit = q.QuantumCircuit(register, ancillas)
@@ -18,19 +18,17 @@ circuit = q.QuantumCircuit(register, ancillas)
 circuit.h(qbits)
 
 
-# Costruiamo un oracolo d'esempio che cerca il valore 1010 0101
+# Costruiamo un oracolo d'esempio che cerca il valore 1010 0111
 oracle = q.QuantumCircuit(register, ancillas)
 # Poniamo un gate X in corrispondenza dei bit uguali a 0 nel valore cercato
 oracle.x(qbits[1])
 oracle.x(qbits[3])
 oracle.x(qbits[4])
-oracle.x(qbits[6])
 
 # costuriamo un (c^n Z) per poter selezionare il valore
 oracle.mcmt(qbits[:-1], ancillas, q.QuantumCircuit.cz, [qbits[-1]])
 
 # Rimettiamo a posto lo stato dei qbits rieseguendo le operazioni al contrario
-oracle.x(qbits[6])
 oracle.x(qbits[4])
 oracle.x(qbits[3])
 oracle.x(qbits[1])
@@ -93,7 +91,7 @@ circuit.measure(register, cbits)
 
 # Si compila il circuito per ottimizzarlo e renderlo eseguibile
 # Ed imponiamo che il simulatore faccia 10^4 simulazioni
-qobj = q.compiler.assemble(circuit, shots=10000, seed_simulator=42)
+qobj = q.compiler.assemble(circuit, shots=100, seed_simulator=42)
 
 # Otteniamo i risultati organizzati come frequenza degli stati misurati
 results = backend_sim.run(qobj).result().get_counts(circuit)

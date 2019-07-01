@@ -1,0 +1,118 @@
+#############################################################################################
+New Batch
+#############################################################################################
+Test Description:
+	Test of the 3 freamwork executing the Grover search of a single number
+	With 8 searchable qbits and 10 repetitions
+
+System specifications
+root@6d798c2e9216 
+----------------- 
+OS: Ubuntu 18.04.2 LTS x86_64 
+Host: XPS 15 9570 
+Kernel: 4.19.49-1-MANJARO 
+Uptime: 57 mins 
+Packages: 227 
+Shell: bash 4.4.19 
+CPU: Intel i7-8750H (12) @ 4.100GHz 
+Memory: 2968MiB / 31793MiB 
+
+Testing cirq runtine
+	Command being timed: "python scripts/cirq/grover_cirq.py 8 10"
+	User time (seconds): 1.42
+	System time (seconds): 0.96
+	Percent of CPU this job got: 224%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.06
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 104736
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 21169
+	Voluntary context switches: 23
+	Involuntary context switches: 98
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+
+Testing Q# runtime
+	Command being timed: "dotnet run 8 10"
+	User time (seconds): 3.15
+	System time (seconds): 0.34
+	Percent of CPU this job got: 195%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.79
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 103092
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 67348
+	Voluntary context switches: 6451
+	Involuntary context switches: 607
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 104
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+
+Testing qiskit runtime without optimizations
+	Command being timed: "python scripts/qiskit/grover_qiskit.py 8 10"
+	User time (seconds): 11.75
+	System time (seconds): 2.23
+	Percent of CPU this job got: 126%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:11.03
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 173120
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 115412
+	Voluntary context switches: 133
+	Involuntary context switches: 262
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+
+Testing qiskit runtime with optimizations
+	Command being timed: "python scripts/qiskit/grover_qiskit_with_optimizations.py 8 10"
+	User time (seconds): 7.97
+	System time (seconds): 2.31
+	Percent of CPU this job got: 139%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:07.35
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 161684
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 106403
+	Voluntary context switches: 131
+	Involuntary context switches: 376
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

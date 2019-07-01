@@ -14,4 +14,4 @@ docker build --file Dockerfile -t quantum-test-env .
 echo "#########################################################"
 echo "Run the container"
 echo "#########################################################"
-docker run -it quantum-test-env
+docker run -v $PWD/reports:/quantum/reports -it quantum-test-env 

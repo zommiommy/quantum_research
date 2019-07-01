@@ -22,14 +22,13 @@ namespace Grover
             // We begin by defining a quantum simulator to be our target
             // machine.
             var sim = new QuantumSimulator(throwOnReleasingQubitsNotInZeroState: true);
-
+        
             //repeats: number of program execution
-            var repeats = 10000;
-            var successCount = 0;
+            var repeats = Int32.Parse(args[1]);
 
             //n: number of qubit
             //N: size of "database"
-            var numDatabaseQubits = 10;
+            var numDatabaseQubits = Int32.Parse(args[0]);
             var databaseSize = Math.Pow(2.0, numDatabaseQubits);
 
             int markedElement = 28;

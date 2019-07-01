@@ -53,4 +53,5 @@ RUN python -m pip install qiskit_aqua
 ADD scripts /quantum/scripts
 
 # Add the test script
+ADD grid_test.sh /quantum
 ADD test_all.sh /quantum

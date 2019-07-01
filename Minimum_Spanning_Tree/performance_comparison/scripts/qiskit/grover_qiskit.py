@@ -1,16 +1,17 @@
 
+import sys
 import qiskit as q
 import qiskit.aqua
 
 from math import floor, pi, sqrt
 
+n_of_qbits = int(sys.argv[1])
 # Inizzializzazione dei qbit e i bit su cui fare la ricerca
-register = q.QuantumRegister(10, name="values")
+register = q.QuantumRegister(n_of_qbits, name="values")
 # Lista dei singoli qbits per averne accesso piu' agevole
 qbits = [q for q in register]
-n_of_qbits = len(qbits)
 # Inizzalizzazione degli ancilla qbits che saranno necessari per il cnx gate
-ancillas = q.QuantumRegister(10, name="ancillas")
+ancillas = q.QuantumRegister(n_of_qbits, name="ancillas")
 
 # Creazione del circuito quantum
 circuit = q.QuantumCircuit(register, ancillas)
@@ -18,19 +19,17 @@ circuit = q.QuantumCircuit(register, ancillas)
 circuit.h(qbits)
 
 
-# Costruiamo un oracolo d'esempio che cerca il valore 1010 0101
+# Costruiamo un oracolo d'esempio che cerca il valore 1010 0111
 oracle = q.QuantumCircuit(register, ancillas)
 # Poniamo un gate X in corrispondenza dei bit uguali a 0 nel valore cercato
 oracle.x(qbits[1])
 oracle.x(qbits[3])
 oracle.x(qbits[4])
-oracle.x(qbits[6])
 
 # costuriamo un (c^n Z) per poter selezionare il valore
 oracle.mcmt(qbits[:-1], ancillas, q.QuantumCircuit.cz, [qbits[-1]])
 
 # Rimettiamo a posto lo stato dei qbits rieseguendo le operazioni al contrario
-oracle.x(qbits[6])
 oracle.x(qbits[4])
 oracle.x(qbits[3])
 oracle.x(qbits[1])
@@ -90,7 +89,7 @@ circuit.add_register(cbits)
 circuit.measure(register, cbits)
 
 # Otteniamo i risultati organizzati come frequenza degli stati misurati
-results = q.execute(circuit, backend_sim, shots=10000).result().get_counts(circuit)
+results = q.execute(circuit, backend_sim, shots=int(sys.argv[2])).result().get_counts(circuit)
 
 # Stampiamo a schermo il risultato
 print(results)
