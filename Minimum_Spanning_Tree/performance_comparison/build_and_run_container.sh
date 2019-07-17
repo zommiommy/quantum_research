@@ -1,5 +1,4 @@
 #!/bin/bash
-
 echo "#########################################################"
 echo "Stopping the istance if there is (This might take a few seconds)"
 echo "#########################################################"

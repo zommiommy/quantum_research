@@ -1,6 +1,4 @@
 #!/bin/bash
-
-
 # Call the script once before time it so that we don't measure the building
 cd scripts/qsharp
 dotnet run 5 1 > /dev/null
