@@ -1823,35 +1823,15 @@ end{align}
 \end_layout
 
 \begin_layout Standard
-In a naïve approach, we could say that 
-\begin_inset Formula $\Ket{Q_{0}}=HH\Ket{0}=I\Ket{0}=\Ket{0}$
+If we would use a naïve approach, we could say that 
+\begin_inset Formula $\Ket{Q_{0}}=HH\Ket{0}=0$
 \end_inset
 
-, which would have been true if 
+, which would be true if 
 \begin_inset Formula $\Ket{Q_{1}}$
 \end_inset
 
- would have not existed in the same circuit.
- But in this case, 
-\begin_inset Formula $\Ket{Q_{1}}$
-\end_inset
-
- and 
-\begin_inset Formula $\Ket{Q_{0}}$
-\end_inset
-
- influence eachother.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\Ket{S^{0}}=\Ket{00}
-\]
-
-\end_inset
-
-
+ would have n
 \end_layout
 
 \end_body

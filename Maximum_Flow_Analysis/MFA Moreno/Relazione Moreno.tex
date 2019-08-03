@@ -1,0 +1,287 @@
+%% LyX 2.3.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage{tikz}
+\usepackage{braket}
+\usepackage{Qcircuit}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\title{Quantum Max Flow Analysis}
+\author{Moreno Giussani}
+\maketitle
+\begin{abstract}
+This document will describe the analysis I have performed in the last
+months about the quantum implementation of the Max Flow algorithm.
+The max flow problem involves finding a feasible flow through a single-source,
+single-sink flow network that is maximum. I have been working for
+finding a practical solution to this problem using a quantum algorithm
+which could be at least as efficient as a classical one, without succeding
+in it.
+\end{abstract}
+
+\part{Introduction}
+
+Before considering the algorithm, I have tried to understand most
+of the concepts which lies behind a quantum algorithm.
+
+For what regards quantum computing, the standard model of computation
+is the quantum circuit. A quantum circuit is a scheme composed of
+some elementary blocks, which are qubits and quantum logic gates.
+Rows of this scheme represents qubits, while in columns are inserted
+quantum logic gates.
+
+\section{Qubit}
+
+Qubits are the quantum equivalent of bits. They are usually represented
+using the bra-ket notation. A single qubit $\Ket{Q_{0}}$is usually
+described by a 2-dimensional column vector (Ket nontation) which is
+a specific linear combination of its orthonormal bases $\Ket{0}=\left[\begin{array}{c}
+1\\
+0
+\end{array}\right]$ and $\Ket{1}=\left[\begin{array}{c}
+0\\
+1
+\end{array}\right]$. When the qubit is measured (an equivalent operation of reading a
+bit value in classical computing), its value collapses to either $\Ket{0}$
+or $\Ket{1}$ (their orthonormal bases).
+
+Suppose $\Ket{Q_{0}}$is defined as 
+\[
+\Ket{Q_{0}}=\alpha\Ket{0}+\beta\Ket{1}\;\alpha\in\mathbb{C},\beta\in\mathbb{C}
+\]
+Then $\alpha$ and $\beta$ must respect the rule $|\alpha|^{2}+|\beta|^{2}=1$
+, because $|\alpha|^{2}$ represents the probability that a measurement
+outputs $\Ket{0}$ and $|\beta|^{2}$ represents the probability that
+a measurement outputs $\Ket{1}$. During the computation the qubit
+can assume an ``overlapped'' state (both state 0 and state 1), but
+when measured, its expressivity power reduces to a classical bit.
+When both $\alpha$ and $\beta$ are different from 0 ,$Q_{0}$ is
+said to be in superposition.
+
+Qubits have also another interesting property: they cannot be copied.
+There is no way to create an identical copy of an arbitrary unknown
+quantum state (\textit{no cloning theorem}).
+
+Now, things get a bit tricky when considering a N-qubit quantum computer.
+If there are two or more qubits, their representation is made as the
+tensor product of all of the qbits, so they often cannot be considered
+as separated qubits. Suppose to have a 3-qubit quantum computer which
+uses qubits $Q_{a},Q_{b},Q_{c}$. The representation of the state
+of the quantum system becomes:
+
+\begin{equation}
+\Ket{Q_{x}}=x_{1}\left[\begin{array}{c}
+1\\
+0
+\end{array}\right]+x_{2}\left[\begin{array}{c}
+0\\
+1
+\end{array}\right]=\left[\begin{array}{c}
+x_{1}\\
+x_{2}
+\end{array}\right]\;x\in\left\{ a,b,c\right\} 
+\end{equation}
+
+\begin{equation}
+\Ket{Q_{ab}}=\Ket{Q_{a}}\otimes\Ket{Q_{b}}=\begin{bmatrix}a_{1}\begin{bmatrix}b_{1}\\
+b_{2}
+\end{bmatrix}\\
+a_{2}\begin{bmatrix}b_{1}\\
+b_{2}
+\end{bmatrix}
+\end{bmatrix}=\begin{bmatrix}a_{1}b_{1}\\
+a_{1}b_{2}\\
+a_{2}b_{1}\\
+a_{2}b_{2}
+\end{bmatrix}
+\end{equation}
+
+\begin{equation}
+\Ket{Q_{ab}}=\begin{bmatrix}a_{1}b_{1}\\
+a_{1}b_{2}\\
+a_{2}b_{1}\\
+a_{2}b_{2}
+\end{bmatrix}=a_{1}b_{1}(\Ket{0}\otimes\Ket{0})+a_{1}b_{2}(\Ket{0}\otimes\Ket{1})+a_{2}b_{1}(\Ket{1}\otimes\Ket{0})+a_{2}b_{2}(\Ket{1}\otimes\Ket{1})
+\end{equation}
+
+\begin{equation}
+\Ket{Q_{abc}}=\Ket{Q_{a}}\otimes\Ket{Q_{b}}\otimes\Ket{Q_{c}}=\Ket{Q_{ab}}\otimes\Ket{Q_{c}}=\begin{bmatrix}a_{1}b_{1}\begin{bmatrix}c_{1}\\
+c_{2}
+\end{bmatrix}\\
+a_{1}b_{2}\begin{bmatrix}c_{1}\\
+c_{2}
+\end{bmatrix}\\
+a_{2}b_{1}\begin{bmatrix}c_{1}\\
+c_{2}
+\end{bmatrix}\\
+a_{2}b_{2}\begin{bmatrix}c_{1}\\
+c_{2}
+\end{bmatrix}
+\end{bmatrix}=\begin{bmatrix}a_{1}b_{1}c_{1}\\
+a_{1}b_{1}c_{2}\\
+a_{1}b_{2}c_{1}\\
+a_{1}b_{2}c_{2}\\
+a_{2}b_{1}c_{1}\\
+a_{2}b_{1}c_{2}\\
+a_{2}b_{2}c_{1}\\
+a_{2}b_{2}c_{2}
+\end{bmatrix}
+\end{equation}
+
+In many cases it is impossible to consider $Q_{a},Q_{b}$and $Q_{c}$separately,
+because in a quantum system some quantum logic gates may cause to
+obtain a ``mixed'' state from which is not possible to find some
+suitable $Q_{a},Q_{b}$and $Q_{c}$ which satisfies (4). This concept,
+which is called entanglement, will be described in detail later. The
+quadratic sum of all elements of a Ket must be 1, like said before
+for a single qubit.
+
+\section{Quantum logic gates}
+
+In a quantum circuit model, quantum logic gates are transformation
+matrices which describes the behaviour of the physical quantum logic
+gates. Quantum logic gates are represented by means of unitary square
+matrices of size $2^{n}$,where $n$ is the number of qubits to which
+a gate can be applied. A matrix $U$ is said unitary if
+
+\[
+UU^{\dagger}=U^{\dagger}U=I
+\]
+
+where $U^{\dagger}$ is the Hermitian conjugate of $U$. The Hermitian
+conjugate could be described as a conjugate traspose of $U$.
+
+The description of the state obtained from the application of a generic
+quantum gate $G$from quantum state$\Ket{S_{0}}$ can be calculated
+as:
+
+\[
+\Ket{S_{1}}=G\Ket{S_{0}}
+\]
+
+Some of the most known unitary logic gates are:
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+Name & Symbol & Matrix\tabularnewline
+\hline 
+\hline 
+Hadamard & $H$ & $\frac{1}{\sqrt{2}}\begin{bmatrix}1 & 1\\
+1 & -1
+\end{bmatrix}$\tabularnewline
+\hline 
+Pauli-X (Not) & $X$(or $NOT$) & $\left[\begin{array}{cc}
+0 & 1\\
+1 & 0
+\end{array}\right]$\tabularnewline
+\hline 
+Pauli-Y & $Y$ & $\left[\begin{array}{cc}
+0 & -i\\
+i & 0
+\end{array}\right]$\tabularnewline
+\hline 
+Pauli-Z & $Z$or $R_{\pi}$ & $\left[\begin{array}{cc}
+1 & 0\\
+0 & -1
+\end{array}\right]$\tabularnewline
+\hline 
+Swap & $SWAP$ & $\left[\begin{array}{cccc}
+1 & 0 & 0 & 0\\
+0 & 0 & 1 & 0\\
+0 & 1 & 0 & 0\\
+0 & 0 & 0 & 1
+\end{array}\right]$\tabularnewline
+\hline 
+Controlled Not & $CNOT$ & $\left[\begin{array}{cccc}
+1 & 0 & 0 & 0\\
+0 & 1 & 0 & 0\\
+0 & 0 & 0 & 1\\
+0 & 0 & 1 & 0
+\end{array}\right]$\tabularnewline
+\hline 
+Identity & $I$ & $\left[\begin{array}{cc}
+1 & 0\\
+0 & 1
+\end{array}\right]$\tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+
+\begin{center}
+When applied to a single qubit in one of its bases ($\Ket{0}$ or
+$\Ket{1}$), an H gate will put the qubit in a superstate.
+\par\end{center}
+
+There are many more controlled gates which are represented using a
+C prefix, like for the CNOT gate. Their structure is
+
+\[
+U=\left[\begin{array}{cccc}
+u_{11} & u_{12} & ... & u_{1m}\\
+u_{21} & u_{22} & ... & u_{2m}\\
+... & ... & ... & ...\\
+u_{m1} & u_{m2} & ... & u_{mm}
+\end{array}\right]\:CU=\left[\begin{array}{ccccc}
+1 & 0 & 0 & ... & 0\\
+0 & 1 & 0 & ... & 0\\
+0 & 0 & u_{11} & ... & u_{1m}\\
+... & ... & ... & ... & ...\\
+0 & 0 & u_{m1} & ... & u_{mm}
+\end{array}\right]
+\]
+
+
+\section{Quantum circuits}
+
+Quantum circuits can be represented via a ladder-like scheme. Each
+row (horizontal lines) represents a distinct qubit, and the gates
+which have to be applied to the given qubit are inserted on that line,
+from left to right. Gates on the same column has to be applied at
+the same time.
+
+Here's an example with a 2-qubit circuit:\Qcircuit @C=1em @R=.7em {
+\Ket{Q_0} & & \gate{H} & \gate{Z} & \gate{H} & \ctrl{1} & \gate{U}  & \qw & \meter \\
+\Ket{Q_1} & & \qw      & \gate{X} & \qw      & \targ    & \ctrl{-1} & \qw & \meter
+}
+
+which is equivalent to the given circuit:
+\begin{center}
+\Qcircuit @C=1em @R=.7em {
+\Ket{Q_0} & & \gate{H} & \gate{Z} & \gate{H} & \ctrl{1} & \gate{U}  & \gate{I} & \meter \\
+\Ket{Q_1} & & \gate{I} & \gate{X} & \gate{I} & \targ    & \ctrl{-1} & \gate{I} & \meter
+}
+\par\end{center}
+
+As said before, in a multi qubit computer, considering $Q_{0}$and
+$Q_{1}$as independent qubits would often lead to mistakes, because
+the application of a gate to a qubit would cause some side effects
+on other qubits.
+
+If not specified, like in this case, every qubit is initialized to
+state $\Ket{0}$. 
+
+Knowing that the above circuit is a 2-qubit circuit, the initial state
+is described as $\Ket{Q_{0}}\otimes\Ket{Q_{1}}=\Ket{00}$ . Then,
+the applied gate is $H\otimes I=\left[\begin{array}{cccc}
+\frac{1}{\sqrt{2}} & 0 & 0 & 0\\
+0 & \frac{1}{\sqrt{2}} & 0 & 0\\
+0 & 0 & -\frac{1}{\sqrt{2}} & 0\\
+0 & 0 & 0 & -\frac{1}{\sqrt{2}}
+\end{array}\right]$
+\end{document}
