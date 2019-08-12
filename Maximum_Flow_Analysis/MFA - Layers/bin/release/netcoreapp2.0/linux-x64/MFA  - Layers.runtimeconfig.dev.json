@@ -1,8 +1,0 @@
-{
-  "runtimeOptions": {
-    "additionalProbingPaths": [
-      "/home/moreno/.dotnet/store/|arch|/|tfm|",
-      "/home/moreno/.nuget/packages"
-    ]
-  }
-}

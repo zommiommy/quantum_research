@@ -1,0 +1,62 @@
+Created edge {source[Index: 0 Assigned Layer: 0] -- 0/1 --> destination[Index: 1 Assigned Layer: -1]}
+Created edge {source[Index: 1 Assigned Layer: -1] -- 0/1 --> destination[Index: 3 Assigned Layer: -1]}
+Created edge {source[Index: 0 Assigned Layer: 0] -- 0/2 --> destination[Index: 2 Assigned Layer: -1]}
+Created edge {source[Index: 2 Assigned Layer: -1] -- 0/120 --> destination[Index: 3 Assigned Layer: -1]}
+Created edge {source[Index: 1 Assigned Layer: -1] -- 0/10 --> destination[Index: 3 Assigned Layer: -1]}
+Elements to be found are: [ 0, 1, ] in a dataset of size 2
+Actual size of the dataset: 2
+Oracle + Diffusion iterations: 2
+Outcome is (One, 0)
+Item found:Index: 1 Assigned Layer: -1
+Item updated to Index: 1 Assigned Layer: 1 and enqueued.
+Elements to be found are: [ 1, ] in a dataset of size 2
+Actual size of the dataset: 2
+Oracle + Diffusion iterations: 1
+Outcome is (One, 1)
+Item found:Index: 2 Assigned Layer: -1
+Item updated to Index: 2 Assigned Layer: 1.
+Item was the sink node. Layering task has finished.
+ There is a possible flow between source and sink.
+Elements to be found are: [ ] in a dataset of size 2
+Actual size of the dataset: 2
+All neighbors of {Index: 0 Assigned Layer: 0} visited.
+Elements to be found are: [ 0, 1, ] in a dataset of size 2
+Actual size of the dataset: 2
+Oracle + Diffusion iterations: 2
+Outcome is (One, 0)
+Item found:Index: 3 Assigned Layer: -1
+Item updated to Index: 3 Assigned Layer: 2.
+Item was the sink node. Layering task has finished.
+ There is a possible flow between source and sink.
+Elements to be found are: [ ] in a dataset of size 2
+Actual size of the dataset: 2
+All neighbors of {Index: 1 Assigned Layer: 1} visited.
+Elements to be found are: [ 0, ] in a dataset of size 1
+Actual size of the dataset: 1
+Oracle + Diffusion iterations: 1
+Outcome is (One, 0)
+Item Index:0
+Calculating max flow
+max flow=2
+Elements to be found are: [ 0, ] in a dataset of size 1
+Actual size of the dataset: 1
+Oracle + Diffusion iterations: 0
+Outcome is (One, 0)
+Item found:Index: 1 Assigned Layer: -1
+Item updated to Index: 1 Assigned Layer: 1 and enqueued.
+Elements to be found are: [ ] in a dataset of size 1
+Actual size of the dataset: 1
+All neighbors of {Index: 0 Assigned Layer: 0} visited.
+Elements to be found are: [ 0, 1, ] in a dataset of size 2
+Actual size of the dataset: 2
+Oracle + Diffusion iterations: 1
+Outcome is (One, 0)
+Item found:Index: 3 Assigned Layer: -1
+Item updated to Index: 3 Assigned Layer: 2 and enqueued.
+Elements to be found are: [ ] in a dataset of size 2
+Actual size of the dataset: 2
+All neighbors of {Index: 1 Assigned Layer: 1} visited.
+Elements to be found are: [ ] in a dataset of size 0
+Actual size of the dataset: 0
+All neighbors of {Index: 3 Assigned Layer: 2} visited.
+Write 1 to restart
