@@ -3415,7 +3415,9 @@ database
  let the desired answer rise slowly.
  Success is almost guaranteed if you open the oven at just the right time.
  But the soufflé is very likely to fall—the amplitude of the correct answer
- drops to zero—if you open the oven too early.” – Kristen Fuchs
+ drops to zero—if you open the oven too early.” – Kristen Fuchs [Explorations
+ in Quantum Computing second edition, Colin P.
+ Williams]
 \end_layout
 
 \begin_layout Subsubsection
@@ -3927,27 +3929,7 @@ There are also some Q# community integrations which allow to integrate the
  Q# code to other quantum languages, such as Qiskit and OpenQasm.
 \end_layout
 
-\begin_layout Bibliography
-\begin_inset CommandInset bibitem
-LatexCommand bibitem
-label "Tensor Networks In A Nutshell"
-key "https://arxiv.org/abs/1708.00006"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Bibliography
-\begin_inset CommandInset bibitem
-LatexCommand bibitem
-label "Explorations in Quantum Computing"
-key "Explorations in Quantum Computing second edition, Colin P. Williams"
-literal "false"
-
-\end_inset
-
+\begin_layout Standard
 
 \end_layout
 

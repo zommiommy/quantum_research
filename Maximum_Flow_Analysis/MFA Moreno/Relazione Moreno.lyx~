@@ -2729,6 +2729,11 @@ literal "false"
 level graph
 \emph default
  is a graph that assigns to each vertex its distance to the root node.
+ In some paper, it is called 
+\emph on
+layer graph
+\emph default
+.
 \end_layout
 
 \begin_layout Standard
@@ -3410,7 +3415,9 @@ database
  let the desired answer rise slowly.
  Success is almost guaranteed if you open the oven at just the right time.
  But the soufflé is very likely to fall—the amplitude of the correct answer
- drops to zero—if you open the oven too early.” – Kristen Fuchs
+ drops to zero—if you open the oven too early.” – Kristen Fuchs [Explorations
+ in Quantum Computing second edition, Colin P.
+ Williams]
 \end_layout
 
 \begin_layout Subsubsection
@@ -3766,6 +3773,9 @@ Graph.cs contains the code for generating and handling graphs.
 \begin_layout Standard
 Graph.addLayer is the layering function, while Graph.findInnerPath is the
  recursive function that looks for an augmenting path.
+ The quantum function is Graph.findLayerNeighbors, which is used both to
+ find infinite distanced neighbors (infinite value is stored as -1) and
+ to find the augmenting path.
 \end_layout
 
 \begin_layout Subsection
@@ -3783,7 +3793,7 @@ porting
 \end_inset
 
  classical algorithms to quantum.
- The main problems which arised were:
+ The first critical problems which arised were:
 \end_layout
 
 \begin_layout Enumerate
@@ -3934,9 +3944,17 @@ literal "false"
 \begin_layout Bibliography
 \begin_inset CommandInset bibitem
 LatexCommand bibitem
-label "Explorations in Quantum Computing"
-key "Explorations in Quantum Computing second edition, Colin P. Williams"
-literal "false"
+key "key-2"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-1"
 
 \end_inset
 

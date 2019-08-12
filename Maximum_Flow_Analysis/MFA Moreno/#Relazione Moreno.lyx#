@@ -3773,7 +3773,7 @@ Graph.addLayer is the layering function, while Graph.findInnerPath is the
  recursive function that looks for an augmenting path.
  The quantum function is Graph.findLayerNeighbors, which is used both to
  find infinite distanced neighbors (infinite value is stored as -1) and
- 
+ to find the augmenting path.
 \end_layout
 
 \begin_layout Subsection
@@ -3945,6 +3945,16 @@ LatexCommand bibitem
 label "Explorations in Quantum Computing"
 key "Explorations in Quantum Computing second edition, Colin P. Williams"
 literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-1"
 
 \end_inset
 
