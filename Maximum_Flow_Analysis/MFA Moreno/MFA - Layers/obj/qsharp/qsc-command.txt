@@ -1,0 +1,14 @@
+:: files ::
+MFA - Layers.qs
+:: qsim ::
+:: references ::
+/home/moreno/.nuget/packages/csvhelper/12.0.1/lib/netstandard2.0/CsvHelper.dll
+/home/moreno/.nuget/packages/microsoft.quantum.simulators/0.8.1907.1701/lib/netstandard2.0/Microsoft.Quantum.Intrinsic.dll
+/home/moreno/.nuget/packages/microsoft.quantum.simulators/0.8.1907.1701/lib/netstandard2.0/Microsoft.Quantum.Simulation.Common.dll
+/home/moreno/.nuget/packages/microsoft.quantum.simulators/0.8.1907.1701/lib/netstandard2.0/Microsoft.Quantum.Simulation.Core.dll
+/home/moreno/.nuget/packages/microsoft.quantum.simulators/0.8.1907.1701/lib/netstandard2.0/Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime.dll
+/home/moreno/.nuget/packages/microsoft.quantum.simulators/0.8.1907.1701/lib/netstandard2.0/Microsoft.Quantum.Simulators.dll
+/home/moreno/.nuget/packages/microsoft.quantum.standard/0.8.1907.1701/lib/netstandard2.0/Microsoft.Quantum.Standard.dll
+/home/moreno/.nuget/packages/newtonsoft.json/11.0.2/lib/netstandard2.0/Newtonsoft.Json.dll
+:: command ::
+dotnet "/home/moreno/.nuget/packages/microsoft.quantum.development.kit/0.8.1907.1701/build/../tools/qsc/Microsoft.Quantum.CsharpGeneration.App.dll"  --input "MFA - Layers.qs" --references "/home/moreno/.nuget/packages/csvhelper/12.0.1/lib/netstandard2.0/CsvHelper.dll" "/home/moreno/.nuget/packages/microsoft.quantum.simulators/0.8.1907.1701/lib/netstandard2.0/Microsoft.Quantum.Intrinsic.dll" "/home/moreno/.nuget/packages/microsoft.quantum.simulators/0.8.1907.1701/lib/netstandard2.0/Microsoft.Quantum.Simulation.Common.dll" "/home/moreno/.nuget/packages/microsoft.quantum.simulators/0.8.1907.1701/lib/netstandard2.0/Microsoft.Quantum.Simulation.Core.dll" "/home/moreno/.nuget/packages/microsoft.quantum.simulators/0.8.1907.1701/lib/netstandard2.0/Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime.dll" "/home/moreno/.nuget/packages/microsoft.quantum.simulators/0.8.1907.1701/lib/netstandard2.0/Microsoft.Quantum.Simulators.dll" "/home/moreno/.nuget/packages/microsoft.quantum.standard/0.8.1907.1701/lib/netstandard2.0/Microsoft.Quantum.Standard.dll" "/home/moreno/.nuget/packages/newtonsoft.json/11.0.2/lib/netstandard2.0/Newtonsoft.Json.dll" --output obj/qsharp/src/

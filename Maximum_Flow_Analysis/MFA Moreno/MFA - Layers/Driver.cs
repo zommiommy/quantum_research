@@ -77,7 +77,7 @@ namespace MFA
                     {
                         index=r.Next(0,numberOfLayers);
                     }
-                    Console.WriteLine($"index={index} node={node}");
+                    MFALogger.DualWriter.WriteLine($"index={index} node={node}");
                     layersLists[index].Add(node);
                 }
                 
@@ -87,7 +87,7 @@ namespace MFA
                 {
                     if(layersLists[i].Count==0)
                     {
-                        Console.WriteLine($"List {i} is empty");
+                        MFALogger.DualWriter.WriteLine($"List {i} is empty");
                         emptyList=true;
                         //break;
                     }
@@ -95,9 +95,9 @@ namespace MFA
 
                 if(howManyRepeats>3)
                 {
-                    Console.WriteLine("Shrink.");
+                    MFALogger.DualWriter.WriteLine("Shrink.");
                     if(numberOfLayers==2)
-                        Console.WriteLine("Or you are very unlucky, or there is a bug in graph generation function");
+                        MFALogger.DualWriter.WriteLine("Or you are very unlucky, or there is a bug in graph generation function");
                     numberOfLayers--;
                     layersLists=new List<int>[numberOfLayers];
                     emptyList=true;
@@ -191,7 +191,7 @@ namespace MFA
         private const int defaultSize=30;
         public int getRandomSchemaDesiredSize()
         {
-            System.Console.WriteLine($"Write the approximate number of arcs of the graph to be generated (default: {defaultSize})");
+            MFALogger.DualWriter.WriteLine($"Write the approximate number of arcs of the graph to be generated (default: {defaultSize})");
                     var answ=Console.ReadLine();
                     int l;
                     if(int.TryParse(answ, out l))
@@ -208,7 +208,7 @@ namespace MFA
         static void quantumEdmondsKarp(Graph g)
         {
             //Graph has been built
-            System.Console.WriteLine("Graph has been built.");
+            MFALogger.DualWriter.WriteLine("Graph has been built.");
             long maxflow=0;
             Path p;
             do{
@@ -216,7 +216,7 @@ namespace MFA
                 g.findPath(out p);
                 if(p!=null)
                 {
-                    System.Console.WriteLine(p.ToString());
+                    MFALogger.DualWriter.WriteLine(p.ToString());
                     maxflow=p.applyMaxFlow();
                 }
                 else
@@ -224,17 +224,17 @@ namespace MFA
             }while(maxflow>0);
             
             
-            System.Console.WriteLine("Nodes:");
+            MFALogger.DualWriter.WriteLine("Nodes:");
             foreach (var item in g.nodes)
             {
-                System.Console.WriteLine(item.ToString());
+                MFALogger.DualWriter.WriteLine(item.ToString());
             }
-             System.Console.WriteLine("Edges:");
+             MFALogger.DualWriter.WriteLine("Edges:");
             foreach (var item in g.edges)
             {
-                System.Console.WriteLine(item.ToString());
+                MFALogger.DualWriter.WriteLine(item.ToString());
             }
-            Console.WriteLine("Quantum errors: "+g.quantumErrors);
+            MFALogger.DualWriter.WriteLine("Quantum errors: "+g.quantumErrors);
             g.printSchemaAsDOT();
             g.printSchemaAsGEXF();
             g.printCompactSchemaAsDOT();
