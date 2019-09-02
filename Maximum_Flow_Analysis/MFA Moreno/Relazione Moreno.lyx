@@ -108,13 +108,23 @@ This document will describe the analysis I have performed in the last months
  single-sink flow network that is maximum.
  I have been working for finding a practical solution to this problem using
  a quantum algorithm which could be at least as efficient as a classical
- one in a general case, without succeding in it.
+ one in a general case.
+ I achieved in implementing a quantum algorithm based on Grover's algorithm
+ which can solve the max flow problem, but its complexity is much worse
+ than a classical algorithm.
 \end_layout
 
 \begin_layout Standard
 \begin_inset CommandInset toc
 LatexCommand tableofcontents
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
 \end_inset
 
 
@@ -2402,25 +2412,12 @@ S^{1}=Q_{0}H
 \end_layout
 
 \begin_layout Standard
-Tensor network diagrams were used in paper 
-\emph on
-
-\begin_inset Quotes eld
-\end_inset
-
-
-\begin_inset CommandInset href
-LatexCommand href
-name "Quantum Max-flow/Min-cut"
-target "https://arxiv.org/abs/1508.04644"
+Tensor network diagrams were used in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "1"
 literal "false"
 
-\end_inset
-
-
-\emph default
-
-\begin_inset Quotes erd
 \end_inset
 
 .
@@ -2428,27 +2425,14 @@ literal "false"
 
 \begin_layout Standard
 A more complete and better explanation can be found in 
-\emph on
-
-\begin_inset Quotes erd
-\end_inset
-
-
-\begin_inset CommandInset href
-LatexCommand href
-name "Tensor Networks in a Nutshell"
-target "https://arxiv.org/abs/1708.00006"
+\begin_inset CommandInset citation
+LatexCommand cite
+key "2-1"
 literal "false"
 
 \end_inset
 
-
-\begin_inset Quotes eld
-\end_inset
-
-
-\emph default
- paper.
+.
 \end_layout
 
 \begin_layout Section
@@ -2470,15 +2454,15 @@ Ford-Fulkerson method / Edmonds-Karp algorithm
 \end_layout
 
 \begin_layout Standard
-\begin_inset CommandInset href
-LatexCommand href
-name "Ford Fulkerson method"
-target "https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm"
+Ford-Fulkerson method
+\begin_inset CommandInset citation
+LatexCommand cite
+key "3"
 literal "false"
 
 \end_inset
 
-requires as input:
+ requires as input:
 \end_layout
 
 \begin_layout Itemize
@@ -2713,17 +2697,9 @@ Dinitz's algorithm
 \end_layout
 
 \begin_layout Standard
-\begin_inset CommandInset href
-LatexCommand href
-name "Dinitz's algorithm"
-target "https://en.wikipedia.org/wiki/Dinic%27s_algorithm"
-literal "false"
-
-\end_inset
-
- (better known as Dinic's algorithm) is very similar to Edmond-Karps, it
- uses too a residual graph and looks for an augmenting path by using a level
- graph.
+Dinitz's algorithm (better known as Dinic's algorithm) is very similar to
+ Edmond-Karps, it uses too a residual graph and looks for an augmenting
+ path by using a level graph.
  A 
 \emph on
 level graph
@@ -2886,28 +2862,29 @@ Tensor Networks
 \end_layout
 
 \begin_layout Standard
-\begin_inset Quotes eld
-\end_inset
-
-
-\begin_inset CommandInset href
-LatexCommand href
-name "Quantum Max-flow/Min-cut"
-target "https://arxiv.org/abs/1508.04644"
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "1"
 literal "false"
 
 \end_inset
 
-
-\begin_inset Quotes erd
-\end_inset
-
- paper proposed to represent flow graphs as tensor networks, where the capacity
- of each link in the flow network is represented as the dimension of a Hilbert
- space.
+, it is proposed to represent flow graphs as tensor networks, where the
+ capacity of each link in the flow network is represented as the dimension
+ of a Hilbert space.
  This implementation looked very complex, and also relies on qudits (quantum
- digits), not qubits, so the required size of the circuit for representing
- a simple graph could explode.
+ digits), so the required size of the circuit for representing a simple
+ graph could explode.
+ 
+\end_layout
+
+\begin_layout Standard
+A qudit is a quantum information unit with n orthonormal bases, and the
+ superposition is between all n states.
+ For n=2, a qudit is exactly equivalent to a qubit.
+ Qudits may have more expressive power than qubits due to the availability
+ of more superposition states.
 \end_layout
 
 \begin_layout Standard
@@ -2916,43 +2893,107 @@ Also, the paper does not provide an implementation of the actual circuit,
 \end_layout
 
 \begin_layout Subsection
+Other attempts
+\end_layout
+
+\begin_layout Standard
+I have thought about algorithms which could exploit at most as possible
+ the quantum potential, instead of 
+\begin_inset Quotes eld
+\end_inset
+
+porting
+\begin_inset Quotes erd
+\end_inset
+
+ classical algorithms to quantum.
+ The first critical problems which arised were:
+\end_layout
+
+\begin_layout Enumerate
+How to represent graphs? 
+\end_layout
+
+\begin_layout Enumerate
+How to represent weights?
+\end_layout
+
+\begin_layout Paragraph*
+How to represent graphs
+\end_layout
+
+\begin_layout Standard
+I tried to find a smart way to represent graphs in quantum circuits.
+ I took inspiration from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "1"
+literal "false"
+
+\end_inset
+
+ in which they attempt to represent a graph as a tensor network.
+ Knowing that quantum circuits are submodels of tensor networks, I attempted
+ to represent a simple tree architecture (without weights) in the circuit.
+ I used qubits as nodes and entanglement to represent edges between nodes.
+ I accomplished in representing a single simple path without repeating nodes
+ (which is indeed a trivial problem), which would have been either taken
+ or not taken, but I failed in representing more complex structures, due
+ to the fact that i haven't been able to entangle 3 qubits together.
+ This attempt seemed promising to me because with entanglement i would have
+ obtained the flow constraint, so that if a node is 
+\begin_inset Quotes eld
+\end_inset
+
+taken
+\begin_inset Quotes erd
+\end_inset
+
+, then another following node should be taken too.
+ If we consider for example the state 
+\begin_inset Formula $\frac{1}{\sqrt{2}}(\Ket{00}+\Ket{11})$
+\end_inset
+
+, if the first qubit is taken, then the following one would be taken too
+ or none of those would be taken.
+\end_layout
+
+\begin_layout Paragraph
+How to represent weights
+\end_layout
+
+\begin_layout Standard
+In the upper representation there is no weight representation.
+ Weights are hard to be represented in a quantum environment, especially
+ because comparisons in quantum circuits (eg toffoli) are hard to implement
+ and cause an explosion in size of the circuit.
+ What I have considered is to represent only the layer graph built on the
+ residual graph in the quantum circuit.
+ Then, I would have used the quantum circuit to find a path in the classical
+ residual graph to obtain a (small) speedup.
+ 
+\end_layout
+
+\begin_layout Subsection
 Quantum Edmond-Karps Algorithm
 \end_layout
 
 \begin_layout Standard
-The proposed paper 
-\begin_inset Quotes eld
-\end_inset
-
- 
-\begin_inset CommandInset href
-LatexCommand href
-name "Quantum Algorithm Implementations for Beginners "
-target "https://arxiv.org/abs/1804.03719"
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-10"
 literal "false"
 
 \end_inset
 
-
-\begin_inset Quotes erd
-\end_inset
-
- shows an approach for building a quantum max flow algorithm, which is better
- explained in the paper 
-\begin_inset Quotes eld
-\end_inset
-
-
-\begin_inset CommandInset href
-LatexCommand href
-name "Quantum Algorithms for Matching and Network Flows"
-target "https://arxiv.org/abs/quant-ph/0508205"
+ is shown an approach for building a quantum max flow algorithm, which is
+ better explained in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-9"
 literal "false"
 
-\end_inset
-
-
-\begin_inset Quotes erd
 \end_inset
 
 .
@@ -3054,12 +3095,12 @@ But there is a problem with this algorithm, at step 3.b.
 \end_layout
 
 \begin_layout Subsubsection
-Grover's Algorithm
+Grover's algorithm
 \end_layout
 
 \begin_layout Standard
-Before defining what does Grover's Algorithm, it is necessary defining what
- is a quantum oracle.
+Before defining what does Grover's algorithm , it is necessary defining
+ what is a quantum oracle.
 \end_layout
 
 \begin_layout Standard
@@ -3148,15 +3189,15 @@ otherwise.
 \end_layout
 
 \begin_layout Standard
-\begin_inset CommandInset href
-LatexCommand href
-name "Grover's Algorithm"
-target "https://en.wikipedia.org/wiki/Grover's_algorithm#/"
+Grover's algorithm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-11"
 literal "false"
 
 \end_inset
 
- (sometimes called Grover's search algorithm) is a quantum algorithm which,
+(sometimes called Grover's search algorithm) is a quantum algorithm which,
  given as input a oracle of 
 \begin_inset Formula $f(C)$
 \end_inset
@@ -3415,9 +3456,15 @@ database
  let the desired answer rise slowly.
  Success is almost guaranteed if you open the oven at just the right time.
  But the soufflé is very likely to fall—the amplitude of the correct answer
- drops to zero—if you open the oven too early.” – Kristen Fuchs [Explorations
- in Quantum Computing second edition, Colin P.
- Williams]
+ drops to zero—if you open the oven too early.” – Kristen Fuchs 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-11"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -3508,7 +3555,7 @@ lucky
 \begin_inset Quotes erd
 \end_inset
 
- case is considered, no quantum errors are considered.
+ case is considered, no unexpected outcomes are considered.
 \end_layout
 
 \begin_layout Standard
@@ -3587,12 +3634,13 @@ O(\frac{E^{\frac{3}{2}}}{\sqrt{N}}\cdot\frac{E}{N}\cdot N)=O(\frac{E^{\frac{5}{2
 \begin_layout Standard
 This result is still optimistic, because there is a strong assumption behind
  this estimation.
- Quantum errors happens very often, especially in large sparse search spaces.
+ Quantum unexpected outcomes happens very often, especially in large sparse
+ search spaces.
  This is due to the intrinsic nature of quantum computers and it is due
  to the problem of having many values to be searched.
- Quantum errors happen because the probability of some values which shouldn't
- be found is not exactly zero, and tend to increase as the size of the search
- space increases.
+ Quantum unexpected outcomes happen because the probability of some values
+ which shouldn't be found is not exactly zero, and tend to increase as the
+ size of the search space increases.
  
 \end_layout
 
@@ -3602,8 +3650,8 @@ Suppose that we have a dataset of 200 elements where 50 elements are being
  Then, we would have an 8 qubit quantum circuit in which 56 entries are
  out of bound, 100 elements have 1% each chance to be extracted and 100
  elements shouldn't be found.
- Noise in a quantum algorithm can increase exponentially the chances to
- outcome erroroneous values, also because each iteration in Grover's algorithm
+ Noise in a quantum algorithm can substantially increase the chances to
+ outcome erroneous values, also because each iteration in Grover's algorithm
  amplifies the most significant possible outcomes, which could be an erroneous
  one (noise).
 \end_layout
@@ -3619,25 +3667,12 @@ Suppose that we have a dataset of 200 elements where 50 elements are being
 \end_layout
 
 \begin_layout Standard
-The complexity considered in the paper 
-\begin_inset Quotes eld
-\end_inset
-
-
-\emph on
-
-\begin_inset CommandInset href
-LatexCommand href
-name "Quantum Algorithms for Matching and Network Flows"
-target "https://arxiv.org/abs/quant-ph/0508205"
+The complexity considered in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-9"
 literal "false"
 
-\end_inset
-
-
-\emph default
-
-\begin_inset Quotes erd
 \end_inset
 
  is based on an 
@@ -3691,7 +3726,18 @@ Actual implementation
 \begin_layout Standard
 The actual implementation sticks as most as possible to the quantum Edmond-Karps
  Algorithm version.
- It uses Grover's algorithm to find neighbors whose distance is infinite.
+ The algorithm must have a classical part and a quantum part which must
+ work together.
+ The classical part is written in C#, while the quantum part is written
+ in Q# and they work together by using Microsoft Quantum Development Kit.
+ 
+\end_layout
+
+\begin_layout Standard
+The quantum implementation uses Grover's algorithm to find neighbors whose
+ distance is infinite.
+ The Grover's algorithm implementation is the one provided with the quantum
+ templates of Microsoft QDK.
  Neighbors are represented as indices, which has to be found in the implicit
  database.
  An
@@ -3729,6 +3775,11 @@ It also includes a random graph generator for generating samples.
 On Linux, a .png file is also generated from the .dot.
 \end_layout
 
+\begin_layout Standard
+The program outputs and saves to file also the number of unexpected outcomes
+ found during the execution.
+\end_layout
+
 \begin_layout Paragraph*
 Project structure
 \end_layout
@@ -3745,7 +3796,6 @@ literal "false"
 \end_inset
 
 .
- 
 \end_layout
 
 \begin_layout Standard
@@ -3778,108 +3828,13 @@ Graph.addLayer is the layering function, while Graph.findInnerPath is the
  to find the augmenting path.
 \end_layout
 
-\begin_layout Subsection
-Other attempts
-\end_layout
-
-\begin_layout Standard
-I have thought about algorithms which could exploit at most as possible
- the quantum potential, instead of 
-\begin_inset Quotes eld
-\end_inset
-
-porting
-\begin_inset Quotes erd
-\end_inset
-
- classical algorithms to quantum.
- The first critical problems which arised were:
-\end_layout
-
-\begin_layout Enumerate
-How to represent graphs? 
-\end_layout
-
-\begin_layout Enumerate
-How to represent weights?
-\end_layout
-
-\begin_layout Paragraph*
-How to represent graphs
-\end_layout
-
-\begin_layout Standard
-I tried to find a smart way to represent graphs in quantum circuits.
- I have taken ispiration from the paper 
-\emph on
-
-\begin_inset Quotes eld
-\end_inset
-
-
-\begin_inset CommandInset href
-LatexCommand href
-name "Quantum Max-flow/Min-cut"
-target "https://arxiv.org/abs/1508.04644"
-literal "false"
-
-\end_inset
-
-
-\emph default
-
-\begin_inset Quotes erd
-\end_inset
-
- in which tries to represent a graph as a tensor network.
- Knowing that quantum circuits are submodels of tensor networks, I attempted
- to represent a simple tree architecture (without weights) in the circuit.
- I used qubits as nodes and entanglement to represent edges between nodes.
- I accomplished in representing a single simple path without repeating nodes
- (trivial problem), which would have been either taken or not taken, but
- I failed in representing more complex structures, due to the fact that
- i haven't been able to entangle 3 qubits together.
- This attempt seemd promising to me because with entanglement i would have
- obtained the flow constraint, so that if a node is 
-\begin_inset Quotes eld
-\end_inset
-
-taken
-\begin_inset Quotes erd
-\end_inset
-
-, then another following node should be taken too.
- If we consider for example the state 
-\begin_inset Formula $\frac{1}{\sqrt{2}}(\Ket{00}+\Ket{11})$
-\end_inset
-
-, if the first qubit is taken, then the following one would be taken too
- or none of those would be taken.
-\end_layout
-
-\begin_layout Paragraph
-How to represent weights
-\end_layout
-
-\begin_layout Standard
-In the upper representation there is no weight representation.
- Weights are hard to be represented in a quantum environment, especially
- because comparisons in quantum circuits (eg toffoli) are hard to implement
- and cause an explosion in size of the circuit.
- What I have considered is to represent only the layer graph built on the
- residual graph in the quantum circuit.
- Then, I would have used the quantum circuit to find a path in the classical
- residual graph to obtain a (small) speedup.
- 
-\end_layout
-
 \begin_layout Section
 Programming environment
 \end_layout
 
 \begin_layout Standard
-The chosen programming enviroment is Microsoft Quantum Development Kit (QDK)
- on Visual Studio Code.
+The chosen programming enviroment for the algorithm implementation is Microsoft
+ Quantum Development Kit (QDK) on Visual Studio Code.
 \end_layout
 
 \begin_layout Standard
@@ -3898,12 +3853,19 @@ s available for download.
  This allows the developer to install packages as soon as they are required,
  which is a great advantage.
  It offers an intuitive UI similar to Atom IDE but much lighter and reactive.
- s
+ 
+\end_layout
+
+\begin_layout Standard
+QDK requires C# code for the classical parts and Q# (which is similar to
+ F# and C#) code for the quantum parts.
+ The QDK has many useful libraries, a compiler and a simulator which could
+ be run very easily from Visual Studio Code.
 \end_layout
 
 \begin_layout Standard
 The QDK is still under development, it is updated with a new version almost
- monthly but updates often brake older versions code.
+ monthly but updates often break older versions' code.
  It is based on Microsoft .Net and it is cross-platform.
 \end_layout
 
@@ -3915,13 +3877,8 @@ QDK is documented, but the documentation is sparse in many Microsoft websites,
 \end_layout
 
 \begin_layout Standard
-QDK uses C# for the classical parts and Q# (which is similar to F# and C#)
- for the quantum parts.
-\end_layout
-
-\begin_layout Standard
 There are also many Microsoft based examples/libraries, such as an Grover's
- Algorithm implementation.
+ algorithm implementation which i used in the implemented project.
 \end_layout
 
 \begin_layout Standard
@@ -3929,8 +3886,143 @@ There are also some Q# community integrations which allow to integrate the
  Q# code to other quantum languages, such as Qiskit and OpenQasm.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Part*
+Conclusion
+\end_layout
 
+\begin_layout Standard
+The quantum algorithm implementation does not show an advantage with respect
+ to a classical algorithm such as Dinitz's or Edmonds-Karp.
+ The quantum implementation can be useful to see how often unexpected outcomes
+ do happen in a much simplified quantum algorithm (the quantum oracle implementa
+tion is the simplest possible).
+ The implemented algorithm is the implementation of the analysed algorithm
+ described on 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-10"
+literal "false"
+
+\end_inset
+
+.
+ It is very inefficient, due to the complexity required to encode a quantum
+ oracle and the scarcity of qubits in quantum computers (storing a complete
+ graph in a quantum oracle requires too many qubits).
+ To obtain a quantum speedup, it is required to not convert classical algorithms
+ into quantum ones, because classical computation has different properties
+ with respect to quantum computation, because operations which are simple
+ in classical computing (such as comparing two bits) can be very complex
+ in quantum and viceversa.
+ Exploiting quantum circuits' capabilities is a very challenging task, due
+ to the logic behind the quantum gates and the qubits' properties.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "1"
+literal "false"
+
+\end_inset
+
+Shawn X.
+ Cui, Michael H.
+ Freedman, Or Sattath, Richard Stong: “Quantum Max-flow/Min-cut”, J.
+ Math.
+ Phys.
+ 57, 062206 (2016); arXiv:1508.04644, 2015.
+ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "2-1"
+literal "false"
+
+\end_inset
+
+Jacob Biamonte: “Tensor Networks in a Nutshell”, arXiv:1708.00006, 2017.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "3"
+literal "false"
+
+\end_inset
+
+Lester R.
+ Ford Jr.
+ , Delbert R.
+ Fulkerson: 
+\begin_inset Quotes eld
+\end_inset
+
+Maximal flow through a network
+\begin_inset Quotes erd
+\end_inset
+
+ , Canadian Journal of Mathematics 8: 399–404, 1956.
+ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-9"
+literal "false"
+
+\end_inset
+
+Andris Ambainis: “Quantum Algorithms for Matching and Network Flows”, arXiv:quan
+t-ph/0508205, 2005.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-10"
+
+\end_inset
+
+Patrick J.
+ Coles, Stephan Eidenbenz, Scott Pakin, Adetokunbo Adedoyin, John Ambrosiano,
+ Petr Anisimov, William Casper, Gopinath Chennupati, Carleton Coffrin, Hristo
+ Djidjev, David Gunter, Satish Karra, Nathan Lemons, Shizeng Lin, Andrey
+ Lokhov, Alexander Malyzhenkov, David Mascarenas, Susan Mniszewski, Balu
+ Nadiga, Dan O'Malley, Diane Oyen, Lakshman Prasad, Randy Roberts, Phil
+ Romero, Nandakishore Santhi, Nikolai Sinitsyn, Pieter Swart, Marc Vuffray,
+ Jim Wendelberger, Boram Yoon, Richard Zamora: “Quantum Algorithm Implementation
+s for Beginners”, arXiv:1804.03719, 2018.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-11"
+
+\end_inset
+
+Colin P.
+ Williams: 
+\begin_inset Quotes eld
+\end_inset
+
+Explorations in Quantum Computing
+\begin_inset Quotes erd
+\end_inset
+
+, Springer-Verlag London, second edition, p 241-261, 2011.
 \end_layout
 
 \end_body

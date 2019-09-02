@@ -39,9 +39,13 @@ The max flow problem involves finding a feasible flow through a single-source,
 single-sink flow network that is maximum. I have been working for
 finding a practical solution to this problem using a quantum algorithm
 which could be at least as efficient as a classical one in a general
-case, without succeding in it.
+case. I achieved in implementing a quantum algorithm based on Grover's
+algorithm which can solve the max flow problem, but its complexity
+is much worse than a classical algorithm.
 \end{abstract}
 \tableofcontents{}
+
+\pagebreak{}
 
 \section{Introduction}
 
@@ -642,10 +646,9 @@ Is equivalent to
 S^{1}=Q_{0}H
 \]
 
-Tensor network diagrams were used in paper \emph{``\href{https://arxiv.org/abs/1508.04644}{Quantum Max-flow/Min-cut}}''.
+Tensor network diagrams were used in \cite{1}.
 
-A more complete and better explanation can be found in \emph{''\href{https://arxiv.org/abs/1708.00006}{Tensor Networks in a Nutshell}``}
-paper.
+A more complete and better explanation can be found in \cite{2-1}.
 
 \section{The classical algorithm}
 
@@ -657,8 +660,7 @@ feasible flow which is maximum.
 
 \subsection{Ford-Fulkerson method / Edmonds-Karp algorithm}
 
-\href{https://en.wikipedia.org/wiki/Ford\%E2\%80\%93Fulkerson_algorithm}{Ford Fulkerson method}requires
-as input:
+Ford-Fulkerson method\cite{3} requires as input:
 \begin{itemize}
 \item A network graph $G(V,E)$ where $V$ is the vertices set and $E$
 is the edges set 
@@ -704,12 +706,11 @@ first, the complexity of the algorithm is $\mathcal{O}(VE^{2})$
 
 \subsection{Dinitz's algorithm}
 
-\href{https://en.wikipedia.org/wiki/Dinic\%27s_algorithm}{Dinitz's algorithm}
-(better known as Dinic's algorithm) is very similar to Edmond-Karps,
-it uses too a residual graph and looks for an augmenting path by using
-a level graph. A \emph{level graph} is a graph that assigns to each
-vertex its distance to the root node. In some paper, it is called
-\emph{layer graph}.
+Dinitz's algorithm (better known as Dinic's algorithm) is very similar
+to Edmond-Karps, it uses too a residual graph and looks for an augmenting
+path by using a level graph. A \emph{level graph} is a graph that
+assigns to each vertex its distance to the root node. In some paper,
+it is called \emph{layer graph}.
 
 Dinitz's algorithm steps are:
 \begin{enumerate}
@@ -773,24 +774,65 @@ Most qubits are interconnected with 2 or more other qubits.
 
 \subsection{Tensor Networks}
 
-``\href{https://arxiv.org/abs/1508.04644}{Quantum Max-flow/Min-cut}''
-paper proposed to represent flow graphs as tensor networks, where
-the capacity of each link in the flow network is represented as the
-dimension of a Hilbert space. This implementation looked very complex,
-and also relies on qudits (quantum digits), not qubits, so the required
-size of the circuit for representing a simple graph could explode.
+In \cite{1}, it is proposed to represent flow graphs as tensor networks,
+where the capacity of each link in the flow network is represented
+as the dimension of a Hilbert space. This implementation looked very
+complex, and also relies on qudits (quantum digits), so the required
+size of the circuit for representing a simple graph could explode. 
+
+A qudit is a quantum information unit with n orthonormal bases, and
+the superposition is between all n states. For n=2, a qudit is exactly
+equivalent to a qubit. Qudits may have more expressive power than
+qubits due to the availability of more superposition states.
 
 Also, the paper does not provide an implementation of the actual circuit,
 which led me to look for other options.
 
+\subsection{Other attempts}
+
+I have thought about algorithms which could exploit at most as possible
+the quantum potential, instead of ``porting'' classical algorithms
+to quantum. The first critical problems which arised were:
+\begin{enumerate}
+\item How to represent graphs? 
+\item How to represent weights?
+\end{enumerate}
+
+\paragraph*{How to represent graphs}
+
+I tried to find a smart way to represent graphs in quantum circuits.
+I took inspiration from \cite{1} in which they attempt to represent
+a graph as a tensor network. Knowing that quantum circuits are submodels
+of tensor networks, I attempted to represent a simple tree architecture
+(without weights) in the circuit. I used qubits as nodes and entanglement
+to represent edges between nodes. I accomplished in representing a
+single simple path without repeating nodes (which is indeed a trivial
+problem), which would have been either taken or not taken, but I failed
+in representing more complex structures, due to the fact that i haven't
+been able to entangle 3 qubits together. This attempt seemed promising
+to me because with entanglement i would have obtained the flow constraint,
+so that if a node is ``taken'', then another following node should
+be taken too. If we consider for example the state $\frac{1}{\sqrt{2}}(\Ket{00}+\Ket{11})$,
+if the first qubit is taken, then the following one would be taken
+too or none of those would be taken.
+
+\paragraph{How to represent weights}
+
+In the upper representation there is no weight representation. Weights
+are hard to be represented in a quantum environment, especially because
+comparisons in quantum circuits (eg toffoli) are hard to implement
+and cause an explosion in size of the circuit. What I have considered
+is to represent only the layer graph built on the residual graph in
+the quantum circuit. Then, I would have used the quantum circuit to
+find a path in the classical residual graph to obtain a (small) speedup. 
+
 \subsection{Quantum Edmond-Karps Algorithm}
 
-The proposed paper `` \href{https://arxiv.org/abs/1804.03719}{Quantum Algorithm Implementations for Beginners }''
-shows an approach for building a quantum max flow algorithm, which
-is better explained in the paper ``\href{https://arxiv.org/abs/quant-ph/0508205}{Quantum Algorithms for Matching and Network Flows}''.
-They propose to build a layered subgraph (also called level subgraph,
-the same that is used in Dinitz's algorithm). This is the version
-that iI have implemented. The procedure is:
+In \cite{key-10} is shown an approach for building a quantum max
+flow algorithm, which is better explained in \cite{key-9}. They propose
+to build a layered subgraph (also called level subgraph, the same
+that is used in Dinitz's algorithm). This is the version that iI have
+implemented. The procedure is:
 \begin{enumerate}
 \item Set the level $l$ to $\infty$ to all nodes except the source $s$,
 whose level is set to 0.
@@ -806,9 +848,9 @@ $l(y)=\infty$, set $l(y)=l(n)+1$, and append $y$ into $Q$
 But there is a problem with this algorithm, at step 3.b. It can become
 clear after Grover's algorithm is being explained.
 
-\subsubsection{Grover's Algorithm}
+\subsubsection{Grover's algorithm}
 
-Before defining what does Grover's Algorithm, it is necessary defining
+Before defining what does Grover's algorithm , it is necessary defining
 what is a quantum oracle.
 
 A \emph{quantum oracle} of a function $f(C)$ is a quantum circuit
@@ -816,14 +858,13 @@ which given an input $S$, it outputs $\Ket{1}$ on a specific qubit
 if $S\in f(C)$, $\Ket{0}$otherwise. Grover's algorithm has complexity
 $O({\sqrt{N}})$ times the oracle complexity.
 
-\href{https://en.wikipedia.org/wiki/Grover's_algorithm\#/}{Grover's Algorithm}
-(sometimes called Grover's search algorithm) is a quantum algorithm
-which, given as input a oracle of $f(C)$ and the expected output
-of the function $S$, it attempts to find an input $C\in f^{-1}(S)$
-which could have generated $S$. This has some important consequences
-in cryptography, because many algorithms for cryptography could possibly
-be broken if a quantum representation of the cryptographic one way
-function is provided. 
+Grover's algorithm \cite{key-11}(sometimes called Grover's search
+algorithm) is a quantum algorithm which, given as input a oracle of
+$f(C)$ and the expected output of the function $S$, it attempts
+to find an input $C\in f^{-1}(S)$ which could have generated $S$.
+This has some important consequences in cryptography, because many
+algorithms for cryptography could possibly be broken if a quantum
+representation of the cryptographic one way function is provided. 
 
 Originally, Grover's algorithm was called Grover's search, because
 it allows to do a search in an unsorted database of possible inputs.
@@ -864,8 +905,7 @@ in a \textquotedblleft quantum oven\textquotedblright{} and let the
 desired answer rise slowly. Success is almost guaranteed if you open
 the oven at just the right time. But the soufflé is very likely to
 fall---the amplitude of the correct answer drops to zero---if you
-open the oven too early.\textquotedblright{} -- Kristen Fuchs {[}Explorations
-in Quantum Computing second edition, Colin P. Williams{]}
+open the oven too early.\textquotedblright{} -- Kristen Fuchs \cite{key-11}
 \par\end{center}
 \end{quote}
 
@@ -888,7 +928,7 @@ and each run has to do $\frac{\pi}{4}\sqrt{2^{\left\lceil \log_{2}\bar{b}\right\
 iterations, where $2^{\left\lceil \log_{2}\bar{b}\right\rceil }$
 is the size of the database (``search space''). The number of database
 entries has to be a power of 2. The assumption behind this estimation
-is that the best ``lucky'' case is considered, no quantum errors
+is that the best ``lucky'' case is considered, no unexpected outcomes
 are considered.
 
 The overall quantum complexity is then 
@@ -921,18 +961,18 @@ O(\frac{E^{\frac{3}{2}}}{\sqrt{N}}\cdot\frac{E}{N}\cdot N)=O(\frac{E^{\frac{5}{2
 \]
 
 This result is still optimistic, because there is a strong assumption
-behind this estimation. Quantum errors happens very often, especially
-in large sparse search spaces. This is due to the intrinsic nature
-of quantum computers and it is due to the problem of having many values
-to be searched. Quantum errors happen because the probability of some
-values which shouldn't be found is not exactly zero, and tend to increase
-as the size of the search space increases. 
+behind this estimation. Quantum unexpected outcomes happens very often,
+especially in large sparse search spaces. This is due to the intrinsic
+nature of quantum computers and it is due to the problem of having
+many values to be searched. Quantum unexpected outcomes happen because
+the probability of some values which shouldn't be found is not exactly
+zero, and tend to increase as the size of the search space increases. 
 
 Suppose that we have a dataset of 200 elements where 50 elements are
 being searched. Then, we would have an 8 qubit quantum circuit in
 which 56 entries are out of bound, 100 elements have 1\% each chance
 to be extracted and 100 elements shouldn't be found. Noise in a quantum
-algorithm can increase exponentially the chances to outcome erroroneous
+algorithm can substantially increase the chances to outcome erroneous
 values, also because each iteration in Grover's algorithm amplifies
 the most significant possible outcomes, which could be an erroneous
 one (noise).
@@ -940,10 +980,9 @@ one (noise).
 \[
 \]
 
-The complexity considered in the paper ``\emph{\href{https://arxiv.org/abs/quant-ph/0508205}{Quantum Algorithms for Matching and Network Flows}}''
-is based on an ``adjacency model''. The adjacency model I suppose
-is based on an adjacency matrix, which could used to store information
-about the network. 
+The complexity considered in \cite{key-9} is based on an ``adjacency
+model''. The adjacency model I suppose is based on an adjacency matrix,
+which could used to store information about the network. 
 
 Implementing such a matrix in a quantum circuit would cause to have
 huge circuits. Let's start by a graph without network capacities.
@@ -965,12 +1004,18 @@ is the reason why I have kept writing the implementation.
 \subsection{Actual implementation}
 
 The actual implementation sticks as most as possible to the quantum
-Edmond-Karps Algorithm version. It uses Grover's algorithm to find
-neighbors whose distance is infinite. Neighbors are represented as
-indices, which has to be found in the implicit database. An\emph{
-implicit database }is a database in which all the possible elements
-are present. The elements which has to be found are marked. Non-marked
-elements should never be outcomed.
+Edmond-Karps Algorithm version. The algorithm must have a classical
+part and a quantum part which must work together. The classical part
+is written in C\#, while the quantum part is written in Q\# and they
+work together by using Microsoft Quantum Development Kit. 
+
+The quantum implementation uses Grover's algorithm to find neighbors
+whose distance is infinite. The Grover's algorithm implementation
+is the one provided with the quantum templates of Microsoft QDK. Neighbors
+are represented as indices, which has to be found in the implicit
+database. An\emph{ implicit database }is a database in which all the
+possible elements are present. The elements which has to be found
+are marked. Non-marked elements should never be outcomed.
 
 To improve slightly the algorithm's performance, the algorithm stops
 layering the graph once the sink is found. It also excludes the nodes
@@ -987,10 +1032,13 @@ for building and testing the program.
 
 On Linux, a .png file is also generated from the .dot.
 
+The program outputs and saves to file also the number of unexpected
+outcomes found during the execution.
+
 \paragraph*{Project structure}
 
 The project is composed of 3 C\# files, a .csproj configuration XML
-file and a Q\# file, that is the Microsoft Quantum's \href{https://github.com/microsoft/Quantum/blob/master/Samples/src/DatabaseSearch/DatabaseSearch.qs}{Grover Algorithm implementation}. 
+file and a Q\# file, that is the Microsoft Quantum's \href{https://github.com/microsoft/Quantum/blob/master/Samples/src/DatabaseSearch/DatabaseSearch.qs}{Grover Algorithm implementation}.
 
 The ``main'' C\# file is Driver.cs, which contains two classes,
 Utilities and Driver.
@@ -1008,59 +1056,25 @@ function is Graph.findLayerNeighbors, which is used both to find infinite
 distanced neighbors (infinite value is stored as -1) and to find the
 augmenting path.
 
-\subsection{Other attempts}
-
-I have thought about algorithms which could exploit at most as possible
-the quantum potential, instead of ``porting'' classical algorithms
-to quantum. The first critical problems which arised were:
-\begin{enumerate}
-\item How to represent graphs? 
-\item How to represent weights?
-\end{enumerate}
-
-\paragraph*{How to represent graphs}
-
-I tried to find a smart way to represent graphs in quantum circuits.
-I have taken ispiration from the paper \emph{``\href{https://arxiv.org/abs/1508.04644}{Quantum Max-flow/Min-cut}}''
-in which tries to represent a graph as a tensor network. Knowing that
-quantum circuits are submodels of tensor networks, I attempted to
-represent a simple tree architecture (without weights) in the circuit.
-I used qubits as nodes and entanglement to represent edges between
-nodes. I accomplished in representing a single simple path without
-repeating nodes (trivial problem), which would have been either taken
-or not taken, but I failed in representing more complex structures,
-due to the fact that i haven't been able to entangle 3 qubits together.
-This attempt seemd promising to me because with entanglement i would
-have obtained the flow constraint, so that if a node is ``taken'',
-then another following node should be taken too. If we consider for
-example the state $\frac{1}{\sqrt{2}}(\Ket{00}+\Ket{11})$, if the
-first qubit is taken, then the following one would be taken too or
-none of those would be taken.
-
-\paragraph{How to represent weights}
-
-In the upper representation there is no weight representation. Weights
-are hard to be represented in a quantum environment, especially because
-comparisons in quantum circuits (eg toffoli) are hard to implement
-and cause an explosion in size of the circuit. What I have considered
-is to represent only the layer graph built on the residual graph in
-the quantum circuit. Then, I would have used the quantum circuit to
-find a path in the classical residual graph to obtain a (small) speedup. 
-
 \section{Programming environment}
 
-The chosen programming enviroment is Microsoft Quantum Development
-Kit (QDK) on Visual Studio Code.
+The chosen programming enviroment for the algorithm implementation
+is Microsoft Quantum Development Kit (QDK) on Visual Studio Code.
 
 Visual Studio Code is one of the \href{https://insights.stackoverflow.com/survey/2018\#development-environments-and-tools}{most popular development environments},
 due to its simple design. It is composed of a simple but powerful
 lightweight editor, with many extensions available for download. This
 allows the developer to install packages as soon as they are required,
 which is a great advantage. It offers an intuitive UI similar to Atom
-IDE but much lighter and reactive. s
+IDE but much lighter and reactive. 
+
+QDK requires C\# code for the classical parts and Q\# (which is similar
+to F\# and C\#) code for the quantum parts. The QDK has many useful
+libraries, a compiler and a simulator which could be run very easily
+from Visual Studio Code.
 
 The QDK is still under development, it is updated with a new version
-almost monthly but updates often brake older versions code. It is
+almost monthly but updates often break older versions' code. It is
 based on Microsoft .Net and it is cross-platform.
 
 QDK is documented, but the documentation is sparse in many Microsoft
@@ -1068,14 +1082,62 @@ websites, and not all articles are updated. Anyway, the Microsoft
 Quantum team is always available on Github and updates the outdated
 documentation as soon as they have been notified of.
 
-QDK uses C\# for the classical parts and Q\# (which is similar to
-F\# and C\#) for the quantum parts.
-
 There are also many Microsoft based examples/libraries, such as an
-Grover's Algorithm implementation.
+Grover's algorithm implementation which i used in the implemented
+project.
 
 There are also some Q\# community integrations which allow to integrate
 the Q\# code to other quantum languages, such as Qiskit and OpenQasm.
 
+\part*{Conclusion}
+
+The quantum algorithm implementation does not show an advantage with
+respect to a classical algorithm such as Dinitz's or Edmonds-Karp.
+The quantum implementation can be useful to see how often unexpected
+outcomes do happen in a much simplified quantum algorithm (the quantum
+oracle implementation is the simplest possible). The implemented algorithm
+is the implementation of the analysed algorithm described on \cite{key-10}.
+It is very inefficient, due to the complexity required to encode a
+quantum oracle and the scarcity of qubits in quantum computers (storing
+a complete graph in a quantum oracle requires too many qubits). To
+obtain a quantum speedup, it is required to not convert classical
+algorithms into quantum ones, because classical computation has different
+properties with respect to quantum computation, because operations
+which are simple in classical computing (such as comparing two bits)
+can be very complex in quantum and viceversa. Exploiting quantum circuits'
+capabilities is a very challenging task, due to the logic behind the
+quantum gates and the qubits' properties.
+
+\pagebreak{}
+\begin{thebibliography}{1}
+\bibitem{1}Shawn X. Cui, Michael H. Freedman, Or Sattath, Richard
+Stong: \textquotedblleft Quantum Max-flow/Min-cut\textquotedblright ,
+J. Math. Phys. 57, 062206 (2016); arXiv:1508.04644, 2015. 
+
+\bibitem{2-1}Jacob Biamonte: \textquotedblleft Tensor Networks in
+a Nutshell\textquotedblright , arXiv:1708.00006, 2017.
+
+\bibitem{3}Lester R. Ford Jr. , Delbert R. Fulkerson: ``Maximal
+flow through a network'' , Canadian Journal of Mathematics 8: 399--404,
+1956. 
+
+\bibitem{key-9}Andris Ambainis: \textquotedblleft Quantum Algorithms
+for Matching and Network Flows\textquotedblright , arXiv:quant-ph/0508205,
+2005.
+
+\bibitem{key-10}Patrick J. Coles, Stephan Eidenbenz, Scott Pakin,
+Adetokunbo Adedoyin, John Ambrosiano, Petr Anisimov, William Casper,
+Gopinath Chennupati, Carleton Coffrin, Hristo Djidjev, David Gunter,
+Satish Karra, Nathan Lemons, Shizeng Lin, Andrey Lokhov, Alexander
+Malyzhenkov, David Mascarenas, Susan Mniszewski, Balu Nadiga, Dan
+O'Malley, Diane Oyen, Lakshman Prasad, Randy Roberts, Phil Romero,
+Nandakishore Santhi, Nikolai Sinitsyn, Pieter Swart, Marc Vuffray,
+Jim Wendelberger, Boram Yoon, Richard Zamora: \textquotedblleft Quantum
+Algorithm Implementations for Beginners\textquotedblright , arXiv:1804.03719,
+2018.
+
+\bibitem{key-11}Colin P. Williams: ``Explorations in Quantum Computing'',
+Springer-Verlag London, second edition, p 241-261, 2011.
+\end{thebibliography}
 
 \end{document}
